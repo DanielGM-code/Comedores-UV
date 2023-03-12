@@ -1,0 +1,69 @@
+.login-container{
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.title {
+	position: fixed;
+	top: 20px;
+	display: flex;
+	width: 100vw;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.logo{
+	width: 90px;
+	height: 90px;
+	object-fit: cover;
+}
+
+.login-card{
+	display: flex;
+	flex-direction: column;
+	/* max-width: 400px; */
+	padding: 30px;
+	border-radius: 20px;
+	background-color: #e4eaf1;
+}
+
+.login-card-content{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.formulario{
+	display: flex;
+	flex-direction: column;
+	margin-right: 30px;
+}
+
+.lottie{
+	width: 200px;
+}
+
+input{
+	border-radius: 15px;
+	border: none;
+	padding-left: 8px;
+}
+
+button{
+	background-color: #70768C;
+	color: white;
+	margin-top: 20px;
+	border-radius: 15px;
+	border: none;
+	padding: 4px;
+}
+
+button:active{
+	transform: scale(90%);
+	transition: all 0.5s;
+}

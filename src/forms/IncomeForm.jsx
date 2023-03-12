@@ -6,7 +6,7 @@ import { createIncomeMutation, CREATE_MUTATION_OPTIONS, updateIncomeMutation } f
 const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 	const [income, setIncome] = useState(incomeUpdate ?? {
 		concepto: '',
-		monto: 0.00,
+		monto: '',
 		referencia: ''
 	})
 	const queryClient = useQueryClient()
