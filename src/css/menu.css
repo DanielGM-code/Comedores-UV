@@ -58,6 +58,12 @@
 .menu-item-precio {
 	line-height: 10px;
 	font-size: 12px;
+	margin-bottom: 6px;
+}
+
+.menu-item-stock {
+	line-height: 10px;
+	font-size: 12px;
 	margin: 0;
 }
 

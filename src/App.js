@@ -9,6 +9,7 @@ import Reports from './pages/Reports';
 import Menu from './pages/Menu';
 import Users from './pages/Users';
 import Interns from './pages/Interns';
+import Suppliers from './pages/Suppliers';
 import Help from './pages/Help';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
 					<Route path='menu' element={<Menu />} />
 					<Route path='users' element={<Users />} />
 					<Route path='interns' element={<Interns />} />
+					<Route path='suppliers' element={<Suppliers/>}/>
 					<Route path='help' element={<Help />} />
 				</Route>
 			</Routes>

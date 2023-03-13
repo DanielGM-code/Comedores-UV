@@ -76,6 +76,13 @@ export const Layout = () => {
 						iconClasses='fa-solid fa-boxes-stacked'
 						label='Productos'
 					/>
+
+					{/* Suppliers */}
+					<SidebarButton
+						to='/suppliers'
+						iconClasses='fa fa-archive'
+						label='Proveedores'
+					/>
 					
 					{/* Help */}
 					<SidebarButton

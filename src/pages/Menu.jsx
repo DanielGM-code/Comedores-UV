@@ -7,6 +7,7 @@ import '../css/menu.css'
 import '../utils/formatting'
 import FormField from '../components/FormField'
 import TextInput from 'react-autocomplete-input'
+import PrintButton from '../components/PrintButton'
 import { readAllInterns } from '../data-access/internsDataAccess'
 
 
@@ -123,6 +124,7 @@ const Menu = () => {
 									<div className='menu-item-content'>
 										<p className='menu-item-nombre'>{product.nombre}</p>
 										<p className='menu-item-precio'>${product.precioVenta}</p>
+										<p className='menu-item-stock'>Existencia: {product.stock}</p>
 									</div>
 									<div className='stepper-container'>
 										<i
@@ -262,6 +264,10 @@ const Menu = () => {
 						>
 							Continuar
 						</button>
+						<PrintButton
+							 order={order} 
+							orderDetails={orderDetails} 
+						/>
 					</div>
 				</div>
 

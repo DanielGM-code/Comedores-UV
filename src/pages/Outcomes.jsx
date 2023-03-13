@@ -6,6 +6,7 @@ import { readAllOutcomes } from '../data-access/outcomesDataAccess'
 import $ from 'jquery'
 import Modal from '../components/Modal'
 import OutcomeForm from '../forms/OutcomeForm'
+import Articles from './Articles'
 import { deleteOutcomeMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutations'
 import { QUERY_OPTIONS } from '../utils/useQuery'
 import 'datatables.net-buttons/js/buttons.print.js'
@@ -16,7 +17,8 @@ const Outcomes = () => {
 		queryKey: 'outcomes', 
 		queryFn: readAllOutcomes
 	})
-	const [isShowingModal, setIsShowingModal] = useState(false)
+	const [isShowingModalOutcomeForm, setIsShowingModalOutcomeForm] = useState(false)
+	const [isShowingModalArticles, setIsShowingModalArticles] = useState(false)
 	const [selectedOutcome, setSelectedOutcome] = useState(null)
 	const queryClient = useQueryClient()
 	const tableRef = useRef()
@@ -46,7 +48,7 @@ const Outcomes = () => {
 					<button
 						type='button'
 						className='btn-registrar'
-						onClick={() => setIsShowingModal(true)}
+						onClick={() => setIsShowingModalOutcomeForm(true)}
 					>
 						<i className='fa-solid fa-plus'></i> Nuevo egreso
 					</button>
@@ -56,28 +58,31 @@ const Outcomes = () => {
 							<thead>
 								<tr>
 									<th className='leading-row'>Proveedor</th>
-									<th>Descripción</th>
-									<th>Partida</th>
-									<th>Total</th>
+									<th>Fecha</th>
 									<th>Factura</th>
+									<th>Total</th>
 									<th className='trailing-row'>Opciones</th>
 								</tr>
 							</thead>
 							<tbody className='table-group-divider'>
 								{outcomes.map(outcome =>
-									<tr key={outcome.id}>
+									<tr key={outcome.id}
+										onClick={() => {
+											setSelectedOutcome(outcome)
+											setIsShowingModalArticles(true)
+										}}
+									>
 										<td className='leading-row'>{outcome.proveedor}</td>
-										<td>{outcome.descripcion}</td>
-										<td>{outcome.partida}</td>
-										<td>{outcome.total}</td>
+										<td>{outcome.fecha}</td>
 										<td>{outcome.factura}</td>
+										<td>{outcome.total}</td>
 										<td className='trailing-row'>
 											<button
 												type='button'
 												className='btn-opciones p-1'
 												onClick={() => {
 													setSelectedOutcome(outcome)
-													setIsShowingModal(true)
+													setIsShowingModalOutcomeForm(true)
 												}}
 											>
 												<i className='fa-solid fa-pen-to-square'></i>
@@ -102,8 +107,8 @@ const Outcomes = () => {
 
 			<Modal
 				title={`${selectedOutcome ? 'Actualizar' : 'Registrar Nuevo'} Egreso`}
-				isShowing={isShowingModal}
-				setIsShowing={setIsShowingModal}
+				isShowing={isShowingModalOutcomeForm}
+				setIsShowing={setIsShowingModalOutcomeForm}
 				onClose={() => {
 					setSelectedOutcome(null)
 				}}
@@ -111,15 +116,35 @@ const Outcomes = () => {
 				<OutcomeForm
 					cancelAction={() => {
 						setSelectedOutcome(null)
-						setIsShowingModal(false)
+						setIsShowingModalOutcomeForm(false)
 					}}
 					outcomeUpdate={selectedOutcome}
 				/>
 			</Modal>
+
+			<Modal
+				title={'Artículos'}
+				isShowing={isShowingModalArticles}
+				setIsShowing={setIsShowingModalArticles}
+				onClose={() => {
+					setSelectedOutcome(null)
+				}}
+			>
+				<Articles
+					cancelAction={() => {
+						setSelectedOutcome(null)
+						setIsShowingModalArticles(false)
+					}}
+					
+				/>
+				
+			</Modal>
+
 		</>
 	)
 }
 
 export default Outcomes
+
 
 
