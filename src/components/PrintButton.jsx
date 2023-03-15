@@ -1,4 +1,5 @@
 import React from 'react';
+import '../utils/plugin_impresora_termica'
 
 
 function PrintButton({order, orderDetails}){
@@ -11,7 +12,7 @@ function PrintButton({order, orderDetails}){
         imprimir()
     };
     return(
-        <button className='btn btn-primary' onClick={handlePrint}>Imprimir Ticket</button>
+        <button className='btn btn-primary' onClick={handlePrint}>Imprimir ticket</button>
     );
 
 
