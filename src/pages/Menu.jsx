@@ -91,6 +91,12 @@ const Menu = () => {
 		})
 	}
 
+	function countProduct(product) {
+		let found = order.find(orderItem => orderItem.producto.id === product.id)
+		if (!found) return 0
+		return found.cantidad
+	}
+
 	function handleInputChange(event) {
 		setOrderDetails(prevOrderDetails => {
 			return {
@@ -131,7 +137,7 @@ const Menu = () => {
 												removeFromOrder(product)
 											}}
 										></i>
-										<div className='stepper-count'></div>
+										<div className='stepper-count'>{countProduct(product)}</div>
 										<i
 											className='fa-solid fa-plus stepper-button'
 											onClick={() => {
