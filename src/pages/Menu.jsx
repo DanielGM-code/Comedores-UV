@@ -104,7 +104,7 @@ const Menu = () => {
 		<div className='contenedor-tabla'>
 			<NavigationTitle
 				menu='Inicio'
-				submenu='Menu'
+				submenu='Menú'
 			/>
 			<div className='tab-bar'>
 				<h3 className={`tab-element ${selectedCategory === 'Alimentos' && 'active'}`} onClick={onTabElementClicked} >Alimentos</h3>

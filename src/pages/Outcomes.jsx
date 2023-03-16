@@ -8,7 +8,6 @@ import Modal from '../components/Modal'
 import OutcomeForm from '../forms/OutcomeForm'
 import { deleteOutcomeMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutations'
 import { QUERY_OPTIONS } from '../utils/useQuery'
-import 'datatables.net-buttons/js/buttons.print.js'
 
 const Outcomes = () => {
 	const { data: outcomes, isLoading } = useQuery({
