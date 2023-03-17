@@ -2,29 +2,37 @@ import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import ErrorMessage from '../components/ErrorMessage'
 import Validator from '../components/Validator'
+import DateField from '../components/DateField'
 import FormField from '../components/FormField'
 import { createIncomeMutation, CREATE_MUTATION_OPTIONS, updateIncomeMutation } from '../utils/mutations'
+import '../utils/formatting'
 
 const IncomeForm = ({ cancelAction, incomeUpdate }) => {
-	const [income, setIncome] = useState(incomeUpdate ?? {
+	const [income, setIncome] = useState(incomeUpdate ? {
+		...incomeUpdate,
+		fecha: new Date(incomeUpdate.fecha).formmated()
+	} : {
 		concepto: '',
 		monto: '',
-		referencia: ''
+		referencia: '',
+		fecha: new Date().formmated()
 	})
 
 	const [validations, setValidations] = useState({
 		concepto: [],
 		monto: [],
-		referencia: []
+		referencia: [],
+		fecha: []
 	})
 
 	const validateAll = () => {
-		const { concepto, monto, referencia } = income
-		const validations = { firstName: '', lastName: '', carrera: '', credito: '', fechaInicio: '', fechaFin: '' }
+		const { concepto, monto, referencia, fecha } = income
+		const validations = { concepto: '', monto: '', referencia: '', feha: '' }
 
 		validations.concepto = validateConcept(concepto)
 		validations.monto = validateAmount(monto)
 		validations.referencia = validateReference(referencia)
+		validations.fecha = validateDate(fecha)
 
 		const validationMessages = Object.values(validations).filter(
 			(validationMessage) => validationMessage.length > 0
@@ -50,6 +58,8 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 			if(name === 'monto') message = `Monto requerido`
 
 			if(name === 'referencia') message = `Referencia requerida`
+
+			if(name === 'fecha') message = `Fecha requerida`
 			
 		}else{
 			//falta validar longitud
@@ -88,6 +98,11 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 		const validatorCarrera = new Validator(referencia)
 		return validatorCarrera
 			.isNotEmpty('Referencia requerida').result
+	}
+
+	const validateDate = (fecha) => {
+		const validatorFecha = new Validator(fecha).result
+		return validatorFecha.isNotEmpty("Fecha requerida")
 	}
 
 	const queryClient = useQueryClient()
@@ -134,8 +149,16 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 
 	const { concepto: conceptoVal, 
 		monto: montoVal,
-		referencia: referenciaVal
+		referencia: referenciaVal,
+		fecha: fechaVal
 	} = validations
+
+	const today1 = new Date()
+	today1.setFullYear(today1.getFullYear() - 1)
+	const min = today1.formatted()
+	const today2 = new Date()
+	today2.setFullYear(today2.getFullYear() + 1)
+	const max = today2.formatted()
 
 	return (
 		<form>
@@ -169,6 +192,19 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 				onBlur={validateOne}
 			/>
 			<ErrorMessage validation={referenciaVal}/>
+			Fecha:
+			<DateField
+				name='fecha'
+				inputType='date'
+				iconClasses='fa-solid fa-calendar-days'
+				placeholder='Fecha'
+				value={income.fecha}
+				min={min}
+				max={max}
+				onChange={handleInputChange}
+				onBlur={validateOne}
+			/>
+			<ErrorMessage validation={fechaVal}/>
 			<div className='modal-footer'>
 				<button
 					type='button'

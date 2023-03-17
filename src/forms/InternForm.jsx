@@ -134,7 +134,7 @@ const InternForm = ({ cancelAction, internUpdate }) => {
 		const validatorFecha = new Validator(startDate)
 		return validatorFecha
 			.isNotEmpty('Fecha requerida')
-			.isMaxValueDate('La fecha de inicio debe ser mayor a la fecha de fin', startDate).result
+			.isMaxValueDate('La fecha de inicio debe ser mayor a la fecha de fin', endDate).result
 	}
 
 	const validateEndDate = (endDate, startDate) => {

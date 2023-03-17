@@ -33,6 +33,10 @@ const Menu = () => {
 		nombreBecario: '',
 	})
 
+	const [income, setIncome] = useState({
+
+	})
+
 	const internsNames = useMemo(() => {
 		return interns ? interns.map((intern) => {
 			return `${intern.firstName} ${intern.lastName}`
@@ -104,6 +108,10 @@ const Menu = () => {
 				[event.target.name]: event.target.value
 			}
 		})
+	}
+
+	async function submitSale(){
+		
 	}
 
 	return (
@@ -257,7 +265,9 @@ const Menu = () => {
 						<button
 							type='button'
 							className='btn btn-danger'
-							onClick={() => { }}
+							onClick={() => {
+								submitSale();
+							}}
 						>
 							Cancelar
 						</button>

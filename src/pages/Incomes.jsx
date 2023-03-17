@@ -56,6 +56,7 @@ const Incomes = () => {
 									<th className='leading-row'>Concepto</th>
 									<th>Monto</th>
 									<th>Referencia</th>
+									<th>Fecha</th>
 									<th className='trailing-row'>Opciones</th>
 								</tr>
 							</thead>
@@ -65,6 +66,7 @@ const Incomes = () => {
 										<td className='leading-row'>{income.concepto}</td>
 										<td>{income.monto}</td>
 										<td>{income.referencia}</td>
+										<td>{income.fecha}</td>
 										<td className='trailing-row'>
 											<button
 												type='button'
