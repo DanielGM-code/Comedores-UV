@@ -8,8 +8,6 @@ import { deleteIncomeMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutation
 import { QUERY_OPTIONS } from '../utils/useQuery'
 import Modal from '../components/Modal'
 import IncomeForm from '../forms/IncomeForm'
-import 'datatables.net'
-import 'datatables.net-buttons-dt'
 
 const Incomes = () => {
 	const { data: incomes, isLoading } = useQuery({
@@ -68,7 +66,7 @@ const Incomes = () => {
 										<td className='leading-row'>{income.concepto}</td>
 										<td>{income.monto}</td>
 										<td>{income.referencia}</td>
-										<td>{income.fecha}</td>
+										<td>{new Date(income.fecha).formatted()}</td>
 										<td className='trailing-row'>
 											<button
 												type='button'

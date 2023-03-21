@@ -10,12 +10,12 @@ import '../utils/formatting'
 const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 	const [income, setIncome] = useState(incomeUpdate ? {
 		...incomeUpdate,
-		fecha: new Date(incomeUpdate.fecha).formmated()
+		fecha: new Date(incomeUpdate.fecha).formatted()
 	} : {
 		concepto: '',
 		monto: '',
 		referencia: '',
-		fecha: new Date().formmated()
+		fecha: new Date().formatted()
 	})
 
 	const [validations, setValidations] = useState({
@@ -27,7 +27,7 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 
 	const validateAll = () => {
 		const { concepto, monto, referencia, fecha } = income
-		const validations = { concepto: '', monto: '', referencia: '', feha: '' }
+		const validations = { concepto: '', monto: '', referencia: '', fecha: '' }
 
 		validations.concepto = validateConcept(concepto)
 		validations.monto = validateAmount(monto)

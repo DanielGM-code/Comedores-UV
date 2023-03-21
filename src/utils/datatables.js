@@ -253,19 +253,28 @@ export const datatableOptions = {
 			extend: 'excel',
 			text: '<i class="fas fa-file-excel"></i>',
 			titleAttr: 'Exportar a Excel',
-			className: 'btn-exportar'
+			className: 'btn-exportar',
+			exportOptions: {
+				columns: ':visible'
+			}
 		},
 		{
 			extend: 'pdf',
 			text: '<i class="fas fa-file-pdf"></i>',
 			titleAttr: 'Exportar a PDF',
-			className: 'btn-exportar'
+			className: 'btn-exportar',
+			exportOptions: {
+				columns: ':visible'
+			}
 		},
 		{
 			extend: 'print',
 			text: '<i class="fa fa-print"></i>',
 			titleAttr: 'Imprimir',
-			className: 'btn-exportar'
+			className: 'btn-exportar',
+			exportOptions: {
+				columns: ':visible'
+			}
 		}, 'colvis'
 	]
 }
