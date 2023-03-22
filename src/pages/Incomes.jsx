@@ -8,6 +8,9 @@ import { deleteIncomeMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutation
 import { QUERY_OPTIONS } from '../utils/useQuery'
 import Modal from '../components/Modal'
 import IncomeForm from '../forms/IncomeForm'
+import 'datatables.net-buttons/js/buttons.colVis'
+import 'datatables.net-buttons/js/buttons.print'
+import 'datatables.net-buttons/js/dataTables.buttons'
 
 const Incomes = () => {
 	const { data: incomes, isLoading } = useQuery({
