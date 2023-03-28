@@ -1,690 +1,35 @@
 {
   "outcomes": [
     {
-      "id": 17,
-      "proveedor": "Ziemann Group",
-      "descripcion": "lorem vitae mattis nibh ligula nec sem duis aliquam convallis nunc proin at turpis a",
-      "partida": "Consumer Durables",
-      "total": 3.74,
-      "factura": "KMNN"
-    },
-    {
-      "id": 19,
-      "proveedor": "Pouros LLC",
-      "descripcion": "pharetra magna ac consequat metus sapien ut nunc vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia",
-      "partida": "n/a",
-      "total": 1.49,
-      "factura": "SBQV"
-    },
-    {
-      "id": 20,
-      "proveedor": "Haag, Langosh and Ledner",
-      "descripcion": "scelerisque mauris sit amet eros suspendisse accumsan tortor quis turpis sed ante vivamus tortor duis mattis egestas metus",
-      "partida": "Capital Goods",
-      "total": 6.56,
-      "factura": null
-    },
-    {
-      "id": 21,
-      "proveedor": "McLaughlin, Hudson and Collier",
-      "descripcion": "sed nisl nunc rhoncus dui vel sem sed sagittis nam congue risus semper porta volutpat quam",
-      "partida": "Consumer Services",
-      "total": 1.16,
-      "factura": "ENSS"
-    },
-    {
-      "id": 22,
-      "proveedor": "Labadie, Schinner and Shanahan",
-      "descripcion": "sit amet diam in magna bibendum imperdiet nullam orci pede venenatis non sodales sed tincidunt eu felis",
-      "partida": "Consumer Services",
-      "total": 9.83,
-      "factura": "KSKF"
-    },
-    {
-      "id": 23,
-      "proveedor": "Howell, Corkery and Miller",
-      "descripcion": "massa donec dapibus duis at velit eu est congue elementum in hac habitasse platea dictumst morbi",
-      "partida": "Consumer Durables",
-      "total": 3.01,
-      "factura": "KRAP"
-    },
-    {
-      "id": 25,
-      "proveedor": "Dibbert Group",
-      "descripcion": "amet sapien dignissim vestibulum vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae nulla dapibus dolor",
-      "partida": "Technology",
-      "total": 1.47,
-      "factura": "SBLP"
-    },
-    {
-      "id": 26,
-      "proveedor": "Jacobi LLC",
-      "descripcion": "congue risus semper porta volutpat quam pede lobortis ligula sit amet eleifend pede",
-      "partida": "Health Care",
-      "total": 3.04,
-      "factura": "BIKP"
-    },
-    {
-      "id": 27,
-      "proveedor": "Kulas-Murazik",
-      "descripcion": "lectus pellentesque eget nunc donec quis orci eget orci vehicula condimentum curabitur in libero ut",
-      "partida": "Consumer Services",
-      "total": 2.65,
-      "factura": "KHLM"
-    },
-    {
-      "id": 28,
-      "proveedor": "Kuphal, Shanahan and Wunsch",
-      "descripcion": "justo in blandit ultrices enim lorem ipsum dolor sit amet consectetuer adipiscing elit proin",
-      "partida": "Capital Goods",
-      "total": 6.58,
-      "factura": "KOQU"
-    },
-    {
-      "id": 29,
-      "proveedor": "Ondricka LLC",
-      "descripcion": "in sapien iaculis congue vivamus metus arcu adipiscing molestie hendrerit at vulputate vitae nisl aenean lectus pellentesque eget",
-      "partida": "Health Care",
-      "total": 7.32,
-      "factura": "SNOC"
-    },
-    {
-      "id": 30,
-      "proveedor": "McKenzie Group",
-      "descripcion": "pede lobortis ligula sit amet eleifend pede libero quis orci nullam",
-      "partida": "Miscellaneous",
-      "total": 1.7,
-      "factura": "FAKP"
-    },
-    {
-      "id": 31,
-      "proveedor": "Jones Group",
-      "descripcion": "in sapien iaculis congue vivamus metus arcu adipiscing molestie hendrerit at vulputate vitae",
-      "partida": "Capital Goods",
-      "total": 5.77,
-      "factura": "SLOR"
-    },
-    {
-      "id": 32,
-      "proveedor": "Hirthe Group",
-      "descripcion": "nibh in hac habitasse platea dictumst aliquam augue quam sollicitudin vitae consectetuer",
-      "partida": "Technology",
-      "total": 7.73,
-      "factura": "LKPO"
-    },
-    {
-      "id": 33,
-      "proveedor": "Ankunding-Williamson",
-      "descripcion": "ut massa volutpat convallis morbi odio odio elementum eu interdum eu tincidunt in",
-      "partida": "Consumer Durables",
-      "total": 7.18,
-      "factura": "YBOU"
-    },
-    {
-      "id": 34,
-      "proveedor": "Reichert-Boehm",
-      "descripcion": "euismod scelerisque quam turpis adipiscing lorem vitae mattis nibh ligula nec sem duis aliquam convallis nunc proin",
-      "partida": "Finance",
-      "total": 3.39,
-      "factura": "LPAZ"
-    },
-    {
-      "id": 35,
-      "proveedor": "Morar, Hahn and Greenfelder",
-      "descripcion": "sit amet eleifend pede libero quis orci nullam molestie nibh in lectus pellentesque at nulla suspendisse potenti cras",
-      "partida": "Public Utilities",
-      "total": 4.11,
-      "factura": "WMKA"
-    },
-    {
-      "id": 36,
-      "proveedor": "Simonis-Huels",
-      "descripcion": "id luctus nec molestie sed justo pellentesque viverra pede ac diam cras",
-      "partida": "n/a",
-      "total": 6.75,
-      "factura": "FEFW"
-    },
-    {
-      "id": 37,
-      "proveedor": "King-Schuster",
-      "descripcion": "viverra eget congue eget semper rutrum nulla nunc purus phasellus in felis donec semper sapien a libero nam dui proin",
-      "partida": "n/a",
-      "total": 5.93,
-      "factura": "WASE"
-    },
-    {
-      "id": 38,
-      "proveedor": "Gutmann-Flatley",
-      "descripcion": "nibh in quis justo maecenas rhoncus aliquam lacus morbi quis tortor",
-      "partida": "Miscellaneous",
-      "total": 6.09,
-      "factura": "FANC"
-    },
-    {
-      "id": 39,
-      "proveedor": "Schimmel and Sons",
-      "descripcion": "parturient montes nascetur ridiculus mus etiam vel augue vestibulum rutrum",
-      "partida": "n/a",
-      "total": 2.27,
-      "factura": "HSFA"
-    },
-    {
-      "id": 40,
-      "proveedor": "Johnson LLC",
-      "descripcion": "accumsan felis ut at dolor quis odio consequat varius integer ac leo pellentesque ultrices mattis odio donec",
-      "partida": "Consumer Services",
-      "total": 8.7,
-      "factura": "YDLT"
-    },
-    {
-      "id": 41,
-      "proveedor": "Goldner, Abshire and Jacobi",
-      "descripcion": "lacinia nisi venenatis tristique fusce congue diam id ornare imperdiet sapien urna pretium nisl ut volutpat sapien arcu sed augue",
-      "partida": "Finance",
-      "total": 5.78,
-      "factura": "HEAT"
-    },
-    {
-      "id": 42,
-      "proveedor": "Jacobi and Sons",
-      "descripcion": "convallis duis consequat dui nec nisi volutpat eleifend donec ut dolor morbi vel lectus in",
-      "partida": "Consumer Services",
-      "total": 3.52,
-      "factura": "SNNU"
-    },
-    {
-      "id": 43,
-      "proveedor": "Balistreri, Beer and Kub",
-      "descripcion": "nascetur ridiculus mus vivamus vestibulum sagittis sapien cum sociis natoque penatibus et magnis dis parturient montes nascetur",
-      "partida": "Finance",
-      "total": 4.86,
-      "factura": "VTSS"
-    },
-    {
-      "id": 44,
-      "proveedor": "Bashirian-Raynor",
-      "descripcion": "eleifend pede libero quis orci nullam molestie nibh in lectus pellentesque at nulla suspendisse potenti cras in purus eu magna",
-      "partida": "Consumer Non-Durables",
-      "total": 3.51,
-      "factura": "AYAI"
-    },
-    {
-      "id": 45,
-      "proveedor": "Dibbert, Hoeger and Waters",
-      "descripcion": "donec dapibus duis at velit eu est congue elementum in",
-      "partida": "Technology",
-      "total": 2.03,
-      "factura": "YTEF"
-    },
-    {
-      "id": 46,
-      "proveedor": "Collier, Lesch and McLaughlin",
-      "descripcion": "sed interdum venenatis turpis enim blandit mi in porttitor pede justo eu massa donec dapibus duis at",
-      "partida": "n/a",
-      "total": 0.53,
-      "factura": "CKX"
-    },
-    {
-      "id": 47,
-      "proveedor": "Fadel-Ullrich",
-      "descripcion": "est donec odio justo sollicitudin ut suscipit a feugiat et eros vestibulum ac",
-      "partida": "Miscellaneous",
-      "total": 3.92,
-      "factura": "HEMA"
-    },
-    {
-      "id": 48,
-      "proveedor": "Berge-Skiles",
-      "descripcion": "nulla suscipit ligula in lacus curabitur at ipsum ac tellus semper interdum mauris ullamcorper purus sit amet nulla quisque arcu",
-      "partida": "n/a",
-      "total": 5.99,
-      "factura": "LXGB"
-    },
-    {
-      "id": 49,
-      "proveedor": "Schamberger-Bartell",
-      "descripcion": "dolor morbi vel lectus in quam fringilla rhoncus mauris enim leo rhoncus sed vestibulum sit",
-      "partida": "n/a",
-      "total": 5.15,
-      "factura": "ZSGZ"
-    },
-    {
-      "id": 50,
-      "proveedor": "Dickens and Sons",
-      "descripcion": "arcu adipiscing molestie hendrerit at vulputate vitae nisl aenean lectus pellentesque",
-      "partida": "n/a",
-      "total": 1,
-      "factura": "KCNU"
-    },
-    {
-      "id": 51,
-      "proveedor": "Leuschke, Schuppe and Metz",
-      "descripcion": "tellus in sagittis dui vel nisl duis ac nibh fusce lacus purus aliquet at feugiat non pretium",
-      "partida": "Finance",
-      "total": 0.01,
-      "factura": "ZULZ"
-    },
-    {
-      "id": 52,
-      "proveedor": "Williamson-Prosacco",
-      "descripcion": "arcu adipiscing molestie hendrerit at vulputate vitae nisl aenean lectus",
-      "partida": "Transportation",
-      "total": 1.61,
-      "factura": "KEGE"
-    },
-    {
-      "id": 53,
-      "proveedor": "Lakin, Grimes and Price",
-      "descripcion": "ante nulla justo aliquam quis turpis eget elit sodales scelerisque mauris",
-      "partida": "n/a",
-      "total": 6.11,
-      "factura": "CCA6"
-    },
-    {
-      "id": 54,
-      "proveedor": "Bartell, Feeney and Rolfson",
-      "descripcion": "dictumst aliquam augue quam sollicitudin vitae consectetuer eget rutrum at lorem integer tincidunt ante vel ipsum",
-      "partida": "n/a",
-      "total": 5.51,
-      "factura": "KPTV"
-    },
-    {
-      "id": 55,
-      "proveedor": "Bosco-Hackett",
-      "descripcion": "convallis tortor risus dapibus augue vel accumsan tellus nisi eu orci mauris lacinia sapien quis libero nullam sit amet",
-      "partida": "Health Care",
-      "total": 5.44,
-      "factura": "LFMN"
-    },
-    {
-      "id": 56,
-      "proveedor": "Moore, Yost and Mertz",
-      "descripcion": "in hac habitasse platea dictumst aliquam augue quam sollicitudin vitae",
-      "partida": "n/a",
-      "total": 3.74,
-      "factura": "EFVA"
-    },
-    {
-      "id": 57,
-      "proveedor": "Stoltenberg Group",
-      "descripcion": "hac habitasse platea dictumst morbi vestibulum velit id pretium iaculis",
-      "partida": "n/a",
-      "total": 8.73,
-      "factura": "CZSN"
-    },
-    {
-      "id": 58,
-      "proveedor": "Davis, Huel and Blanda",
-      "descripcion": "risus dapibus augue vel accumsan tellus nisi eu orci mauris lacinia sapien",
-      "partida": "Finance",
-      "total": 1.54,
-      "factura": "SUVO"
-    },
-    {
-      "id": 59,
-      "proveedor": "Braun, Ratke and Friesen",
-      "descripcion": "sollicitudin ut suscipit a feugiat et eros vestibulum ac est lacinia nisi venenatis tristique fusce congue diam",
-      "partida": "n/a",
-      "total": 4.68,
-      "factura": "KBKE"
-    },
-    {
-      "id": 60,
-      "proveedor": "Grimes-Howell",
-      "descripcion": "ultrices posuere cubilia curae duis faucibus accumsan odio curabitur convallis duis consequat dui nec",
-      "partida": "Consumer Services",
-      "total": 5.76,
-      "factura": "SKIG"
-    },
-    {
-      "id": 61,
-      "proveedor": "Johnston, Effertz and Stehr",
-      "descripcion": "aliquam sit amet diam in magna bibendum imperdiet nullam orci pede venenatis non sodales sed tincidunt eu",
-      "partida": "n/a",
-      "total": 7.65,
-      "factura": "YKBY"
-    },
-    {
-      "id": 62,
-      "proveedor": "Wisozk, Maggio and Aufderhar",
-      "descripcion": "amet consectetuer adipiscing elit proin interdum mauris non ligula pellentesque ultrices",
-      "partida": "Capital Goods",
-      "total": 9.25,
-      "factura": "EGUL"
-    },
-    {
-      "id": 63,
-      "proveedor": "Hammes, O'Kon and Runte",
-      "descripcion": "cubilia curae nulla dapibus dolor vel est donec odio justo sollicitudin ut suscipit a feugiat",
-      "partida": "n/a",
-      "total": 0.88,
-      "factura": null
-    },
-    {
-      "id": 64,
-      "proveedor": "Murphy Group",
-      "descripcion": "pretium nisl ut volutpat sapien arcu sed augue aliquam erat volutpat in congue etiam",
-      "partida": "Public Utilities",
-      "total": 6.61,
-      "factura": "KBWG"
-    },
-    {
-      "id": 65,
-      "proveedor": "Steuber-Mayer",
-      "descripcion": "odio cras mi pede malesuada in imperdiet et commodo vulputate justo in blandit ultrices",
-      "partida": "Basic Industries",
-      "total": 3.44,
-      "factura": "YABI"
-    },
-    {
-      "id": 66,
-      "proveedor": "McLaughlin-Boehm",
-      "descripcion": "tincidunt eu felis fusce posuere felis sed lacus morbi sem mauris laoreet ut rhoncus aliquet pulvinar sed nisl",
-      "partida": "Capital Goods",
-      "total": 5.66,
-      "factura": "CYNA"
-    },
-    {
-      "id": 67,
-      "proveedor": "Powlowski Group",
-      "descripcion": "in consequat ut nulla sed accumsan felis ut at dolor quis odio consequat varius integer ac leo pellentesque ultrices",
-      "partida": "n/a",
-      "total": 0.06,
-      "factura": "UKLN"
-    },
-    {
-      "id": 68,
-      "proveedor": "Nader, King and Roob",
-      "descripcion": "duis aliquam convallis nunc proin at turpis a pede posuere",
-      "partida": "Finance",
-      "total": 1.47,
-      "factura": "LTAJ"
-    },
-    {
-      "id": 69,
-      "proveedor": "Friesen-Stroman",
-      "descripcion": "sollicitudin vitae consectetuer eget rutrum at lorem integer tincidunt ante vel ipsum praesent blandit",
-      "partida": "Technology",
-      "total": 5.92,
-      "factura": "CYYH"
-    },
-    {
-      "id": 70,
-      "proveedor": "Bogan Inc",
-      "descripcion": "augue quam sollicitudin vitae consectetuer eget rutrum at lorem integer",
-      "partida": "Finance",
-      "total": 4.72,
-      "factura": null
-    },
-    {
-      "id": 71,
-      "proveedor": "Volkman-Bechtelar",
-      "descripcion": "sapien quis libero nullam sit amet turpis elementum ligula vehicula consequat",
-      "partida": "Finance",
-      "total": 6.28,
-      "factura": "MKTP"
-    },
-    {
-      "id": 72,
-      "proveedor": "Emard, Gusikowski and Breitenberg",
-      "descripcion": "commodo placerat praesent blandit nam nulla integer pede justo lacinia eget tincidunt eget tempus vel pede morbi porttitor lorem id",
-      "partida": "Public Utilities",
-      "total": 9.61,
-      "factura": "VNPK"
-    },
-    {
-      "id": 73,
-      "proveedor": "Wintheiser Inc",
-      "descripcion": "lectus pellentesque at nulla suspendisse potenti cras in purus eu",
-      "partida": "n/a",
-      "total": 1.25,
-      "factura": "SSCN"
-    },
-    {
-      "id": 74,
-      "proveedor": "Durgan Inc",
-      "descripcion": "consectetuer adipiscing elit proin interdum mauris non ligula pellentesque ultrices phasellus id sapien in sapien iaculis congue",
-      "partida": "Finance",
-      "total": 8.81,
-      "factura": "SYIB"
-    },
-    {
-      "id": 75,
-      "proveedor": "Ziemann, Carroll and Bruen",
-      "descripcion": "eget nunc donec quis orci eget orci vehicula condimentum curabitur in libero ut",
-      "partida": "Health Care",
-      "total": 2,
-      "factura": "TIST"
-    },
-    {
-      "id": 76,
-      "proveedor": "Yundt LLC",
-      "descripcion": "auctor gravida sem praesent id massa id nisl venenatis lacinia aenean sit amet justo morbi ut odio cras mi",
-      "partida": "Public Utilities",
-      "total": 4.03,
-      "factura": "SNRU"
-    },
-    {
-      "id": 77,
-      "proveedor": "Durgan Group",
-      "descripcion": "mi nulla ac enim in tempor turpis nec euismod scelerisque quam turpis adipiscing lorem vitae mattis nibh ligula nec sem",
-      "partida": "Consumer Services",
-      "total": 3.92,
-      "factura": "WAPI"
-    },
-    {
-      "id": 78,
-      "proveedor": "Greenholt, King and Cronin",
-      "descripcion": "nulla mollis molestie lorem quisque ut erat curabitur gravida nisi at",
-      "partida": "Finance",
-      "total": 2.87,
-      "factura": "CAH3"
-    },
-    {
-      "id": 79,
-      "proveedor": "Hilll Inc",
-      "descripcion": "pellentesque volutpat dui maecenas tristique est et tempus semper est quam pharetra magna ac consequat metus sapien",
-      "partida": "Public Utilities",
-      "total": 5.43,
-      "factura": "FAKU"
-    },
-    {
-      "id": 80,
-      "proveedor": "Halvorson-Fisher",
-      "descripcion": "in hac habitasse platea dictumst maecenas ut massa quis augue luctus",
-      "partida": "Consumer Non-Durables",
-      "total": 4.45,
-      "factura": "LPPI"
-    },
-    {
-      "id": 81,
-      "proveedor": "Mann Inc",
-      "descripcion": "eleifend donec ut dolor morbi vel lectus in quam fringilla rhoncus mauris enim leo rhoncus sed vestibulum sit amet",
-      "partida": "Energy",
-      "total": 7.14,
-      "factura": "SDDR"
-    },
-    {
-      "id": 82,
-      "proveedor": "Morar Inc",
-      "descripcion": "id ornare imperdiet sapien urna pretium nisl ut volutpat sapien arcu sed augue aliquam erat",
-      "partida": "Health Care",
-      "total": 8.34,
-      "factura": "LPGR"
-    },
-    {
-      "id": 83,
-      "proveedor": "Harris-Effertz",
-      "descripcion": "aenean fermentum donec ut mauris eget massa tempor convallis nulla neque libero",
-      "partida": "Consumer Durables",
-      "total": 9.33,
-      "factura": "OPPI"
-    },
-    {
-      "id": 84,
-      "proveedor": "Breitenberg, Anderson and Leffler",
-      "descripcion": "tempor turpis nec euismod scelerisque quam turpis adipiscing lorem vitae mattis nibh ligula nec sem duis aliquam",
-      "partida": "Transportation",
-      "total": 5.51,
-      "factura": "YBUD"
-    },
-    {
-      "id": 85,
-      "proveedor": "Jaskolski-Kerluke",
-      "descripcion": "elementum nullam varius nulla facilisi cras non velit nec nisi vulputate nonummy maecenas tincidunt lacus at velit vivamus",
-      "partida": "Health Care",
-      "total": 3.22,
-      "factura": "WABB"
-    },
-    {
-      "id": 86,
-      "proveedor": "Cassin Group",
-      "descripcion": "a ipsum integer a nibh in quis justo maecenas rhoncus aliquam lacus morbi quis tortor id nulla",
-      "partida": "n/a",
-      "total": 7.98,
-      "factura": "HAHU"
-    },
-    {
-      "id": 87,
-      "proveedor": "Gutkowski, West and Wilkinson",
-      "descripcion": "at nibh in hac habitasse platea dictumst aliquam augue quam sollicitudin vitae consectetuer eget rutrum at lorem integer tincidunt",
-      "partida": "n/a",
-      "total": 8.87,
-      "factura": "KFLV"
-    },
-    {
-      "id": 88,
-      "proveedor": "Jakubowski and Sons",
-      "descripcion": "luctus cum sociis natoque penatibus et magnis dis parturient montes nascetur",
-      "partida": "Miscellaneous",
-      "total": 3.7,
-      "factura": "DAOI"
-    },
-    {
-      "id": 89,
-      "proveedor": "Corwin Group",
-      "descripcion": "blandit lacinia erat vestibulum sed magna at nunc commodo placerat praesent blandit nam nulla integer pede justo lacinia eget tincidunt",
-      "partida": "Health Care",
-      "total": 5.79,
-      "factura": "FSSB"
-    },
-    {
-      "id": 90,
-      "proveedor": "Bogisich-D'Amore",
-      "descripcion": "vulputate elementum nullam varius nulla facilisi cras non velit nec nisi",
-      "partida": "Capital Goods",
-      "total": 10,
-      "factura": "KAPA"
-    },
-    {
-      "id": 91,
-      "proveedor": "Hegmann, Corkery and Welch",
-      "descripcion": "molestie hendrerit at vulputate vitae nisl aenean lectus pellentesque eget nunc donec quis orci eget orci vehicula condimentum curabitur",
-      "partida": "Consumer Durables",
-      "total": 1.73,
-      "factura": "WBGW"
-    },
-    {
-      "id": 92,
-      "proveedor": "Nicolas-Ankunding",
-      "descripcion": "ornare consequat lectus in est risus auctor sed tristique in tempus sit amet sem fusce",
-      "partida": "Consumer Services",
-      "total": 3.52,
-      "factura": null
-    },
-    {
-      "id": 93,
-      "proveedor": "Heathcote, Jakubowski and Krajcik",
-      "descripcion": "eu orci mauris lacinia sapien quis libero nullam sit amet turpis elementum ligula vehicula consequat morbi a",
-      "partida": "Health Care",
-      "total": 3.55,
-      "factura": "KMEV"
-    },
-    {
-      "id": 94,
-      "proveedor": "Morissette, Anderson and Harris",
-      "descripcion": "rhoncus aliquam lacus morbi quis tortor id nulla ultrices aliquet maecenas leo odio",
-      "partida": "Finance",
-      "total": 2.41,
-      "factura": "YSWG"
-    },
-    {
-      "id": 95,
-      "proveedor": "Heathcote LLC",
-      "descripcion": "eleifend pede libero quis orci nullam molestie nibh in lectus pellentesque at nulla suspendisse potenti cras in purus eu magna",
-      "partida": "Capital Goods",
-      "total": 7.17,
-      "factura": "VOMD"
-    },
-    {
-      "id": 96,
-      "proveedor": "Jenkins-D'Amore",
-      "descripcion": "eros vestibulum ac est lacinia nisi venenatis tristique fusce congue diam id",
-      "partida": "n/a",
-      "total": 7.15,
-      "factura": "KLAX"
-    },
-    {
-      "id": 97,
-      "proveedor": "Kuhn-Balistreri",
-      "descripcion": "morbi sem mauris laoreet ut rhoncus aliquet pulvinar sed nisl nunc rhoncus dui vel",
-      "partida": "Public Utilities",
-      "total": 3.91,
-      "factura": "KLNK"
-    },
-    {
-      "id": 98,
-      "proveedor": "Kuhic-Mayert",
-      "descripcion": "duis aliquam convallis nunc proin at turpis a pede posuere nonummy integer non velit donec diam neque",
-      "partida": "Capital Goods",
-      "total": 9.66,
-      "factura": "PADK"
-    },
-    {
-      "id": 99,
-      "proveedor": "Hammes-Wintheiser",
-      "descripcion": "posuere cubilia curae donec pharetra magna vestibulum aliquet ultrices erat tortor sollicitudin mi sit amet lobortis sapien sapien",
-      "partida": "Health Care",
-      "total": 3.3,
-      "factura": null
-    },
-    {
-      "id": 100,
-      "proveedor": "Marks Group",
-      "descripcion": "id luctus nec molestie sed justo pellentesque viverra pede ac diam cras pellentesque volutpat",
-      "partida": "Health Care",
-      "total": 9.84,
-      "factura": "KRND"
-    },
-    {
-      "proveedor": "test",
-      "descripcion": "",
-      "partida": "",
-      "total": 0,
-      "factura": "",
-      "id": 101
-    },
-    {
-      "proveedor": "",
-      "descripcion": "",
-      "partida": "",
-      "total": 0,
-      "factura": "",
-      "id": 102
-    },
-    {
-      "proveedor": "Lala",
-      "descripcion": "leche",
-      "partida": "20/01/2023",
-      "total": 300,
-      "factura": "87897965464",
-      "id": 103
+      "id": 1,
+      "proveedor": "Chedraui",
+      "fecha": "2023-03-01",
+      "factura": "1258795",
+      "total": "12.23"
+    },
+    {
+      "id": 2,
+      "proveedor": "Verdulería \"Doña Mary\"",
+      "fecha": "2023-03-04",
+      "factura": "235687",
+      "total": "23.5"
+    }
+  ],
+  "articles": [
+    {
+      "id": 1,
+      "idEgreso": 1,
+      "descripcion": "Platos desechables",
+      "unidades": "56",
+      "udm": "Piezas",
+      "precio": "56.23",
+      "partida": "Cocina"
     }
   ],
   "users": [
     {
       "id": 2,
-      "firstName": "Alex",
+      "firstName": "Alexis",
       "lastName": "Bence",
       "email": "nbence1@mlb.com",
       "username": "jbence1",
@@ -3732,6 +3077,78 @@
       "stock": "50",
       "tipo": "Dulcería",
       "id": 102
+    }
+  ],
+  "suppliers": [
+    {
+      "id": 1,
+      "name": "Kimmi",
+      "address": "Río Molares 156",
+      "phone": "2283341786",
+      "rfc": "MART895621SCD"
+    },
+    {
+      "id": 2,
+      "name": "Kimmi",
+      "address": "Río Molares 22",
+      "phone": "2283341786",
+      "rfc": "MART895621SCD"
+    },
+    {
+      "id": 3,
+      "name": "Lic",
+      "address": "Río Molares 12",
+      "phone": "2283341786",
+      "rfc": "MART895621SCD"
+    },
+    {
+      "id": 4,
+      "name": "Santorini",
+      "address": "Río Molares 12",
+      "phone": "2283341786",
+      "rfc": "MART895621SCD"
+    },
+    {
+      "id": 5,
+      "name": "Chedraui",
+      "address": "Río Molares 12",
+      "phone": "2283341786",
+      "rfc": "MART895621SCD"
+    },
+    {
+      "id": 6,
+      "name": "La paz",
+      "address": "Río Molares 12",
+      "phone": "2283341786",
+      "rfc": "MART895621SCD"
+    },
+    {
+      "id": 7,
+      "name": "Kimmi",
+      "address": "Río Molares 12",
+      "phone": "2283341786",
+      "rfc": "MART895621SCD"
+    },
+    {
+      "id": 8,
+      "name": "Moleros",
+      "address": "Río Molares 12",
+      "phone": "2283341786",
+      "rfc": "MART895621SCD"
+    },
+    {
+      "id": 9,
+      "name": "Bola de Oro",
+      "address": "Río Molares 12",
+      "phone": "2283341786",
+      "rfc": "MART895621SCD"
+    },
+    {
+      "id": 10,
+      "name": "Bodega Aurrera",
+      "address": "Río Molares 12",
+      "phone": "2283341786",
+      "rfc": "MART895621SCD"
     }
   ]
 }

@@ -9,10 +9,9 @@ import { createOutcomeMutation, CREATE_MUTATION_OPTIONS, updateOutcomeMutation, 
 const OutcomeForm = ({ cancelAction, outcomeUpdate }) => {
 	const [outcome, setOutcome] = useState(outcomeUpdate ?? {
 		proveedor: '',
-		descripcion: '',
-		partida: '',
-		total: '',
-		factura: ''
+		fecha: '',
+		factura: '',
+		total: ''
 	})
 	const queryClient = useQueryClient()
 	const createMutation = useMutation(createOutcomeMutation, {
@@ -62,35 +61,27 @@ const OutcomeForm = ({ cancelAction, outcomeUpdate }) => {
 				onChange={handleInputChange}
 			/>
 			<FormField
-				name='descripcion'
-				inputType='text'
-				iconClasses='fa-solid fa-font'
-				placeholder='Descripción'
-				value={outcome.descripcion}
+				name='fecha'
+				inputType='date'
+				iconClasses='fa-solid fa-calendar-days'
+				placeholder='Fecha'
+				value={outcome.fecha}
 				onChange={handleInputChange}
 			/>
 			<FormField
-				name='partida'
+				name='factura'
 				inputType='text'
 				iconClasses='fa-solid fa-receipt'
-				placeholder='Partida'
-				value={outcome.partida}
+				placeholder='Factura'
+				value={outcome.factura}
 				onChange={handleInputChange}
 			/>
 			<FormField
 				name='total'
 				inputType='number'
 				iconClasses='fa-solid fa-circle-dollar-to-slot'
-				placeholder='Gasto total'
+				placeholder='Total'
 				value={outcome.total}
-				onChange={handleInputChange}
-			/>
-			<FormField
-				name='factura'
-				inputType='text'
-				iconClasses='fa-solid fa-file'
-				placeholder='Factura'
-				value={outcome.factura}
 				onChange={handleInputChange}
 			/>
 			<div className='modal-footer'>

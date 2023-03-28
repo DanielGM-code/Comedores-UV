@@ -4,6 +4,8 @@ import { createIntern, deleteIntern, updateIntern } from "../data-access/interns
 import { createOutcome, deleteOutcome, updateOutcome } from "../data-access/outcomesDataAccess"
 import { createProduct, deleteProduct, updateProduct } from "../data-access/productsDataAccess"
 import { createUser, deleteUser, updateUser } from "../data-access/usersDataAccess"
+import { createSupplier, deleteSupplier, updateSupplier } from "../data-access/suppliersDataAccess"
+import { createArticle, deleteArticle, updateAticle } from "../data-access/articleDataAccess"
 
 export const CREATE_MUTATION_OPTIONS = {
 	onMutate: async () => {
@@ -74,6 +76,19 @@ export const deleteOutcomeMutation = (id) => {
 	deleteOutcome(id)
 }
 
+//OutcomeArticle Mutations
+export const createArticleMutation = (article) => {
+	createArticle(article)
+}
+
+export const updateArticleMutation = (article) => {
+	updateAticle(article)
+}
+
+export const deleteArticleMutation = (id) => {
+	deleteArticle(id)
+}
+
 // User Mutations
 export const createUserMutation = (user) => {
 	createUser(user)
@@ -124,4 +139,17 @@ export const updateProductMutation = (product) => {
 
 export const deleteProductMutation = (id) => {
 	deleteProduct(id)
+}
+
+//Supplier Mutations
+export const createSupplierMutation = (supplier) => {
+	createSupplier(supplier)
+}
+
+export const updateSupplierMutation = (supplier) => {
+	updateSupplier(supplier)
+}
+
+export const deleteSupplierMutation = (id) => {
+	deleteSupplier(id)
 }
