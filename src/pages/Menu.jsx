@@ -8,7 +8,9 @@ import '../utils/formatting'
 import FormField from '../components/FormField'
 import TextInput from 'react-autocomplete-input'
 import { readAllInterns } from '../data-access/internsDataAccess'
-
+import { useMutation, useQueryClient } from 'react-query'
+import { createIncomeMutation, CREATE_MUTATION_OPTIONS } from '../utils/mutations'
+import { readAllIncomes } from '../data-access/incomesDataAccess'
 
 const Menu = () => {
 	const [selectedCategory, setSelectedCategory] = useState('Alimentos')
@@ -34,7 +36,23 @@ const Menu = () => {
 	})
 
 	const [income, setIncome] = useState({
+		concepto: '',
+		monto: '',
+		referencia: '',
+		fecha: new Date().formatted()
+	})
 
+	const queryClient = useQueryClient()
+	const { data: incomes } = useQuery({
+		...QUERY_OPTIONS,
+		queryKey: 'incomes',
+		queryFn: readAllIncomes,
+	})
+	const createMutation = useMutation(createIncomeMutation, {
+		...CREATE_MUTATION_OPTIONS,
+		onSettled: async () => {
+			queryClient.resetQueries('incomes')
+		}
 	})
 
 	const internsNames = useMemo(() => {
@@ -110,8 +128,27 @@ const Menu = () => {
 		})
 	}
 
-	async function submitSale(){
+	async function sellProduct(){
+
+		if(order.length > 0){
+			order.forEach((orderItem) => income.concepto += orderItem.product.nombre + "; ")
+		}
+
+		let ultReference = incomes[incomes.length - 1].referencia
+		if(ultReference == null || ultReference === ""){
+			ultReference = 1
+		}else{
+			ultReference += 1;
+		}
+		setIncome(prevIncome => {
+			return {
+				...prevIncome,
+				referencia: ultReference
+			}
+		})
 		
+		await createMutation.mutateAsync(income)
+		createMutation.reset()
 	}
 
 	return (
@@ -266,7 +303,7 @@ const Menu = () => {
 							type='button'
 							className='btn btn-danger'
 							onClick={() => {
-								submitSale();
+								
 							}}
 						>
 							Cancelar
@@ -274,7 +311,7 @@ const Menu = () => {
 						<button
 							type='button'
 							className='btn btn-primary'
-							onClick={() => { }}
+							onClick={sellProduct()}
 						>
 							Continuar
 						</button>
