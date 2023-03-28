@@ -67,7 +67,7 @@ export const Layout = () => {
 					<SidebarButton
 						to='/menu'
 						iconClasses='fa-solid fa-store'
-						label='Menu'
+						label='Menú'
 					/>
 
 					{/* Products */}

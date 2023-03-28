@@ -255,7 +255,7 @@ export const datatableOptions = {
 			titleAttr: 'Exportar a Excel',
 			className: 'btn-exportar',
 			exportOptions: {
-				columns: [0, 1, 2, 3, 4]
+				columns: ':visible'
 			}
 		},
 		{
@@ -264,7 +264,7 @@ export const datatableOptions = {
 			titleAttr: 'Exportar a PDF',
 			className: 'btn-exportar',
 			exportOptions: {
-				columns: [0, 1, 2, 3, 4]
+				columns: ':visible'
 			}
 		},
 		{
@@ -273,8 +273,8 @@ export const datatableOptions = {
 			titleAttr: 'Imprimir',
 			className: 'btn-exportar',
 			exportOptions: {
-				columns: [0, 1, 2, 3, 4]
+				columns: ':visible'
 			}
-		},
+		}, 'colvis'
 	]
 }

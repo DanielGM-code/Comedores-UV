@@ -101,7 +101,7 @@ const Interns = () => {
 			}
 
 			<Modal
-				title={`${selectedIntern ? 'Actualizar' : 'Resgistrar Nuevo'} Becario`}
+				title={`${selectedIntern ? 'Actualizar' : 'Registrar Nuevo'} Becario`}
 				isShowing={isShowingModal}
 				setIsShowing={setIsShowingModal}
 				onClose={() => {

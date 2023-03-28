@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import FormField from '../components/FormField'
+import ComboBox from '../components/ComboBox'
 import { createProductMutation, CREATE_MUTATION_OPTIONS, updateProductMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
-import TextInput from 'react-autocomplete-input'
 
 const ProductForm = ({ cancelAction, productUpdate }) => {
 	const [product, setproduct] = useState(productUpdate ?? {
@@ -27,6 +27,12 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 			queryClient.resetQueries('products')
 		}
 	})
+
+	const typesProduct = [
+		{ label: 'Alimentos', value:'Alimentos' },
+		{ label: 'Dulcería', value:'Dulcería' },
+		{ label: 'Bebidas', value:'Bebidas' }
+	]
 
 	function handleInputChange(event) {
 		setproduct(prevProduct => {
@@ -91,20 +97,14 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 				value={product.stock}
 				onChange={handleInputChange}
 			/>
-			<div className='input-group mb-0'>
-				<span className='input-group-text'>
-					<i className='fa-solid fa-utensils'></i>
-				</span>
-					<select
-						name='tipo'
-						value={product.tipo}
-						onChange={handleInputChange}
-					>
-						<option value="Alimentos">Alimentos</option>
-						<option value="Dulcería">Dulcería</option>
-						<option value="Bebidas">Bebidas</option>
-					</select>
-			</div>
+			Tipo de producto
+			<ComboBox
+				name='tipo'
+				iconClasses='fa-solid fa-utensils'
+				value={product.tipo}
+				onChange={handleInputChange}
+				options={typesProduct}
+			/>
 			<div className='modal-footer'>
 				<button
 					type='button'

@@ -9,7 +9,9 @@ import FormField from '../components/FormField'
 import TextInput from 'react-autocomplete-input'
 import PrintButton from '../components/PrintButton'
 import { readAllInterns } from '../data-access/internsDataAccess'
-
+import { useMutation, useQueryClient } from 'react-query'
+import { createIncomeMutation, CREATE_MUTATION_OPTIONS } from '../utils/mutations'
+import { readAllIncomes } from '../data-access/incomesDataAccess'
 
 const Menu = () => {
 	const [selectedCategory, setSelectedCategory] = useState('Alimentos')
@@ -32,6 +34,26 @@ const Menu = () => {
 		imprimirTicket: false,
 		esBecario: false,
 		nombreBecario: '',
+	})
+
+	const [income, setIncome] = useState({
+		concepto: '',
+		monto: '',
+		referencia: '',
+		fecha: new Date().formatted()
+	})
+
+	const queryClient = useQueryClient()
+	const { data: incomes } = useQuery({
+		...QUERY_OPTIONS,
+		queryKey: 'incomes',
+		queryFn: readAllIncomes,
+	})
+	const createMutation = useMutation(createIncomeMutation, {
+		...CREATE_MUTATION_OPTIONS,
+		onSettled: async () => {
+			queryClient.resetQueries('incomes')
+		}
 	})
 
 	const internsNames = useMemo(() => {
@@ -92,6 +114,12 @@ const Menu = () => {
 		})
 	}
 
+	function countProduct(product) {
+		let found = order.find(orderItem => orderItem.producto.id === product.id)
+		if (!found) return 0
+		return found.cantidad
+	}
+
 	function handleInputChange(event) {
 		setOrderDetails(prevOrderDetails => {
 			return {
@@ -101,11 +129,34 @@ const Menu = () => {
 		})
 	}
 
+	async function sellProduct(){
+
+		if(order.length > 0){
+			order.forEach((orderItem) => income.concepto += orderItem.product.nombre + "; ")
+		}
+
+		let ultReference = incomes[incomes.length - 1].referencia
+		if(ultReference == null || ultReference === ""){
+			ultReference = 1
+		}else{
+			ultReference += 1;
+		}
+		setIncome(prevIncome => {
+			return {
+				...prevIncome,
+				referencia: ultReference
+			}
+		})
+		
+		await createMutation.mutateAsync(income)
+		createMutation.reset()
+	}
+
 	return (
 		<div className='contenedor-tabla'>
 			<NavigationTitle
 				menu='Inicio'
-				submenu='Menu'
+				submenu='Menú'
 			/>
 			<div className='tab-bar'>
 				<h3 className={`tab-element ${selectedCategory === 'Alimentos' && 'active'}`} onClick={onTabElementClicked} >Alimentos</h3>
@@ -133,7 +184,7 @@ const Menu = () => {
 												removeFromOrder(product)
 											}}
 										></i>
-										<div className='stepper-count'></div>
+										<div className='stepper-count'>{countProduct(product)}</div>
 										<i
 											className='fa-solid fa-plus stepper-button'
 											onClick={() => {
@@ -253,7 +304,9 @@ const Menu = () => {
 						<button
 							type='button'
 							className='btn btn-danger'
-							onClick={() => { }}
+							onClick={() => {
+								
+							}}
 						>
 							Cancelar
 						</button>
