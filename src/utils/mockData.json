@@ -5,14 +5,14 @@
       "proveedor": "Chedraui",
       "fecha": "2023-03-01",
       "factura": "1258795",
-      "total": "12.23"
+      "total": 12.23
     },
     {
       "id": 2,
       "proveedor": "Verdulería \"Doña Mary\"",
       "fecha": "2023-03-04",
       "factura": "235687",
-      "total": "23.5"
+      "total": 23.5
     }
   ],
   "articles": [
@@ -1137,132 +1137,6 @@
       "concepto": "commodo placerat praesent blandit nam nulla integer pede justo lacinia eget tincidunt eget tempus vel pede morbi",
       "referencia": "0378-3632",
       "fecha": "3/3/2023"
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "",
-      "fecha": "2023-03-27",
-      "id": 101
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "0378-36321",
-      "fecha": "2023-03-27",
-      "id": 102
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "0378-36321",
-      "fecha": "2023-03-27",
-      "id": 103
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "0378-36321",
-      "fecha": "2023-03-27",
-      "id": 104
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "0378-36321",
-      "fecha": "2023-03-27",
-      "id": 105
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "0378-36321",
-      "fecha": "2023-03-27",
-      "id": 106
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "0378-36321",
-      "fecha": "2023-03-27",
-      "id": 107
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "0378-36321",
-      "fecha": "2023-03-27",
-      "id": 108
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "0378-36321",
-      "fecha": "2023-03-27",
-      "id": 109
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "0378-36321",
-      "fecha": "2023-03-27",
-      "id": 110
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "0378-36321",
-      "fecha": "2023-03-27",
-      "id": 111
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "0378-36321",
-      "fecha": "2023-03-27",
-      "id": 112
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "0378-36321",
-      "fecha": "2023-03-27",
-      "id": 113
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "0378-36321",
-      "fecha": "2023-03-27",
-      "id": 114
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "",
-      "fecha": "2023-03-27",
-      "id": 115
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "0378-36321",
-      "fecha": "2023-03-27",
-      "id": 116
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "0378-36321",
-      "fecha": "2023-03-27",
-      "id": 117
-    },
-    {
-      "concepto": "",
-      "monto": "",
-      "referencia": "0378-36321",
-      "fecha": "2023-03-27",
-      "id": 118
     }
   ],
   "interns": [

@@ -1,5 +1,6 @@
 import React from 'react';
-import '../utils/plugin_impresora_termica'
+import '../utils/plugin_impresora_termica.js'
+import {connetor_plugin} from '../utils/plugin_impresora_termica'
 
 
 function PrintButton({order, orderDetails}){

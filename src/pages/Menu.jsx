@@ -129,6 +129,16 @@ const Menu = () => {
 		})
 	}
 
+	function resetOrder(){
+		setOrder([])
+		setOrderDetails({
+			nombre: '',
+			notas: '',
+			imprimirTicket: false,
+			esBecario: false,
+			nombreBecario: ''})
+	}
+
 	async function sellProduct(){
 
 		if(order.length > 0){
@@ -305,7 +315,7 @@ const Menu = () => {
 							type='button'
 							className='btn btn-danger'
 							onClick={() => {
-								
+								resetOrder()
 							}}
 						>
 							Cancelar
