@@ -43,10 +43,15 @@
 </head>
 
 <body>
-	<noscript>You need to enable JavaScript to run this app.</noscript><!--
-	<script type="text/javascript" src="../node_modules/datatables.net-buttons/js/buttons.print.min.js"></script>
-	<script src="../node_modules/datatables.net-buttons/js/buttons.html5.js"></script>
-	<script src="../node_modules/datatables.net/js/jquery.dataTables.min.js"></script>-->
+	<noscript>You need to enable JavaScript to run this app.</noscript>
+
+	<!-- para usar botones en datatables JS -->
+	<script src="datatables/Buttons-1.5.6/js/dataTables.buttons.min.js"></script>
+	<script src="datatables/JSZip-2.5.0/jszip.min.js"></script>
+	<script src="datatables/pdfmake-0.1.36/pdfmake.min.js"></script>
+	<script src="datatables/pdfmake-0.1.36/vfs_fonts.js"></script>
+	<script src="datatables/Buttons-1.5.6/js/buttons.html5.min.js"></script>
+  
 	<div id="root"></div>
 	<!--
       This HTML file is a template.
@@ -68,6 +73,7 @@
 		integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
 		crossorigin="anonymous"></script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="../src/utils/plugin_impresora_termica.js"></script>
 </body>
 
 </html>

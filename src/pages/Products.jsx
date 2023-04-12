@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import NavigationTitle from '../components/NavigationTitle'
 import { readAllProducts } from '../data-access/productsDataAccess'
 import { datatableOptions } from '../utils/datatables'
@@ -8,6 +8,7 @@ import { deleteProductMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutatio
 import { QUERY_OPTIONS } from '../utils/useQuery'
 import Modal from '../components/Modal'
 import ProductForm from '../forms/ProductForm'
+import DeleteModal from '../components/DeleteModal'
 
 const Products = () => {
 	const { data: products, isLoading } = useQuery({
@@ -17,7 +18,7 @@ const Products = () => {
 	})
 	const [isShowingModal, setIsShowingModal] = useState(false)
 	const [selectedProduct, setSelectedProduct] = useState(null)
-	const queryClient = useQueryClient()
+	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
 	const tableRef = useRef()
 
 	const deleteMutation = useMutation(deleteProductMutation, DELETE_MUTATION_OPTIONS)
@@ -27,11 +28,6 @@ const Products = () => {
 		const table = $(tableRef.current).DataTable(datatableOptions)
 		table.draw()
 	}, [products])
-
-	async function onDeleteButtonClicked(id) {
-		await deleteMutation.mutateAsync(id)
-		queryClient.resetQueries()
-	}
 
 	return (
 		<>
@@ -86,7 +82,8 @@ const Products = () => {
 												type='button'
 												className='btn-opciones p-1'
 												onClick={() => {
-													onDeleteButtonClicked(product.id)
+													setSelectedProduct(product)
+													setIsShowingDeleteModal(true)
 												}}
 											>
 												<i className='fa-solid fa-trash'></i>
@@ -116,6 +113,18 @@ const Products = () => {
 					productUpdate={selectedProduct}
 				/>
 			</Modal>
+
+			<DeleteModal
+				objectClass={selectedProduct}
+				deleteMutation={deleteMutation}
+				cancelAction={() => {
+					setSelectedProduct(null)
+					setIsShowingDeleteModal(false)
+				}}
+				isShowingModal={isShowingDeleteModal}
+				setIsShowingModal={setIsShowingDeleteModal}
+				typeClass={'producto'}
+			/>
 
 		</>
 	)

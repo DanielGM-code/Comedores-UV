@@ -7,8 +7,11 @@ import '../css/menu.css'
 import '../utils/formatting'
 import FormField from '../components/FormField'
 import TextInput from 'react-autocomplete-input'
+import PrintButton from '../components/PrintButton'
 import { readAllInterns } from '../data-access/internsDataAccess'
-
+import { useMutation, useQueryClient } from 'react-query'
+import { createIncomeMutation, CREATE_MUTATION_OPTIONS } from '../utils/mutations'
+import { readAllIncomes } from '../data-access/incomesDataAccess'
 
 const Menu = () => {
 	const [selectedCategory, setSelectedCategory] = useState('Alimentos')
@@ -31,6 +34,26 @@ const Menu = () => {
 		imprimirTicket: false,
 		esBecario: false,
 		nombreBecario: '',
+	})
+
+	const [income, setIncome] = useState({
+		concepto: '',
+		monto: '',
+		referencia: '',
+		fecha: new Date().formatted()
+	})
+
+	const queryClient = useQueryClient()
+	const { data: incomes } = useQuery({
+		...QUERY_OPTIONS,
+		queryKey: 'incomes',
+		queryFn: readAllIncomes,
+	})
+	const createMutation = useMutation(createIncomeMutation, {
+		...CREATE_MUTATION_OPTIONS,
+		onSettled: async () => {
+			queryClient.resetQueries('incomes')
+		}
 	})
 
 	const internsNames = useMemo(() => {
@@ -106,6 +129,39 @@ const Menu = () => {
 		})
 	}
 
+	function resetOrder(){
+		setOrder([])
+		setOrderDetails({
+			nombre: '',
+			notas: '',
+			imprimirTicket: false,
+			esBecario: false,
+			nombreBecario: ''})
+	}
+
+	async function sellProduct(){
+
+		if(order.length > 0){
+			order.forEach((orderItem) => income.concepto += orderItem.product.nombre + "; ")
+		}
+
+		let ultReference = incomes[incomes.length - 1].referencia
+		if(ultReference == null || ultReference === ""){
+			ultReference = 1
+		}else{
+			ultReference += 1;
+		}
+		setIncome(prevIncome => {
+			return {
+				...prevIncome,
+				referencia: ultReference
+			}
+		})
+		
+		await createMutation.mutateAsync(income)
+		createMutation.reset()
+	}
+
 	return (
 		<div className='contenedor-tabla'>
 			<NavigationTitle
@@ -129,6 +185,7 @@ const Menu = () => {
 									<div className='menu-item-content'>
 										<p className='menu-item-nombre'>{product.nombre}</p>
 										<p className='menu-item-precio'>${product.precioVenta}</p>
+										<p className='menu-item-stock'>Existencia: {product.stock}</p>
 									</div>
 									<div className='stepper-container'>
 										<i
@@ -257,17 +314,16 @@ const Menu = () => {
 						<button
 							type='button'
 							className='btn btn-danger'
-							onClick={() => { }}
+							onClick={() => {
+								resetOrder()
+							}}
 						>
 							Cancelar
 						</button>
-						<button
-							type='button'
-							className='btn btn-primary'
-							onClick={() => { }}
-						>
-							Continuar
-						</button>
+						<PrintButton
+							 order={order} 
+							orderDetails={orderDetails} 
+						/>
 					</div>
 				</div>
 

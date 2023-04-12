@@ -4,8 +4,10 @@ import FormField from '../components/FormField'
 import Validator from '../components/Validator'
 import ErrorMessage from '../components/ErrorMessage'
 import DateField from '../components/DateField'
+import Modal from '../components/Modal'
 import { createInternMutation, CREATE_MUTATION_OPTIONS, updateInternMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import '../utils/formatting'
+import ConfirmModal from '../components/ConfirmModal'
 
 const InternForm = ({ cancelAction, internUpdate }) => {
 	const [intern, setIntern] = useState(internUpdate ? {
@@ -20,6 +22,9 @@ const InternForm = ({ cancelAction, internUpdate }) => {
 		fechaInicio: new Date().formatted(),
 		fechaFin: new Date().formatted()
 	})
+
+	const [typeModal, setTypeModal] = useState(0)
+	const [isShowingModal, setIsShowingModal] = useState(false)
 
 	const [validations, setValidations] = useState({
 		firstName: [],
@@ -134,7 +139,7 @@ const InternForm = ({ cancelAction, internUpdate }) => {
 		const validatorFecha = new Validator(startDate)
 		return validatorFecha
 			.isNotEmpty('Fecha requerida')
-			.isMaxValueDate('La fecha de inicio debe ser mayor a la fecha de fin', startDate).result
+			.isMaxValueDate('La fecha de inicio debe ser mayor a la fecha de fin', endDate).result
 	}
 
 	const validateEndDate = (endDate, startDate) => {
@@ -183,7 +188,6 @@ const InternForm = ({ cancelAction, internUpdate }) => {
 			createMutation.reset()
 		}
 		await queryClient.resetQueries()
-		cancelAction()
 	}
 
 	const { firstName: firstNameVal, 
@@ -202,90 +206,107 @@ const InternForm = ({ cancelAction, internUpdate }) => {
 	const max = today2.formatted()
 
 	return (
-		<form>
-			<FormField
-				name='firstName'
-				inputType='text'
-				iconClasses='fa-solid fa-i-cursor'
-				placeholder='Nombre'
-				value={intern.firstName}
-				onChange={handleInputChange}
-				onBlur={validateOne}
+		<>
+			<form>
+				<FormField
+					name='firstName'
+					inputType='text'
+					iconClasses='fa-solid fa-i-cursor'
+					placeholder='Nombre'
+					value={intern.firstName}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={firstNameVal}/>
+				<FormField
+					name='lastName'
+					inputType='text'
+					iconClasses='fa-solid fa-i-cursor'
+					placeholder='Apellido'
+					value={intern.lastName}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={lastNameVal}/>
+				<FormField
+					name='carrera'
+					inputType='text'
+					iconClasses='fa-solid fa-user-graduate'
+					placeholder='Carrera'
+					value={intern.carrera}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={carreraVal}/>
+				<FormField
+					name='credito'
+					inputType='number'
+					iconClasses='fa-solid fa-dollar'
+					placeholder='Crédito'
+					value={intern.credito}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={creditoVal}/>
+				Fecha de inicio:
+				<DateField
+					name='fechaInicio'
+					inputType='date'
+					iconClasses='fa-solid fa-calendar-days'
+					placeholder='Fecha de Inicio'
+					value={intern.fechaInicio}
+					min={min}
+					max={max}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={fechaInicioVal}/>
+				Fecha de fin:
+				<DateField
+					name='fechaFin'
+					inputType='date'
+					iconClasses='fa-solid fa-calendar-days'
+					placeholder='Fecha de Fin'
+					value={intern.fechaFin}
+					min={min}
+					max={max}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={fechaFinVal}/>
+				<div className='modal-footer'>
+					<button
+						type='button'
+						className='btn btn-danger'
+						onClick={() => {
+							setTypeModal(1)
+							setIsShowingModal(true)
+						}}
+					>
+						Cancelar
+					</button>
+					<button
+						type='button'
+						className='btn btn-primary'
+						onClick={() => {
+							submitIntern()
+							setTypeModal(intern.id ? 3 : 2)
+							setIsShowingModal(true)
+						}}
+					>
+						{`${intern.id ? 'Actualizar' : 'Guardar'}`}
+					</button>
+				</div>
+			</form>
+
+			<ConfirmModal
+				cancelAction={cancelAction}
+				typeModal={typeModal}
+				isShowingModal={isShowingModal}
+				setIsShowingModal={setIsShowingModal}
+				typeClass={'becado'}
 			/>
-			<ErrorMessage validation={firstNameVal}/>
-			<FormField
-				name='lastName'
-				inputType='text'
-				iconClasses='fa-solid fa-i-cursor'
-				placeholder='Apellido'
-				value={intern.lastName}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={lastNameVal}/>
-			<FormField
-				name='carrera'
-				inputType='text'
-				iconClasses='fa-solid fa-user-graduate'
-				placeholder='Carrera'
-				value={intern.carrera}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={carreraVal}/>
-			<FormField
-				name='credito'
-				inputType='number'
-				iconClasses='fa-solid fa-dollar'
-				placeholder='Crédito'
-				value={intern.credito}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={creditoVal}/>
-			Fecha de inicio:
-			<DateField
-				name='fechaInicio'
-				inputType='date'
-				iconClasses='fa-solid fa-calendar-days'
-				placeholder='Fecha de Inicio'
-				value={intern.fechaInicio}
-				min={min}
-				max={max}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={fechaInicioVal}/>
-			Fecha de fin:
-			<DateField
-				name='fechaFin'
-				inputType='date'
-				iconClasses='fa-solid fa-calendar-days'
-				placeholder='Fecha de Fin'
-				value={intern.fechaFin}
-				min={min}
-				max={max}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={fechaFinVal}/>
-			<div className='modal-footer'>
-				<button
-					type='button'
-					className='btn btn-danger'
-					onClick={cancelAction}
-				>
-					Cancelar
-				</button>
-				<button
-					type='button'
-					className='btn btn-primary'
-					onClick={submitIntern}
-				>
-					{`${intern.id ? 'Actualizar' : 'Guardar'}`}
-				</button>
-			</div>
-		</form>
+		</>
 	)
 }
 

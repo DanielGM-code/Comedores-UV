@@ -275,6 +275,6 @@ export const datatableOptions = {
 			exportOptions: {
 				columns: ':visible'
 			}
-		},'colvis'
+		}, 'colvis'
 	]
 }
