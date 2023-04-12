@@ -5,6 +5,7 @@ import ComboBox from '../components/ComboBox'
 import { createProductMutation, CREATE_MUTATION_OPTIONS, updateProductMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import Validator from '../components/Validator'
 import ErrorMessage from '../components/ErrorMessage'
+import ConfirmModal from '../components/ConfirmModal'
 
 const ProductForm = ({ cancelAction, productUpdate }) => {
 	const [product, setproduct] = useState(productUpdate ?? {
@@ -15,6 +16,9 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 		stock: '',
 		tipo: 'Alimentos'
 	})
+
+	const [typeModal, setTypeModal] = useState(0)
+	const [isShowingModal, setIsShowingModal] = useState(false)
 
 	const [validations, setValidations] = useState({
 		nombre: [],
@@ -27,7 +31,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 
 	const validateAll = () => {
 		const { nombre, precioCompra, precioVenta, precioPreferencial, stock } = product
-		const validations = { nombre, precioCompra, precioVenta, precioPreferencial, stock}
+		const validations = { nombre: '', precioCompra: '', precioVenta: '', precioPreferencial: '', stock: ''}
 
 		validations.nombre = validateName(nombre)
 		validations.precioCompra = validatePrice(precioCompra)
@@ -148,7 +152,6 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 			createMutation.reset()
 		}
 		await queryClient.resetQueries()
-		cancelAction()
 	}
 
 	const {
@@ -160,82 +163,100 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 	} = validations
 
 	return (
-		<form>
-			<FormField
-				name='nombre'
-				inputType='text'
-				iconClasses='fa-solid fa-i-cursor'
-				placeholder='Nombre del Producto'
-				value={product.nombre}
-				onChange={handleInputChange}
-				onBlur={validateOne}
+		<>
+			<form>
+				<FormField
+					name='nombre'
+					inputType='text'
+					iconClasses='fa-solid fa-i-cursor'
+					placeholder='Nombre del Producto'
+					value={product.nombre}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={nombreVal}/>
+				<FormField
+					name='precioCompra'
+					inputType='number'
+					iconClasses='fa-solid fa-dollar'
+					placeholder='Precio de Compra'
+					value={product.precioCompra}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={precioCompraVal}/>
+				<FormField
+					name='precioVenta'
+					inputType='number'
+					iconClasses='fa-solid fa-dollar'
+					placeholder='Precio de Venta'
+					value={product.precioVenta}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={precioVentaVal}/>
+				<FormField
+					name='precioPreferencial'
+					inputType='number'
+					iconClasses='fa-solid fa-dollar'
+					placeholder='Precio Preferencial'
+					value={product.precioPreferencial}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={precioPreferencialVal}/>
+				<FormField
+					name='stock'
+					inputType='number'
+					iconClasses='fa-solid fa-dollar'
+					placeholder='Stock'
+					value={product.stock}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={stockVal}/>
+				Tipo de producto
+				<ComboBox
+					name='tipo'
+					iconClasses='fa-solid fa-utensils'
+					value={product.tipo}
+					onChange={handleInputChange}
+					options={typesProduct}
+				/>
+				<div className='modal-footer'>
+					<button
+						type='button'
+						className='btn btn-danger'
+						onClick={() => {
+							setTypeModal(1)
+							setIsShowingModal(true)
+						}}
+					>
+						Cancelar
+					</button>
+					<button
+						type='button'
+						className='btn btn-primary'
+						onClick={() => {
+							submitProduct()
+							setTypeModal(product.id ? 3 : 2)
+							setIsShowingModal(true)
+						}}
+					>
+						{`${product.id ? 'Actualizar' : 'Guardar'}`}
+					</button>
+				</div>
+			</form>
+
+			<ConfirmModal
+				objectClass={productUpdate}
+				cancelAction={cancelAction}
+				typeModal={typeModal}
+				isShowingModal={isShowingModal}
+				setIsShowingModal={setIsShowingModal}
+				typeClass={'producto'}
 			/>
-			<ErrorMessage validation={nombreVal}/>
-			<FormField
-				name='precioCompra'
-				inputType='number'
-				iconClasses='fa-solid fa-dollar'
-				placeholder='Precio de Compra'
-				value={product.precioCompra}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={precioCompraVal}/>
-			<FormField
-				name='precioVenta'
-				inputType='number'
-				iconClasses='fa-solid fa-dollar'
-				placeholder='Precio de Venta'
-				value={product.precioVenta}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={precioVentaVal}/>
-			<FormField
-				name='precioPreferencial'
-				inputType='number'
-				iconClasses='fa-solid fa-dollar'
-				placeholder='Precio Preferencial'
-				value={product.precioPreferencial}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={precioPreferencialVal}/>
-			<FormField
-				name='stock'
-				inputType='number'
-				iconClasses='fa-solid fa-dollar'
-				placeholder='Stock'
-				value={product.stock}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={stockVal}/>
-			Tipo de producto
-			<ComboBox
-				name='tipo'
-				iconClasses='fa-solid fa-utensils'
-				value={product.tipo}
-				onChange={handleInputChange}
-				options={typesProduct}
-			/>
-			<div className='modal-footer'>
-				<button
-					type='button'
-					className='btn btn-danger'
-					onClick={cancelAction}
-				>
-					Cancelar
-				</button>
-				<button
-					type='button'
-					className='btn btn-primary'
-					onClick={submitProduct}
-				>
-					{`${product.id ? 'Actualizar' : 'Guardar'}`}
-				</button>
-			</div>
-		</form>
+		</>
 	)
 }
 

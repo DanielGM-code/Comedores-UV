@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useQuery } from 'react-query'
 import NavigationTitle from '../components/NavigationTitle'
 import { datatableOptions } from '../utils/datatables'
 import { readAllUsers } from '../data-access/usersDataAccess'
+import { deleteUserMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutations'
+import { useMutation } from 'react-query'
 import $ from 'jquery'
 import Modal from '../components/Modal'
 import UserForm from '../forms/UserForm'
 import { QUERY_OPTIONS } from '../utils/useQuery'
-import { deleteUserMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutations'
+import DeleteModal from '../components/DeleteModal'
 
 const Users = () => {
 	const { data: users, isLoading } = useQuery({
@@ -16,8 +18,8 @@ const Users = () => {
 		queryFn: readAllUsers,
 	})
 	const [isShowingModal, setIsShowingModal] = useState(false)
+	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
 	const [selectedUser, setSelectedUser] = useState(null)
-	const queryClient = useQueryClient()
 	const tableRef = useRef()
 
 	const deleteMutation = useMutation(deleteUserMutation, DELETE_MUTATION_OPTIONS)
@@ -27,11 +29,6 @@ const Users = () => {
 		const table = $(tableRef.current).DataTable(datatableOptions)
 		table.draw()
 	}, [users])
-
-	async function onDeleteButtonClicked(id) {
-		await deleteMutation.mutateAsync(id)
-		queryClient.resetQueries()
-	}
 
 	return (
 		<>
@@ -84,7 +81,8 @@ const Users = () => {
 												type='button'
 												className='btn-opciones p-1'
 												onClick={() => {
-													onDeleteButtonClicked(user.id)
+													setSelectedUser(user)
+													setIsShowingDeleteModal(true)
 												}}
 											>
 												<i className='fa-solid fa-trash'></i>
@@ -114,6 +112,18 @@ const Users = () => {
 					userUpdate={selectedUser}
 				/>
 			</Modal>
+
+			<DeleteModal
+				objectClass={selectedUser}
+				deleteMutation={deleteMutation}
+				cancelAction={() => {
+					setSelectedUser(null)
+					setIsShowingDeleteModal(false)
+				}}
+				isShowingModal={isShowingDeleteModal}
+				setIsShowingModal={setIsShowingDeleteModal}
+				typeClass={'usuario'}
+			/>
 		</>
 	)
 }

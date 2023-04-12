@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import NavigationTitle from '../components/NavigationTitle'
 import { datatableOptions } from '../utils/datatables'
 import { readAllOutcomes } from '../data-access/outcomesDataAccess'
@@ -9,6 +9,7 @@ import OutcomeForm from '../forms/OutcomeForm'
 import Articles from './Articles'
 import { deleteOutcomeMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutations'
 import { QUERY_OPTIONS } from '../utils/useQuery'
+import DeleteModal from '../components/DeleteModal'
 
 const Outcomes = () => {
 	const { data: outcomes, isLoading } = useQuery({
@@ -18,8 +19,8 @@ const Outcomes = () => {
 	})
 	const [isShowingModalOutcomeForm, setIsShowingModalOutcomeForm] = useState(false)
 	const [isShowingModalArticles, setIsShowingModalArticles] = useState(false)
+	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
 	const [selectedOutcome, setSelectedOutcome] = useState(null)
-	const queryClient = useQueryClient()
 	const tableRef = useRef()
 
 	const deleteMutation = useMutation(deleteOutcomeMutation, DELETE_MUTATION_OPTIONS)
@@ -30,11 +31,6 @@ const Outcomes = () => {
 		const table = $(tableRef.current).DataTable(datatableOptions)
 		table.draw()
 	}, [outcomes])
-
-	async function onDeleteButtonClicked(id) {
-		await deleteMutation.mutateAsync(id)
-		queryClient.resetQueries()
-	}
 
 	return (
 		<>
@@ -90,7 +86,8 @@ const Outcomes = () => {
 												type='button'
 												className='btn-opciones p-1'
 												onClick={() => {
-													onDeleteButtonClicked(outcome.id)
+													setSelectedOutcome(outcome)
+													setIsShowingDeleteModal(true)
 												}}
 											>
 												<i className='fa-solid fa-trash'></i>
@@ -138,6 +135,18 @@ const Outcomes = () => {
 				/>
 				
 			</Modal>
+
+			<DeleteModal
+				objectClass={selectedOutcome}
+				deleteMutation={deleteMutation}
+				cancelAction={() => {
+					setSelectedOutcome(null)
+					setIsShowingDeleteModal(false)
+				}}
+				isShowingModal={isShowingDeleteModal}
+				setIsShowingModal={setIsShowingDeleteModal}
+				typeClass={'egreso'}
+			/>
 
 		</>
 	)

@@ -5,6 +5,7 @@ import ComboBox from '../components/ComboBox'
 import Validator from '../components/Validator'
 import ErrorMessage from '../components/ErrorMessage'
 import { createUserMutation, CREATE_MUTATION_OPTIONS, updateUserMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
+import ConfirmModal from '../components/ConfirmModal'
 
 const UserForm = ({ cancelAction, userUpdate }) => {
 	const [user, setUser] = useState(userUpdate ?? {
@@ -15,23 +16,24 @@ const UserForm = ({ cancelAction, userUpdate }) => {
 		rol: 'Cajero'
 	})
 
+	const [typeModal, setTypeModal] = useState(0)
+	const [isShowingModal, setIsShowingModal] = useState(false)
+
 	const [validations, setValidations] = useState({
 		firstName: [],
 		lastName: [],
 		email: [],
-		username: [],
-		rol: []
+		username: []
 	})
 
 	const validateAll = () => {
-		const { firstName, lastName, email, username, rol } = user
-		const validations = { firstName: '', lastName: '', email: '', username: '', rol: '' }
+		const { firstName, lastName, email, username } = user
+		const validations = { firstName: '', lastName: '', email: '', username: '' }
 
 		validations.firstName = validateFirstName(firstName)
 		validations.lastName = validateLastName(lastName)
 		validations.email = validateEmail(email)
 		validations.username = validateUsername(username)
-		validations.rol = validateRol(rol)
 
 		const validationMessages = Object.values(validations).filter(
 			(validationMessage) => validationMessage.length > 0
@@ -59,8 +61,6 @@ const UserForm = ({ cancelAction, userUpdate }) => {
 			if(name === 'email') message = `Correo requerido`
 
 			if(name === 'username') message = `Usuario requerido`
-
-			if(name === 'rol') message = `Rol requerido`
 			
 		}else{
 			//falta validar longitud
@@ -116,12 +116,6 @@ const UserForm = ({ cancelAction, userUpdate }) => {
 			.isNotEmpty('Username requerido').result
 	}
 
-	const validateRol = (rol) => {
-		const validatorRol = new Validator(rol)
-		return validatorRol
-			.isNotEmpty('Rol requerido').result
-	}
-
 	const queryClient = useQueryClient()
 	const createMutation = useMutation(createUserMutation, {
 		...CREATE_MUTATION_OPTIONS,
@@ -167,84 +161,98 @@ const UserForm = ({ cancelAction, userUpdate }) => {
 			createMutation.reset()
 		}
 		await queryClient.resetQueries()
-		cancelAction()
 	}
 
 	const { firstName: firstNameVal, 
 		lastName: lastNameVal, 
 		email: emailVal, 
-		username: usernameVal, 
-		rol: rolVal } = validations
+		username: usernameVal
+		} = validations
 
 	return (
-		<form>
-			<FormField
-				name='firstName'
-				inputType='text'
-				iconClasses='fa-solid fa-i-cursor'
-				placeholder='Nombre'
-				value={user.firstName}
-				onChange={handleInputChange}
-				onBlur={validateOne}
+		<>
+			<form>
+				<FormField
+					name='firstName'
+					inputType='text'
+					iconClasses='fa-solid fa-i-cursor'
+					placeholder='Nombre'
+					value={user.firstName}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={firstNameVal}/>
+				<FormField
+					name='lastName'
+					inputType='text'
+					iconClasses='fa-solid fa-i-cursor'
+					placeholder='Apellido'
+					value={user.lastName}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={lastNameVal}/>
+				<FormField
+					name='email'
+					inputType='email'
+					iconClasses='fa-solid fa-at'
+					placeholder='E-mail'
+					value={user.email}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={emailVal}/>
+				<FormField
+					name='username'
+					inputType='text'
+					iconClasses='fa-solid fa-user'
+					placeholder='Apellido'
+					value={user.username}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={usernameVal}/>
+				<ComboBox
+					name='rol'
+					options={roles}
+					iconClasses='fa-solid fa-address-book'
+					value={user.rol}
+					onChange={handleInputChange}
+				/>
+				<div className='modal-footer'>
+					<button
+						type='button'
+						className='btn btn-danger'
+						onClick={() => {
+							setTypeModal(1)
+							setIsShowingModal(true)
+						}}
+					>
+						Cancelar
+					</button>
+					<button
+						type='button'
+						className='btn btn-primary'
+						onClick={() => {
+							submitUser()
+							setTypeModal(user.id ? 3 : 2)
+							setIsShowingModal(true)
+						}}
+					>
+						{`${user.id ? 'Actualizar' : 'Guardar'}`}
+					</button>
+				</div>
+			</form>
+
+			<ConfirmModal 
+				objectClass={userUpdate} 
+				cancelAction={cancelAction} 
+				typeModal={typeModal} 
+				isShowingModal={isShowingModal} 
+				setIsShowingModal={setIsShowingModal}
+				typeClass={'usuario'}
 			/>
-			<ErrorMessage validation={firstNameVal}/>
-			<FormField
-				name='lastName'
-				inputType='text'
-				iconClasses='fa-solid fa-i-cursor'
-				placeholder='Apellido'
-				value={user.lastName}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={lastNameVal}/>
-			<FormField
-				name='email'
-				inputType='email'
-				iconClasses='fa-solid fa-at'
-				placeholder='E-mail'
-				value={user.email}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={emailVal}/>
-			<FormField
-				name='username'
-				inputType='text'
-				iconClasses='fa-solid fa-user'
-				placeholder='Apellido'
-				value={user.username}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={usernameVal}/>
-			<FormField
-				name='rol'
-				inputType='text'
-				iconClasses='fa-solid fa-address-book'
-				placeholder='Rol'
-				value={user.rol}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={rolVal}/>
-			<div className='modal-footer'>
-				<button
-					type='button'
-					className='btn btn-danger'
-					onClick={cancelAction}
-				>
-					Cancelar
-				</button>
-				<button
-					type='button'
-					className='btn btn-primary'
-					onClick={submitUser}
-				>
-					{`${user.id ? 'Actualizar' : 'Guardar'}`}
-				</button>
-			</div>
-		</form>
+		</>
 	)
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import NavigationTitle from '../components/NavigationTitle'
 import { datatableOptions } from '../utils/datatables'
 import { readAllSuppliers } from '../data-access/suppliersDataAccess'
@@ -8,6 +8,7 @@ import Modal from '../components/Modal'
 import SupplierForm from '../forms/SupplierForm'
 import { QUERY_OPTIONS } from '../utils/useQuery'
 import { deleteSupplierMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutations'
+import DeleteModal from '../components/DeleteModal'
 
 const Suppliers = () => {
     const { data: suppliers, isLoading } = useQuery({
@@ -17,7 +18,7 @@ const Suppliers = () => {
     })
     const [isShowingModal, setIsShowingModal] = useState(false)
     const [selectedSupplier, setSelectedSupplier] = useState(null)
-    const queryClient = useQueryClient()
+    const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
     const tableRef = useRef()
 
     const deleteMutation = useMutation(deleteSupplierMutation, DELETE_MUTATION_OPTIONS)
@@ -27,11 +28,6 @@ const Suppliers = () => {
         const table = $(tableRef.current).DataTable(datatableOptions)
         table.draw()
     }, [suppliers])
-
-    async function onDeleteButtonClicked(id) {
-		await deleteMutation.mutateAsync(id)
-		queryClient.resetQueries()
-	}
 
     return(
         <>
@@ -82,7 +78,8 @@ const Suppliers = () => {
                                                 type='button'
                                                 className='btn-opciones p-1'
                                                 onClick={() => {
-                                                    onDeleteButtonClicked(supplier.id)
+                                                    setSelectedSupplier(supplier)
+                                                    setIsShowingDeleteModal(true)
                                                 }}
                                             >
                                                 <i className='fa-solid fa-trash'></i>
@@ -112,6 +109,18 @@ const Suppliers = () => {
 					supplierUpdate={selectedSupplier}
 				/>
 			</Modal>
+
+            <DeleteModal
+                objectClass={selectedSupplier}
+				deleteMutation={deleteMutation}
+				cancelAction={() => {
+					setSelectedSupplier(null)
+					setIsShowingDeleteModal(false)
+				}}
+				isShowingModal={isShowingDeleteModal}
+				setIsShowingModal={setIsShowingDeleteModal}
+				typeClass={'proveedor'}
+            />
 
 		</>
     )

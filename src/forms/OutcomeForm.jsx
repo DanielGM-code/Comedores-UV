@@ -6,6 +6,7 @@ import { createOutcomeMutation, CREATE_MUTATION_OPTIONS, updateOutcomeMutation, 
 import Validator from '../components/Validator'
 import ErrorMessage from '../components/ErrorMessage'
 import DateField from '../components/DateField'
+import ConfirmModal from '../components/ConfirmModal'
 
 
 const OutcomeForm = ({ cancelAction, outcomeUpdate }) => {
@@ -18,6 +19,9 @@ const OutcomeForm = ({ cancelAction, outcomeUpdate }) => {
 		factura: '',
 		total: ''
 	})
+
+	const [typeModal, setTypeModal] = useState(0)
+	const [isShowingModal, setIsShowingModal] = useState(false)
 
 	const [validations, setValidations] = useState({
 		proveedor: [],
@@ -143,8 +147,6 @@ const OutcomeForm = ({ cancelAction, outcomeUpdate }) => {
 			createMutation.reset()
 		}
 		await queryClient.resetQueries()
-		
-		cancelAction()
 	}
 
 	const { proveedor: proveedorVal, 
@@ -161,67 +163,85 @@ const OutcomeForm = ({ cancelAction, outcomeUpdate }) => {
 	const max = today2.formatted()
 
 	return (
-		<form>
-			<FormField
-				name='proveedor'
-				inputType='text'
-				iconClasses='fa-solid fa-user-tie'
-				placeholder='Nombre del proveedor'
-				value={outcome.proveedor}
-				onChange={handleInputChange}
-				onBlur={validateOne}
+		<>
+			<form>
+				<FormField
+					name='proveedor'
+					inputType='text'
+					iconClasses='fa-solid fa-user-tie'
+					placeholder='Nombre del proveedor'
+					value={outcome.proveedor}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={proveedorVal}/>
+				Fecha:
+				<DateField
+					name='fecha'
+					inputType='date'
+					iconClasses='fa-solid fa-calendar-days'
+					placeholder='Fecha'
+					value={outcome.fecha}
+					min={min}
+					max={max}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={fechaVal}/>
+				<FormField
+					name='factura'
+					inputType='text'
+					iconClasses='fa-solid fa-receipt'
+					placeholder='Factura'
+					value={outcome.factura}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={facturaVal}/>
+				<FormField
+					name='total'
+					inputType='number'
+					iconClasses='fa-solid fa-circle-dollar-to-slot'
+					placeholder='Total'
+					value={outcome.total}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={totalVal}/>
+				<div className='modal-footer'>
+					<button
+						type='button'
+						className='btn btn-danger'
+						onClick={()=>{
+							setTypeModal(1)
+							setIsShowingModal(true)
+						}}
+					>
+						Cancelar
+					</button>
+					<button
+						type='button'
+						className='btn btn-primary'
+						onClick={() => {
+							submitOutcome()
+							setTypeModal(outcome.id ? 3 : 2)
+							setIsShowingModal(true)
+						}}
+					>
+						{`${outcome.id ? 'Actualizar' : 'Guardar'}`}
+					</button>
+				</div>
+			</form>
+
+			<ConfirmModal
+				objectClass={outcomeUpdate}
+				cancelAction={cancelAction}
+				typeModal={typeModal}
+				isShowingModal={isShowingModal}
+				setIsShowingModal={setIsShowingModal}
+				typeClass={'egreso'}
 			/>
-			<ErrorMessage validation={proveedorVal}/>
-			Fecha:
-			<DateField
-				name='fecha'
-				inputType='date'
-				iconClasses='fa-solid fa-calendar-days'
-				placeholder='Fecha'
-				value={outcome.fecha}
-				min={min}
-				max={max}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={fechaVal}/>
-			<FormField
-				name='factura'
-				inputType='text'
-				iconClasses='fa-solid fa-receipt'
-				placeholder='Factura'
-				value={outcome.factura}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={facturaVal}/>
-			<FormField
-				name='total'
-				inputType='number'
-				iconClasses='fa-solid fa-circle-dollar-to-slot'
-				placeholder='Total'
-				value={outcome.total}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={totalVal}/>
-			<div className='modal-footer'>
-				<button
-					type='button'
-					className='btn btn-danger'
-					onClick={cancelAction}
-				>
-					Cancelar
-				</button>
-				<button
-					type='button'
-					className='btn btn-primary'
-					onClick={submitOutcome}
-				>
-					{`${outcome.id ? 'Actualizar' : 'Guardar'}`}
-				</button>
-			</div>
-		</form>
+		</>
 	)
 }
 

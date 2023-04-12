@@ -4,29 +4,33 @@ import FormField from '../components/FormField'
 import { createSupplierMutation, CREATE_MUTATION_OPTIONS, updateSupplierMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import Validator from '../components/Validator'
 import ErrorMessage from '../components/ErrorMessage'
+import ConfirmModal from '../components/ConfirmModal'
 
 const SupplierForm = ({ cancelAction, supplierUpdate}) => {
     const [supplier, setSupplier] = useState(supplierUpdate ?? {
-        nombre: '',
-        direccion: '',
-        telefono: '',
+        name: '',
+        address: '',
+        phone: '',
         rfc: ''
     })
 
+    const [typeModal, setTypeModal] = useState(0)
+	const [isShowingModal, setIsShowingModal] = useState(false)
+
     const [validations, setValidations] = useState({
-        nombre: [],
-        direccion: [],
-        telefono: [],
+        name: [],
+        address: [],
+        phone: [],
         rfc: []
     })
 
     const validateAll = () => {
-        const { nombre, direccion, telefono, rfc } = supplier
-        const validations = { nombre, direccion, telefono, rfc }
+        const { name, address, phone, rfc } = supplier
+        const validations = { name: '', address: '', phone: '', rfc: '' }
 
-        validations.nombre = validateName(nombre)
-        validations.direccion = validateAddress(direccion)
-        validations.telefono = validatePhone(telefono)
+        validations.name = validateName(name)
+        validations.address = validateAddress(address)
+        validations.phone = validatePhone(phone)
         validations.rfc = validateRfc(rfc)
 
         const validationMessages = Object.values(validations).filter(
@@ -48,29 +52,29 @@ const SupplierForm = ({ cancelAction, supplierUpdate}) => {
 
         if(!value){
 
-            if(name === 'nombre') message = 'Nombre requerido'
+            if(name === 'name') message = 'Nombre requerido'
 
-            if(name === 'direccion') message = 'Dirección requerida'
+            if(name === 'address') message = 'Dirección requerida'
 
-            if(name === 'telefono') message = 'Telefono requerido'
+            if(name === 'phone') message = 'Telefono requerido'
 
             if(name === 'rfc') message = 'RFC requerido'
 
         }else{
 
-            if(name === 'nombre' && (value.length < 10 || value.length > 50)){
+            if(name === 'name' && (value.length < 3 || value.length > 50)){
 				message = 'El nombre debe contener ...'
 			}
 
-            if(name === 'direccion' && (value.length < 10 || value.length > 50)){
+            if(name === 'address' && (value.length < 3 || value.length > 50)){
 				message = 'La dirección debe contener ...'
 			}
 
-            if(name === 'telefono' && (value.length < 10 || value.length > 50)){
+            if(name === 'phone' && (value.length < 3 || value.length > 50)){
 				message = 'El telefono debe contener ...'
 			}
 
-            if(name === 'rfc' && (value.length < 10 || value.length > 50)){
+            if(name === 'rfc' && (value.length < 3 || value.length > 50)){
 				message = 'El RFC debe contener ...'
 			}
         }
@@ -78,20 +82,20 @@ const SupplierForm = ({ cancelAction, supplierUpdate}) => {
         setValidations({ ...validations, [name]: [message] })
     }
 
-    const validateName = (nombre) => {
-        const validatorName = new Validator(nombre)
+    const validateName = (name) => {
+        const validatorName = new Validator(name)
         return validatorName
             .isNotEmpty('Nombre requerido').result
     }
 
-    const validateAddress = (direccion) => {
-        const validatorAddress = new Validator(direccion)
+    const validateAddress = (address) => {
+        const validatorAddress = new Validator(address)
         return validatorAddress
             .isNotEmpty('Dirección requerida').result
     }
 
-    const validatePhone = (telefono) => {
-        const validatorPhone = new Validator (telefono)
+    const validatePhone = (phone) => {
+        const validatorPhone = new Validator (phone)
         return validatorPhone
             .isNotEmpty('Telefono requerido').result
     }
@@ -141,75 +145,93 @@ const SupplierForm = ({ cancelAction, supplierUpdate}) => {
             createMutation.reset()
         }
         await queryClient.resetQueries()
-        cancelAction()
     }
 
     const {
-        nombre: nombreVal,
-        direccion: direccionVal,
-        telefono: telefonoVal,
+        name: nombreVal,
+        address: direccionVal,
+        phone: telefonoVal,
         rfc: rfcVal
     } = validations
 
     return (
-        <form>
-            <FormField
-				name='nombre'
-				inputType='text'
-				iconClasses='fa-solid fa-i-cursor'
-				placeholder='Nombre'
-				value={supplier.name}
-				onChange={handleInputChange}
-                onBlur={validateOne}
+        <>
+            <form>
+                <FormField
+                    name='name'
+                    inputType='text'
+                    iconClasses='fa-solid fa-i-cursor'
+                    placeholder='Nombre'
+                    value={supplier.name}
+                    onChange={handleInputChange}
+                    onBlur={validateOne}
+                />
+                <ErrorMessage validation={nombreVal}/>
+                <FormField
+                    name='address'
+                    inputType='text'
+                    iconClasses='fa-solid fa-i-cursor'
+                    placeholder='Dirección'
+                    value={supplier.address}
+                    onChange={handleInputChange}
+                    onBlur={validateOne}
+                />
+                <ErrorMessage validation={direccionVal}/>
+                <FormField
+                    name='phone'
+                    inputType='text'
+                    iconClasses='fa-solid fa-i-cursor'
+                    placeholder='Teléfono'
+                    value={supplier.phone}
+                    onChange={handleInputChange}
+                    onBlur={validateOne}
+                />
+                <ErrorMessage validation={telefonoVal}/>
+                <FormField
+                    name='rfc'
+                    inputType='text'
+                    iconClasses='fa-solid fa-i-cursor'
+                    placeholder='RFC'
+                    value={supplier.rfc}
+                    onChange={handleInputChange}
+                    onBlur={validateOne}
+                />
+                <ErrorMessage validation={rfcVal}/>
+                <div className='modal-footer'>
+                    <button
+                        type='button'
+                        className='btn btn-danger'
+                        onClick={() => {
+                            setTypeModal(1)
+                            setIsShowingModal(true)
+                        }}
+                    >
+                        Cancelar
+                    </button>
+                    <button
+                        type='button'
+                        className='btn btn-primary'
+                        onClick={() => {
+                            submitSupplier()
+                            setTypeModal(supplier.id ? 3 : 2)
+                            setIsShowingModal(true)
+                        }}
+                    >
+                        {`${supplier.id ? 'Actualizar' : 'Guardar'}`}
+                    </button>
+                </div>
+            </form>
+
+            <ConfirmModal
+				objectClass={supplierUpdate}
+				cancelAction={cancelAction}
+				typeModal={typeModal}
+				isShowingModal={isShowingModal}
+				setIsShowingModal={setIsShowingModal}
+				typeClass={'proveedor'}
 			/>
-            <ErrorMessage validation={nombreVal}/>
-            <FormField
-				name='direccion'
-				inputType='text'
-				iconClasses='fa-solid fa-i-cursor'
-				placeholder='Dirección'
-				value={supplier.address}
-				onChange={handleInputChange}
-                onBlur={validateOne}
-			/>
-            <ErrorMessage validation={direccionVal}/>
-            <FormField
-				name='telefono'
-				inputType='text'
-				iconClasses='fa-solid fa-i-cursor'
-				placeholder='Teléfono'
-				value={supplier.phone}
-				onChange={handleInputChange}
-                onBlur={validateOne}
-			/>
-            <ErrorMessage validation={telefonoVal}/>
-            <FormField
-				name='rfc'
-				inputType='text'
-				iconClasses='fa-solid fa-i-cursor'
-				placeholder='RFC'
-				value={supplier.rfc}
-				onChange={handleInputChange}
-                onBlur={validateOne}
-			/>
-            <ErrorMessage validation={rfcVal}/>
-            <div className='modal-footer'>
-				<button
-					type='button'
-					className='btn btn-danger'
-					onClick={cancelAction}
-				>
-					Cancelar
-				</button>
-				<button
-					type='button'
-					className='btn btn-primary'
-					onClick={submitSupplier}
-				>
-					{`${supplier.id ? 'Actualizar' : 'Guardar'}`}
-				</button>
-			</div>
-        </form>
+
+        </>
     )
 }
 

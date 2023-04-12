@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import NavigationTitle from '../components/NavigationTitle'
 import { readAllInterns } from '../data-access/internsDataAccess'
 import $ from 'jquery'
@@ -8,6 +8,7 @@ import { deleteInternMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutation
 import { QUERY_OPTIONS } from '../utils/useQuery'
 import Modal from '../components/Modal'
 import InternForm from '../forms/InternForm'
+import DeleteModal from '../components/DeleteModal'
 
 const Interns = () => {
 	const { data: interns, isLoading } = useQuery({
@@ -16,8 +17,8 @@ const Interns = () => {
 		queryFn: readAllInterns,
 	})
 	const [isShowingModal, setIsShowingModal] = useState(false)
+	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
 	const [selectedIntern, setSelectedIntern] = useState(null)
-	const queryClient = useQueryClient()
 	const tableRef = useRef()
 
 	const deleteMutation = useMutation(deleteInternMutation, DELETE_MUTATION_OPTIONS)
@@ -27,11 +28,6 @@ const Interns = () => {
 		const table = $(tableRef.current).DataTable(datatableOptions)
 		table.draw()
 	}, [interns])
-
-	async function onDeleteButtonClicked(id) {
-		await deleteMutation.mutateAsync(id)
-		queryClient.resetQueries()
-	}
 
 	return (
 		<>
@@ -86,7 +82,8 @@ const Interns = () => {
 												type='button'
 												className='btn-opciones p-1'
 												onClick={() => {
-													onDeleteButtonClicked(intern.id)
+													setSelectedIntern(intern)
+													setIsShowingDeleteModal(true)
 												}}
 											>
 												<i className='fa-solid fa-trash'></i>
@@ -116,6 +113,18 @@ const Interns = () => {
 					internUpdate={selectedIntern}
 				/>
 			</Modal>
+
+			<DeleteModal
+				objectClass={selectedIntern}
+				deleteMutation={deleteMutation}
+				cancelAction={() => {
+					setSelectedIntern(null)
+					setIsShowingDeleteModal(false)
+				}}
+				isShowingModal={isShowingDeleteModal}
+				setIsShowingModal={setIsShowingDeleteModal}
+				typeClass={'becado'}
+			/>
 		</>
 	)
 }

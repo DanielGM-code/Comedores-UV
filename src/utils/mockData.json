@@ -28,62 +28,6 @@
   ],
   "users": [
     {
-      "id": 2,
-      "firstName": "Alexis",
-      "lastName": "Bence",
-      "email": "nbence1@mlb.com",
-      "username": "jbence1",
-      "rol": "Civil Engineer"
-    },
-    {
-      "id": 3,
-      "firstName": "UtNuncVestibulum.pdf",
-      "lastName": "Tran",
-      "email": "rtran2@etsy.com",
-      "username": "rtran2",
-      "rol": "Civil Engineer"
-    },
-    {
-      "id": 4,
-      "firstName": "NullaSed.tiff",
-      "lastName": "Lukas",
-      "email": "alukas3@va.gov",
-      "username": "alukas3",
-      "rol": "Senior Financial Analyst"
-    },
-    {
-      "id": 5,
-      "firstName": "Ut.avi",
-      "lastName": "Brenston",
-      "email": "rbrenston4@topsy.com",
-      "username": "mbrenston4",
-      "rol": "Paralegal"
-    },
-    {
-      "id": 6,
-      "firstName": "Dolor.tiff",
-      "lastName": "Allsopp",
-      "email": "aallsopp5@engadget.com",
-      "username": "gallsopp5",
-      "rol": "Payment Adjustment Coordinator"
-    },
-    {
-      "id": 7,
-      "firstName": "PotentiNullam.xls",
-      "lastName": "Raubenheimer",
-      "email": "eraubenheimer6@auda.org.au",
-      "username": "kraubenheimer6",
-      "rol": "Assistant Professor"
-    },
-    {
-      "id": 8,
-      "firstName": "AeneanLectus.avi",
-      "lastName": "Brockhurst",
-      "email": "mbrockhurst7@mtv.com",
-      "username": "sbrockhurst7",
-      "rol": "Design Engineer"
-    },
-    {
       "id": 9,
       "firstName": "Quis.avi",
       "lastName": "Tinner",
@@ -98,14 +42,6 @@
       "email": "vdawe9@trellian.com",
       "username": "vdawe9",
       "rol": "Professor"
-    },
-    {
-      "id": 11,
-      "firstName": "Ante.mp3",
-      "lastName": "Loncaster",
-      "email": "cloncastera@quantcast.com",
-      "username": "jloncastera",
-      "rol": "General Manager"
     },
     {
       "id": 12,
@@ -354,97 +290,10 @@
       "email": "mpratte15@miitbeian.gov.cn",
       "username": "rpratte15",
       "rol": "Help Desk Operator"
-    },
-    {
-      "id": 43,
-      "firstName": "MontesNascetur.ppt",
-      "lastName": "McIlmurray",
-      "email": "rmcilmurray16@php.net",
-      "username": "lmcilmurray16",
-      "rol": "VP Accounting"
-    },
-    {
-      "id": 44,
-      "firstName": "AcNeque.mp3",
-      "lastName": "Rackam",
-      "email": "prackam17@unblog.fr",
-      "username": "frackam17",
-      "rol": "Chief Design Engineer"
-    },
-    {
-      "id": 45,
-      "firstName": "Varius.png",
-      "lastName": "Farnorth",
-      "email": "afarnorth18@angelfire.com",
-      "username": "tfarnorth18",
-      "rol": "Analog Circuit Design manager"
-    },
-    {
-      "id": 46,
-      "firstName": "MontesNascetur.mp3",
-      "lastName": "Kruger",
-      "email": "zkruger19@icio.us",
-      "username": "hkruger19",
-      "rol": "VP Product Management"
-    },
-    {
-      "id": 47,
-      "firstName": "Ultrices.xls",
-      "lastName": "Beamish",
-      "email": "pbeamish1a@usnews.com",
-      "username": "fbeamish1a",
-      "rol": "Senior Cost Accountant"
-    },
-    {
-      "id": 48,
-      "firstName": "LuctusEt.xls",
-      "lastName": "Allwright",
-      "email": "sallwright1b@mapquest.com",
-      "username": "tallwright1b",
-      "rol": "Senior Quality Engineer"
-    },
-    {
-      "id": 49,
-      "firstName": "VelitNec.tiff",
-      "lastName": "Huard",
-      "email": "vhuard1c@pinterest.com",
-      "username": "ehuard1c",
-      "rol": "Recruiting Manager"
-    },
-    {
-      "id": 50,
-      "firstName": "RutrumAtLorem.mp3",
-      "lastName": "Boulter",
-      "email": "kboulter1d@mail.ru",
-      "username": "aboulter1d",
-      "rol": "Environmental Tech"
-    },
-    {
-      "firstName": "Pretium.mp3",
-      "lastName": "Rosentholer",
-      "email": "rrosentholer0@com.com",
-      "username": "nrosentholer0",
-      "rol": "Recruiter",
-      "id": 51
-    },
-    {
-      "firstName": "Angel",
-      "lastName": "Sanchez",
-      "email": "angel_djsm@hotmail.com",
-      "username": "angelthetwin",
-      "rol": "admin",
-      "id": 52
     }
   ],
   "tickets": [],
   "incomes": [
-    {
-      "id": 1,
-      "monto": 5.99,
-      "concepto": "erat id mauris vulputate elementum nullam varius nulla facilisi cras non velit nec nisi",
-      "referencia": "53808-0748",
-      "fecha": "3/3/2023"
-    },
     {
       "id": 2,
       "monto": 6.09,
@@ -1145,8 +994,8 @@
       "firstName": "Cherianne",
       "lastName": "Manders",
       "carrera": "Editor",
-      "fechaInicio": "7/20/2022",
-      "fechaFin": "3/6/2022",
+      "fechaInicio": "2022-07-20",
+      "fechaFin": "2022-03-06",
       "credito": 500
     },
     {
@@ -2012,36 +1861,9 @@
       "fechaInicio": "11/5/2022",
       "fechaFin": "5/6/2022",
       "credito": 500
-    },
-    {
-      "id": 99,
-      "firstName": "Marcos",
-      "lastName": "Eslinger",
-      "carrera": "VP Product Management",
-      "fechaInicio": "11/4/2022",
-      "fechaFin": "8/10/2022",
-      "credito": 500
-    },
-    {
-      "id": 100,
-      "firstName": "Jacquie",
-      "lastName": "Sugars",
-      "carrera": "Software Test Engineer II",
-      "fechaInicio": "10/12/2022",
-      "fechaFin": "9/11/2022",
-      "credito": 500
     }
   ],
   "products": [
-    {
-      "id": 1,
-      "nombre": "Sauce - Soy Low Sodium - 3.87l",
-      "precioCompra": 89.74,
-      "precioVenta": 45.15,
-      "precioPreferencial": 21.82,
-      "stock": 39,
-      "tipo": "Dulcería"
-    },
     {
       "id": 2,
       "nombre": "Versatainer Nc - 888",
@@ -2880,15 +2702,6 @@
       "tipo": "Bebidas"
     },
     {
-      "id": 95,
-      "nombre": "Leeks - Large",
-      "precioCompra": 98.82,
-      "precioVenta": 80.32,
-      "precioPreferencial": 61.52,
-      "stock": 67,
-      "tipo": "Alimentos"
-    },
-    {
       "id": 96,
       "nombre": "Grapefruit - White",
       "precioCompra": 98.13,
@@ -2958,13 +2771,6 @@
       "id": 1,
       "name": "Kimmi",
       "address": "Río Molares 156",
-      "phone": "2283341786",
-      "rfc": "MART895621SCD"
-    },
-    {
-      "id": 2,
-      "name": "Kimmi",
-      "address": "Río Molares 22",
       "phone": "2283341786",
       "rfc": "MART895621SCD"
     },

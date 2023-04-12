@@ -6,6 +6,7 @@ import DateField from '../components/DateField'
 import FormField from '../components/FormField'
 import { createIncomeMutation, CREATE_MUTATION_OPTIONS, updateIncomeMutation } from '../utils/mutations'
 import '../utils/formatting'
+import ConfirmModal from '../components/ConfirmModal'
 
 const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 	const [income, setIncome] = useState(incomeUpdate ? {
@@ -17,6 +18,9 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 		referencia: '',
 		fecha: new Date().formatted()
 	})
+
+	const [typeModal, setTypeModal] = useState(0)
+	const [isShowingModal, setIsShowingModal] = useState(false)
 
 	const [validations, setValidations] = useState({
 		concepto: [],
@@ -101,8 +105,8 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 	}
 
 	const validateDate = (fecha) => {
-		const validatorFecha = new Validator(fecha).result
-		return validatorFecha.isNotEmpty("Fecha requerida")
+		const validatorFecha = new Validator(fecha)
+		return validatorFecha.isNotEmpty("Fecha requerida").result
 	}
 
 	const queryClient = useQueryClient()
@@ -144,7 +148,6 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 			createMutation.reset()
 		}
 		await queryClient.resetQueries()
-		cancelAction()
 	}
 
 	const { concepto: conceptoVal, 
@@ -161,67 +164,85 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 	const max = today2.formatted()
 
 	return (
-		<form>
-			<FormField
-				name='concepto'
-				inputType='text'
-				iconClasses='fa-solid fa-tag'
-				placeholder='Concepto'
-				value={income.concepto}
-				onChange={handleInputChange}
-				onBlur={validateOne}
+		<>
+			<form>
+				<FormField
+					name='concepto'
+					inputType='text'
+					iconClasses='fa-solid fa-tag'
+					placeholder='Concepto'
+					value={income.concepto}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={conceptoVal}/>
+				<FormField
+					name='monto'
+					inputType='text'
+					iconClasses='fa-solid fa-coins'
+					placeholder='Monto'
+					value={income.monto}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={montoVal}/>
+				<FormField
+					name='referencia'
+					inputType='text'
+					iconClasses='fa-solid fa-money-check'
+					placeholder='Referencia'
+					value={income.referencia}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={referenciaVal}/>
+				Fecha:
+				<DateField
+					name='fecha'
+					inputType='date'
+					iconClasses='fa-solid fa-calendar-days'
+					placeholder='Fecha'
+					value={income.fecha}
+					min={min}
+					max={max}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<ErrorMessage validation={fechaVal}/>
+				<div className='modal-footer'>
+					<button
+						type='button'
+						className='btn btn-danger'
+						onClick={() => {
+							setTypeModal(1)
+							setIsShowingModal(true)
+						}}
+					>
+						Cancelar
+					</button>
+					<button
+						type='button'
+						className='btn btn-primary'
+						onClick={() => {
+							submitIncome()
+							setTypeModal(income.id ? 3 : 2)
+							setIsShowingModal(true)
+						}}
+					>
+						{`${income.id ? 'Actualizar' : 'Guardar'}`}
+					</button>
+				</div>
+			</form>
+
+			<ConfirmModal
+				objectClass={incomeUpdate}
+				cancelAction={cancelAction}
+				typeModal={typeModal}
+				isShowingModal={isShowingModal}
+				setIsShowingModal={setIsShowingModal}
+				typeClass={'ingreso'}
 			/>
-			<ErrorMessage validation={conceptoVal}/>
-			<FormField
-				name='monto'
-				inputType='text'
-				iconClasses='fa-solid fa-coins'
-				placeholder='Monto'
-				value={income.monto}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={montoVal}/>
-			<FormField
-				name='referencia'
-				inputType='text'
-				iconClasses='fa-solid fa-money-check'
-				placeholder='Referencia'
-				value={income.referencia}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={referenciaVal}/>
-			Fecha:
-			<DateField
-				name='fecha'
-				inputType='date'
-				iconClasses='fa-solid fa-calendar-days'
-				placeholder='Fecha'
-				value={income.fecha}
-				min={min}
-				max={max}
-				onChange={handleInputChange}
-				onBlur={validateOne}
-			/>
-			<ErrorMessage validation={fechaVal}/>
-			<div className='modal-footer'>
-				<button
-					type='button'
-					className='btn btn-danger'
-					onClick={cancelAction}
-				>
-					Cancelar
-				</button>
-				<button
-					type='button'
-					className='btn btn-primary'
-					onClick={submitIncome}
-				>
-					{`${income.id ? 'Actualizar' : 'Guardar'}`}
-				</button>
-			</div>
-		</form>
+		</>
 	)
 }
 

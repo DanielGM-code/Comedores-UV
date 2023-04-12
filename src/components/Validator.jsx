@@ -29,7 +29,7 @@ class Validator {
     }
 
     isNegativeBalance(msg){
-        if(this.value > -1){
+        if(this.value < 0){
             this.result.push(msg)
         }
 

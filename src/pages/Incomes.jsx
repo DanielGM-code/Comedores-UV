@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import NavigationTitle from '../components/NavigationTitle'
 import { readAllIncomes } from '../data-access/incomesDataAccess'
 import $ from 'jquery'
@@ -10,6 +10,7 @@ import Modal from '../components/Modal'
 import IncomeForm from '../forms/IncomeForm'
 import 'datatables.net-buttons/js/buttons.colVis'
 import 'datatables.net-buttons/js/buttons.print'
+import DeleteModal from '../components/DeleteModal'
 
 const Incomes = () => {
 	const { data: incomes, isLoading } = useQuery({
@@ -18,8 +19,8 @@ const Incomes = () => {
 		queryFn: readAllIncomes,
 	})
 	const [isShowingModal, setIsShowingModal] = useState(false)
+	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
 	const [selectedIncome, setSelectedIncome] = useState(null)
-	const queryClient = useQueryClient()
 	const tableRef = useRef()
 
 	const deleteMutation = useMutation(deleteIncomeMutation, DELETE_MUTATION_OPTIONS)
@@ -29,11 +30,6 @@ const Incomes = () => {
 		const table = $(tableRef.current).DataTable(datatableOptions)
 		table.draw()
 	}, [incomes])
-
-	async function onDeleteButtonClicked(id) {
-		await deleteMutation.mutateAsync(id)
-		queryClient.resetQueries()
-	}
 
 	return (
 		<>
@@ -84,7 +80,8 @@ const Incomes = () => {
 												type='button' 
 												className='btn-opciones p-1'
 												onClick={() => {
-													onDeleteButtonClicked(income.id)
+													setSelectedIncome(income)
+													setIsShowingDeleteModal(true)
 												}}
 											>
 												<i className='fa-solid fa-trash'></i>
@@ -114,6 +111,18 @@ const Incomes = () => {
 					incomeUpdate={selectedIncome}
 				/>
 			</Modal>
+
+			<DeleteModal
+				objectClass={selectedIncome}
+				deleteMutation={deleteMutation}
+				cancelAction={() => {
+					setSelectedIncome(null)
+					setIsShowingDeleteModal(false)
+				}}
+				isShowingModal={isShowingDeleteModal}
+				setIsShowingModal={setIsShowingDeleteModal}
+				typeClass={'ingreso'}
+			/>
 		</>
 	)
 }
