@@ -1,15 +1,15 @@
 import React from 'react';
-import '../utils/plugin_impresora_termica'
+import { connetor_plugin } from '../utils/plugin_impresora_termica';
 
 
 function PrintButton({order, orderDetails}){
     const handlePrint = () =>{
-//        const printData = { order, orderDetails};
-//        const printWindow = window.open('','', 'height=500,width=500');
-//        printWindow.document.write(`<html><head><title>Ticket de orden</title></head><body><pre>${JSON.stringify(printData, null, 2)}</pre></body></html>`)
-//        printWindow.print();
-//        printWindow.close();
-        imprimir()
+        const printData = { order, orderDetails};
+        const printWindow = window.open('','', 'height=500,width=500');
+        printWindow.document.write(`<html><head><title>Ticket de orden</title></head><body><pre>${JSON.stringify(printData, null, 2)}</pre></body></html>`)
+        printWindow.print();
+        printWindow.close();
+//        imprimir()
     };
     return(
         <button className='btn btn-primary' onClick={handlePrint}>Imprimir ticket</button>
@@ -19,7 +19,7 @@ function PrintButton({order, orderDetails}){
 }
 
 async function imprimir(){
-    let nombreImpresora = "SAM4S ELLIX20II";
+    let nombreImpresora = "Generic/Text Only";
     let api_key = "12345"
     
    

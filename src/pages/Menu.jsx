@@ -311,7 +311,7 @@ const Menu = () => {
 							Cancelar
 						</button>
 						<PrintButton
-							 order={order} 
+							order={order} 
 							orderDetails={orderDetails} 
 						/>
 					</div>
