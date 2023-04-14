@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import SidebarButton from '../components/SidebarButton'
 import '../css/layout.css'
 import '../css/botones.css'
@@ -8,6 +8,7 @@ import '../css/datatable.css'
 
 export const Layout = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+	const navigate = useNavigate()
 
 	function toggleSidebar() {
 		setIsSidebarOpen(oldIsSidebarOpen => !oldIsSidebarOpen)
@@ -99,7 +100,14 @@ export const Layout = () => {
 								<div className='perfil_correo'><br /> ejemplo@ejemplo.com</div>
 							</div>
 						</div>
-						<i className='bx bx-log-out' id='log_out'></i>
+						<i 
+							className='bx bx-log-out' 
+							id='log_out'
+							onClick={() => {
+								sessionStorage.removeItem('loggedUser')
+								navigate('/login')
+							}}
+						></i>
 					</li>
 				</ul>
 

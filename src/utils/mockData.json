@@ -1267,6 +1267,15 @@
   ],
   "interns": [
     {
+      "id": 1,
+      "firstName": "Kimmi",
+      "lastName": "Cosgrove",
+      "carrera": "Budget/Accounting Analyst II",
+      "fechaInicio": "2023-01-20",
+      "fechaFin": "2024-01-18",
+      "credito": 500
+    },
+    {
       "id": 2,
       "firstName": "Cherianne",
       "lastName": "Manders",
