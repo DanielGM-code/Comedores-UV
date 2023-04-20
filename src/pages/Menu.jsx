@@ -12,6 +12,7 @@ import { readAllInterns } from '../data-access/internsDataAccess'
 import { useMutation, useQueryClient } from 'react-query'
 import { createIncomeMutation, CREATE_MUTATION_OPTIONS } from '../utils/mutations'
 import { readAllIncomes } from '../data-access/incomesDataAccess'
+import Modal from '../components/Modal'
 
 const Menu = () => {
 	const [selectedCategory, setSelectedCategory] = useState('Alimentos')
@@ -66,6 +67,9 @@ const Menu = () => {
 		return order.reduce((total, actual) => total + (actual.cantidad * actual.producto.precioVenta), 0
 		)
 	}, [order])
+
+	var payment = 0
+	const cambio = 0.0
 
 	const filteredProducts = useMemo(() => {
 		return products ? products.filter(product => product.tipo === selectedCategory) : []
@@ -299,6 +303,12 @@ const Menu = () => {
 						value={orderDetails.notas}
 						onChange={handleInputChange}
 					></textarea>
+					<textarea
+						id="pm"
+						rows="1"
+						inputType="number"
+						placeholder='Se paga con...'
+					></textarea>
 
 					<div className='modal-footer'>
 						<button
@@ -312,11 +322,17 @@ const Menu = () => {
 						</button>
 						<PrintButton
 							order={order} 
-							orderDetails={orderDetails} 
+							orderDetails={orderDetails}
+							payment={payment}
+							
+
 						/>
 					</div>
+					<div>
+						<h5>Su cambio es de:</h5>
+						<label>${cambio.priceFormat()}</label>
+					</div>
 				</div>
-
 			</div>
 		</div>
 	)

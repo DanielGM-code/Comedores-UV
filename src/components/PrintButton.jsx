@@ -2,7 +2,7 @@ import React from 'react';
 import { connetor_plugin } from '../utils/plugin_impresora_termica';
 
 
-function PrintButton({order, orderDetails}){
+function PrintButton({order, orderDetails, payment}){
     const handlePrint = () =>{
         const printData = { order, orderDetails};
         const printWindow = window.open('','', 'height=500,width=500');
