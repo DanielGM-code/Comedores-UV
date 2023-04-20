@@ -68,8 +68,8 @@ const Menu = () => {
 		)
 	}, [order])
 
-	var payment = 0
-	const cambio = 0.0
+	var payment = 0.0
+	var cambio = 0.0
 
 	const filteredProducts = useMemo(() => {
 		return products ? products.filter(product => product.tipo === selectedCategory) : []
@@ -303,12 +303,15 @@ const Menu = () => {
 						value={orderDetails.notas}
 						onChange={handleInputChange}
 					></textarea>
-					<textarea
-						id="pm"
+					<TextInput
+						id="payment"
 						rows="1"
-						inputType="number"
 						placeholder='Se paga con...'
-					></textarea>
+						onChange={(value) => {
+							payment = value
+							cambio = payment - total
+						}}
+					/>
 
 					<div className='modal-footer'>
 						<button
