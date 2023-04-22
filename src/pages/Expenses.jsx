@@ -2,35 +2,33 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import NavigationTitle from '../components/NavigationTitle'
 import { datatableOptions } from '../utils/datatables'
-import { readAllOutcomes } from '../data-access/outcomesDataAccess'
+import { readAllExpenses } from '../data-access/expensesDataAccess'
 import $ from 'jquery'
 import Modal from '../components/Modal'
-import OutcomeForm from '../forms/OutcomeForm'
-import Articles from './Articles'
-import { deleteOutcomeMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutations'
+import ExpenseForm from '../forms/ExpenseForm'
+import { deleteExpenseMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutations'
 import { QUERY_OPTIONS } from '../utils/useQuery'
 import DeleteModal from '../components/DeleteModal'
 
-const Outcomes = () => {
-	const { data: outcomes, isLoading } = useQuery({
+const Expenses = () => {
+	const { data: expenses, isLoading } = useQuery({
 		...QUERY_OPTIONS,
-		queryKey: 'outcomes', 
-		queryFn: readAllOutcomes
+		queryKey: 'expenses', 
+		queryFn: readAllExpenses
 	})
-	const [isShowingModalOutcomeForm, setIsShowingModalOutcomeForm] = useState(false)
-	const [isShowingModalArticles, setIsShowingModalArticles] = useState(false)
+	const [isShowingModal, setIsShowingModal] = useState(false)
 	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
-	const [selectedOutcome, setSelectedOutcome] = useState(null)
+	const [selectedExpense, setSelectedExpense] = useState(null)
 	const tableRef = useRef()
 
-	const deleteMutation = useMutation(deleteOutcomeMutation, DELETE_MUTATION_OPTIONS)
+	const deleteMutation = useMutation(deleteExpenseMutation, DELETE_MUTATION_OPTIONS)
 
 
 	useEffect(() => {
 		document.title = 'ComedorUV - Egresos'
 		const table = $(tableRef.current).DataTable(datatableOptions)
 		table.draw()
-	}, [outcomes])
+	}, [expenses])
 
 	return (
 		<>
@@ -43,7 +41,7 @@ const Outcomes = () => {
 					<button
 						type='button'
 						className='btn-registrar'
-						onClick={() => setIsShowingModalOutcomeForm(true)}
+						onClick={() => setIsShowingModal(true)}
 					>
 						<i className='fa-solid fa-plus'></i> Nuevo egreso
 					</button>
@@ -54,30 +52,33 @@ const Outcomes = () => {
 								<tr>
 									<th className='leading-row'>Proveedor</th>
 									<th>Fecha</th>
-									<th>Factura</th>
+									<th>Descripción</th>
 									<th>Total</th>
+									<th>Factura</th>
+									<th>Partida</th>
 									<th className='trailing-row'>Opciones</th>
 								</tr>
 							</thead>
 							<tbody className='table-group-divider'>
-								{outcomes.map(outcome =>
-									<tr key={outcome.id}
+								{expenses.map(expense =>
+									<tr key={expense.id}
 										onClick={() => {
-											setSelectedOutcome(outcome)
-											setIsShowingModalArticles(true)
+											setSelectedExpense(expense)
 										}}
 									>
-										<td className='leading-row'>{outcome.proveedor}</td>
-										<td>{outcome.fecha}</td>
-										<td>{outcome.factura}</td>
-										<td>{outcome.total}</td>
+										<td className='leading-row'>{expense.provider_id}</td>
+										<td>{expense.date}</td>
+										<td>{expense.description}</td>
+										<td>{expense.total}</td>
+										<td>{expense.bill}</td>
+										<td>{expense.departure}</td>
 										<td className='trailing-row'>
 											<button
 												type='button'
 												className='btn-opciones p-1'
 												onClick={() => {
-													setSelectedOutcome(outcome)
-													setIsShowingModalOutcomeForm(true)
+													setSelectedExpense(expense)
+													setIsShowingModal(true)
 												}}
 											>
 												<i className='fa-solid fa-pen-to-square'></i>
@@ -86,7 +87,7 @@ const Outcomes = () => {
 												type='button'
 												className='btn-opciones p-1'
 												onClick={() => {
-													setSelectedOutcome(outcome)
+													setSelectedExpense(expense)
 													setIsShowingDeleteModal(true)
 												}}
 											>
@@ -102,45 +103,27 @@ const Outcomes = () => {
 			}
 
 			<Modal
-				title={`${selectedOutcome ? 'Actualizar' : 'Registrar Nuevo'} Egreso`}
-				isShowing={isShowingModalOutcomeForm}
-				setIsShowing={setIsShowingModalOutcomeForm}
+				title={`${selectedExpense ? 'Actualizar' : 'Registrar Nuevo'} Egreso`}
+				isShowing={isShowingModal}
+				setIsShowing={setIsShowingModal}
 				onClose={() => {
-					setSelectedOutcome(null)
+					setSelectedExpense(null)
 				}}
 			>
-				<OutcomeForm
+				<ExpenseForm
 					cancelAction={() => {
-						setSelectedOutcome(null)
-						setIsShowingModalOutcomeForm(false)
+						setSelectedExpense(null)
+						setIsShowingModal(false)
 					}}
-					outcomeUpdate={selectedOutcome}
+					expenseUpdate={selectedExpense}
 				/>
-			</Modal>
-
-			<Modal
-				title={'Artículos'}
-				isShowing={isShowingModalArticles}
-				setIsShowing={setIsShowingModalArticles}
-				onClose={() => {
-					setSelectedOutcome(null)
-				}}
-			>
-				<Articles
-					cancelAction={() => {
-						setSelectedOutcome(null)
-						setIsShowingModalArticles(false)
-					}}
-					
-				/>
-				
 			</Modal>
 
 			<DeleteModal
-				objectClass={selectedOutcome}
+				objectClass={selectedExpense}
 				deleteMutation={deleteMutation}
 				cancelAction={() => {
-					setSelectedOutcome(null)
+					setSelectedExpense(null)
 					setIsShowingDeleteModal(false)
 				}}
 				isShowingModal={isShowingDeleteModal}
@@ -152,7 +135,7 @@ const Outcomes = () => {
 	)
 }
 
-export default Outcomes
+export default Expenses
 
 
 

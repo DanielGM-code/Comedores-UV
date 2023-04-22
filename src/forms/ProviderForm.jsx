@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import FormField from '../components/FormField'
-import { createSupplierMutation, CREATE_MUTATION_OPTIONS, updateSupplierMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
+import { createProviderMutation, CREATE_MUTATION_OPTIONS, updateProviderMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import Validator from '../components/Validator'
 import ErrorMessage from '../components/ErrorMessage'
 import ConfirmModal from '../components/ConfirmModal'
 
-const SupplierForm = ({ cancelAction, supplierUpdate}) => {
-    const [supplier, setSupplier] = useState(supplierUpdate ?? {
+const ProviderForm = ({ cancelAction, providerUpdate}) => {
+    const [provider, setProvider] = useState(providerUpdate ?? {
         name: '',
         address: '',
         phone: '',
@@ -25,7 +25,7 @@ const SupplierForm = ({ cancelAction, supplierUpdate}) => {
     })
 
     const validateAll = () => {
-        const { name, address, phone, rfc } = supplier
+        const { name, address, phone, rfc } = provider
         const validations = { name: '', address: '', phone: '', rfc: '' }
 
         validations.name = validateName(name)
@@ -47,111 +47,102 @@ const SupplierForm = ({ cancelAction, supplierUpdate}) => {
 
     const validateOne = (e) => {
         const {name} = e.target
-        const value = supplier[name]
+        const value = provider[name]
         let message = ''
 
-        if(!value){
-
-            if(name === 'name') message = 'Nombre requerido'
-
-            if(name === 'address') message = 'Dirección requerida'
-
-            if(name === 'phone') message = 'Telefono requerido'
-
-            if(name === 'rfc') message = 'RFC requerido'
-
-        }else{
-
-            if(name === 'name' && (value.length < 3 || value.length > 50)){
-				message = 'El nombre debe contener ...'
-			}
-
-            if(name === 'address' && (value.length < 3 || value.length > 50)){
-				message = 'La dirección debe contener ...'
-			}
-
-            if(name === 'phone' && (value.length < 3 || value.length > 50)){
-				message = 'El telefono debe contener ...'
-			}
-
-            if(name === 'rfc' && (value.length < 3 || value.length > 50)){
-				message = 'El RFC debe contener ...'
-			}
-        }
+        if(name ===  'name') message = validateName(value)
+        if(name === 'address') message = validateAddress(value)
+        if(name === 'phone') message = validatePhone(value)
+        if(name === 'rfc') message = validateRfc(value)
 
         setValidations({ ...validations, [name]: [message] })
     }
 
     const validateName = (name) => {
-        const validatorName = new Validator(name)
-        return validatorName
-            .isNotEmpty('Nombre requerido').result
+        let validatorName = Validator(name)
+
+        if((validatorName.isEmpty())) return 'Nombre requerido'
+        if(!validatorName.isCorrectLength(4, 101)) return 'El nombre debe contener entre 5 y 100 caracteres'
+        return ''
     }
 
     const validateAddress = (address) => {
-        const validatorAddress = new Validator(address)
-        return validatorAddress
-            .isNotEmpty('Dirección requerida').result
+        let validatorAddress = Validator(address)
+
+        if(validatorAddress.isEmpty()) return 'Dirección requerida'
+        if(!validatorAddress.isCorrectLength(4, 101)) return 'La dirección debe contener entre 5 y 100 caracteres'
+        return ''
     }
 
     const validatePhone = (phone) => {
-        const validatorPhone = new Validator (phone)
-        return validatorPhone
-            .isNotEmpty('Telefono requerido').result
+        const validatorPhone = Validator(phone)
+
+        if(validatorPhone.isEmpty()) return 'Teléfono requerido'
+        if(!validatorPhone.isCorrectPhoneDigits()) return 'El teléfono debe contener 10 dígitos'
+        if(!validatorPhone.isCorrectPhoneFormat()) return 'El teléfono debe tener un formato válido'
+        return ''
     }
 
     const validateRfc = (rfc) => {
-        const validatorRfc = new Validator(rfc)
-        return validatorRfc
-            .isNotEmpty('RFC requerido').result
+        const validatorRfc = Validator(rfc)
+
+        if(validatorRfc.isEmpty()) return 'RFC requerido'
+        if(!validatorRfc.isCorrectRfcName()) return 'El RFC debe contener 3 letras mayúsculas iniciales'
+        if(!validatorRfc.isCorrectRfcDate()) return 'El RFC debe tener una fecha válida. Consulte "Ayuda" para más información'
+        if(!validatorRfc.isCorrectRfcHomoclaveFirstLetter()) return 'El primer carácter de la homoclave debe ser una letra o un dígito. Consulte "Ayuda" para más información'
+        if(!validatorRfc.isCorrectRfcHomoclaveSecondLetter()) return 'El segundo carácter de la homoclave debe ser una una letra o un dígito. Consulte "Ayuda" para más información'
+        if(!validatorRfc.isCorrectRfcValidatorDigit()) return 'El dígito verificador debe ser la letra A o un dígito. Consulte "Ayuda" para más información'
+        return ''
     }
 
     const queryClient = useQueryClient()
-    const createMutation = useMutation(createSupplierMutation, {
+    const createMutation = useMutation(createProviderMutation, {
         ...CREATE_MUTATION_OPTIONS,
         onSettled: async () => {
-            queryClient.resetQueries('suppliers')
+            queryClient.resetQueries('providers')
         }
     })
 
-    const updateMutation = useMutation(updateSupplierMutation, {
+    const updateMutation = useMutation(updateProviderMutation, {
         ...UPDATE_MUTATION_OPTIONS,
         onSettled: async () => {
-            queryClient.resetQueries('suppliers')
+            queryClient.resetQueries('providers')
         }
     })
 
     function handleInputChange(event) {
-        setSupplier(prevSupplier => {
+        setProvider(prevProvider => {
             return {
-                ...prevSupplier,
+                ...prevProvider,
                 [event.target.name]: event.target.value
             }
         })
     }
 
-    async function submitSupplier() {
+    async function submitProvider() {
         const isValid = validateAll();
 
 		if(!isValid){
 			return false
 		}
 
-        if(supplier.id) {
-            await updateMutation.mutateAsync(supplier)
+        if(provider.id) {
+            await updateMutation.mutateAsync(provider)
             updateMutation.reset()
         }else{
-            await createMutation.mutateAsync(supplier)
+            await createMutation.mutateAsync(provider)
             createMutation.reset()
         }
         await queryClient.resetQueries()
+        setTypeModal(provider.id ? 3 : 2)
+        setIsShowingModal(true)
     }
 
     const {
-        name: nombreVal,
-        address: direccionVal,
-        phone: telefonoVal,
-        rfc: rfcVal
+        name: nameValidation,
+        address: addressValidation,
+        phone: phoneValidation,
+        rfc: rfcValidation
     } = validations
 
     return (
@@ -162,41 +153,41 @@ const SupplierForm = ({ cancelAction, supplierUpdate}) => {
                     inputType='text'
                     iconClasses='fa-solid fa-i-cursor'
                     placeholder='Nombre'
-                    value={supplier.name}
+                    value={provider.name}
                     onChange={handleInputChange}
                     onBlur={validateOne}
                 />
-                <ErrorMessage validation={nombreVal}/>
+                <ErrorMessage validation={nameValidation}/>
                 <FormField
                     name='address'
                     inputType='text'
                     iconClasses='fa-solid fa-i-cursor'
                     placeholder='Dirección'
-                    value={supplier.address}
+                    value={provider.address}
                     onChange={handleInputChange}
                     onBlur={validateOne}
                 />
-                <ErrorMessage validation={direccionVal}/>
+                <ErrorMessage validation={addressValidation}/>
                 <FormField
                     name='phone'
                     inputType='text'
                     iconClasses='fa-solid fa-i-cursor'
                     placeholder='Teléfono'
-                    value={supplier.phone}
+                    value={provider.phone}
                     onChange={handleInputChange}
                     onBlur={validateOne}
                 />
-                <ErrorMessage validation={telefonoVal}/>
+                <ErrorMessage validation={phoneValidation}/>
                 <FormField
                     name='rfc'
                     inputType='text'
                     iconClasses='fa-solid fa-i-cursor'
                     placeholder='RFC'
-                    value={supplier.rfc}
+                    value={provider.rfc}
                     onChange={handleInputChange}
                     onBlur={validateOne}
                 />
-                <ErrorMessage validation={rfcVal}/>
+                <ErrorMessage validation={rfcValidation}/>
                 <div className='modal-footer'>
                     <button
                         type='button'
@@ -212,18 +203,16 @@ const SupplierForm = ({ cancelAction, supplierUpdate}) => {
                         type='button'
                         className='btn btn-primary'
                         onClick={() => {
-                            submitSupplier()
-                            setTypeModal(supplier.id ? 3 : 2)
-                            setIsShowingModal(true)
+                            submitProvider()
                         }}
                     >
-                        {`${supplier.id ? 'Actualizar' : 'Guardar'}`}
+                        {`${provider.id ? 'Actualizar' : 'Guardar'}`}
                     </button>
                 </div>
             </form>
 
             <ConfirmModal
-				objectClass={supplierUpdate}
+				objectClass={providerUpdate}
 				cancelAction={cancelAction}
 				typeModal={typeModal}
 				isShowingModal={isShowingModal}
@@ -235,4 +224,4 @@ const SupplierForm = ({ cancelAction, supplierUpdate}) => {
     )
 }
 
-export default SupplierForm
+export default ProviderForm

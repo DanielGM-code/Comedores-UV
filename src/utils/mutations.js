@@ -1,11 +1,10 @@
 import { toast } from "react-toastify"
 import { createIncome, deleteIncome, updateIncome } from "../data-access/incomesDataAccess"
-import { createIntern, deleteIntern, updateIntern } from "../data-access/internsDataAccess"
-import { createOutcome, deleteOutcome, updateOutcome } from "../data-access/outcomesDataAccess"
+import { createScholarship, deleteScholarship, updateScholarship } from "../data-access/scholarshipsDataAccess"
+import { createExpense, deleteExpense, updateExpense } from "../data-access/expensesDataAccess"
 import { createProduct, deleteProduct, updateProduct } from "../data-access/productsDataAccess"
 import { createUser, deleteUser, updateUser } from "../data-access/usersDataAccess"
-import { createSupplier, deleteSupplier, updateSupplier } from "../data-access/suppliersDataAccess"
-import { createArticle, deleteArticle, updateAticle } from "../data-access/articleDataAccess"
+import { createProvider, deleteProvider, updateProvider } from "../data-access/providersDataAccess"
 
 export const CREATE_MUTATION_OPTIONS = {
 	onMutate: async () => {
@@ -63,30 +62,17 @@ export const DELETE_MUTATION_OPTIONS = {
 	}
 }
 
-// Outcome Mutations
-export const createOutcomeMutation = (outcome) => {
-	createOutcome(outcome)
+// Expense Mutations
+export const createExpenseMutation = (expense) => {
+	createExpense(expense)
 }
 
-export const updateOutcomeMutation = (outcome) => {
-	updateOutcome(outcome)
+export const updateExpenseMutation = (expense) => {
+	updateExpense(expense)
 }
 
-export const deleteOutcomeMutation = (id) => {
-	deleteOutcome(id)
-}
-
-//OutcomeArticle Mutations
-export const createArticleMutation = (article) => {
-	createArticle(article)
-}
-
-export const updateArticleMutation = (article) => {
-	updateAticle(article)
-}
-
-export const deleteArticleMutation = (id) => {
-	deleteArticle(id)
+export const deleteExpenseMutation = (id) => {
+	deleteExpense(id)
 }
 
 // User Mutations
@@ -115,17 +101,17 @@ export const deleteIncomeMutation = (id) => {
 	deleteIncome(id)
 }
 
-// Intern Mutations
-export const createInternMutation = (intern) => {
-	createIntern(intern)
+// Scholarship Mutations
+export const createScholarshipMutation = (scholarship) => {
+	createScholarship(scholarship)
 }
 
-export const updateInternMutation = (intern) => {
-	updateIntern(intern)
+export const updateScholarshipMutation = (scholarship) => {
+	updateScholarship(scholarship)
 }
 
-export const deleteInternMutation = (id) => {
-	deleteIntern(id)
+export const deleteScholarshipMutation = (id) => {
+	deleteScholarship(id)
 }
 
 // Product Mutations
@@ -141,15 +127,15 @@ export const deleteProductMutation = (id) => {
 	deleteProduct(id)
 }
 
-//Supplier Mutations
-export const createSupplierMutation = (supplier) => {
-	createSupplier(supplier)
+//Provider Mutations
+export const createProviderMutation = (provider) => {
+	createProvider(provider)
 }
 
-export const updateSupplierMutation = (supplier) => {
-	updateSupplier(supplier)
+export const updateProviderMutation = (provider) => {
+	updateProvider(provider)
 }
 
-export const deleteSupplierMutation = (id) => {
-	deleteSupplier(id)
+export const deleteProviderMutation = (id) => {
+	deleteProvider(id)
 }

@@ -7,16 +7,9 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { appendScript } from './utils/appendScript';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const queryClient = new QueryClient();
-
-appendScript("datatables/Buttons-1.5.6/js/dataTables.buttons.min.js");
-appendScript("datatables/JSZip-2.5.0/jszip.min.js");
-appendScript("datatables/pdfmake-0.1.36/pdfmake.min.js");
-appendScript("datatables/pdfmake-0.1.36/vfs_fonts.js");
-appendScript("datatables/Buttons-1.5.6/js/buttons.html5.min.js");
 
 root.render(
 	<React.StrictMode>

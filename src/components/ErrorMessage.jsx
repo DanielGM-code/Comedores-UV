@@ -4,7 +4,7 @@ const ErrorMessage = ({validation}) => {
 
     return (
         <div className='text-danger'>
-            {validation.length > 0 && validation.map((msg, index) => <div key={index}>{msg}</div>)}
+            {validation}
         </div>
     )
 }

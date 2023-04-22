@@ -51,9 +51,8 @@ const Users = () => {
 							<thead>
 								<tr>
 									<th className='leading-row'>Nombre</th>
-									<th>Apellido</th>
-									<th>E-mail</th>
-									<th>Username</th>
+									<th>Correo</th>
+									<th>Contraseña</th>
 									<th>Rol</th>
 									<th className='trailing-row'>Opciones</th>
 								</tr>
@@ -61,11 +60,10 @@ const Users = () => {
 							<tbody className='table-group-divider'>
 								{users.map(user =>
 									<tr key={user.id}>
-										<td className='leading-row'>{user.firstName}</td>
-										<td>{user.lastName}</td>
+										<td className='leading-row'>{user.name}</td>
 										<td>{user.email}</td>
-										<td>{user.username}</td>
-										<td>{user.rol}</td>
+										<td>{user.password}</td>
+										<td>{user.role}</td>
 										<td className='trailing-row'>
 											<button
 												type='button'

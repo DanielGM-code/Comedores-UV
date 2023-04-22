@@ -9,34 +9,37 @@ import ConfirmModal from '../components/ConfirmModal'
 
 const ProductForm = ({ cancelAction, productUpdate }) => {
 	const [product, setproduct] = useState(productUpdate ?? {
-		nombre: '',
-		precioCompra: '',
-		precioVenta: '',
-		precioPreferencial: '',
+		name: '',
+		description: '',
+		purchase_price: '',
+		sale_price: '',
+		preferred_price: '',
 		stock: '',
-		tipo: 'Alimentos'
+		product_type: ''
 	})
 
 	const [typeModal, setTypeModal] = useState(0)
 	const [isShowingModal, setIsShowingModal] = useState(false)
 
 	const [validations, setValidations] = useState({
-		nombre: [],
-		precioCompra: [],
-		precioVenta: [],
-		precioPreferencial: [],
+		name: [],
+		description: [],
+		purchase_price: [],
+		sale_price: [],
+		preferred_price: [],
 		stock: [],
-		tipo: []
+		product_type: []
 	})
 
 	const validateAll = () => {
-		const { nombre, precioCompra, precioVenta, precioPreferencial, stock } = product
-		const validations = { nombre: '', precioCompra: '', precioVenta: '', precioPreferencial: '', stock: ''}
+		const { name, description, purchase_price, sale_price, preferred_price, stock } = product
+		const validations = { name: '', description: '', purchase_price: '', sale_price: '', preferred_price: '', stock: ''}
 
-		validations.nombre = validateName(nombre)
-		validations.precioCompra = validatePrice(precioCompra)
-		validations.precioPreferencial = validatePrice(precioPreferencial)
-		validations.precioVenta = validatePrice(precioVenta)
+		validations.name = validateName(name)
+		validations.description = validateDescription(description)
+		validations.purchase_price = validatePrice(purchase_price)
+		validations.preferred_price = validatePrice(preferred_price)
+		validations.sale_price = validatePrice(sale_price)
 		validations.stock = validateStock(stock)
 
 		const validationMessages = Object.values(validations).filter(
@@ -56,55 +59,47 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 		const value = product[name]
 		let message = ''
 
-		if(!value){
-
-			if(name === 'nombre') message = 'Nombre requerido'
-
-			if(name === 'precioCompra') message = 'Precio requerido'
-
-			if(name === 'precioPreferencial') message = 'Precio requerido'
-
-			if(name === 'precioVenta') message = 'Precio requerido'
-
-			if(name === 'stock') message = 'Stock requerido'
-
-		}else{
-			//falta validar longitud
-			if(name === 'nombre' && (value.length < 10 || value.length > 50)){
-				message = 'El nombre debe contener ...'
-			}
-
-			if((name === 'precioCompra' || name === 'precioPreferencial' || name === 'precioVenta') 
-					&& value < 0){
-				message = 'El precio no debe ser saldo negativo'
-			}
-
-			if((name === 'stock') && (value.length < 10 || value.length > 50)){
-				message = 'El stock no debe ser un numero negativo'
-			}
-		}
+		if(name === 'name') message = validateName(value)
+		if(name === 'purchase_price') message = validatePrice(value)
+		if(name === 'preferred_price') message = validatePrice(value)
+		if(name === 'sale_price') message = validatePrice(value)
+		if(name === 'stock') message = validateStock(value)
 
 		setValidations({ ...validations, [name]: [message] })
 	}
 
-	const validateName = (nombre) => {
-		const validatorName = new Validator(nombre)
-		return validatorName
-			.isNotEmpty('Nombre requerido').result
+	const validateName = (name) => {
+		const validatorName = Validator(name)
+		
+		if(validatorName.isEmpty()) return 'Nombre requerido'
+		if(!validatorName.isCorrectLength(2, 51)) return 'El nombre debe contener entre 3 y 50 caracteres'
+		return ''
 	}
 
-	const validatePrice = (precio) => {
-		const validatorPrice = new Validator(precio)
-		return validatorPrice
-			.isNotEmpty('Precio requerido')
-			.isNegativeBalance('El precio no debe tener saldo negativo').result
+	const validateDescription = (description) => {
+		const validatorDescription = Validator(description)
+
+		if(!validatorDescription.isCorrectLength(-1, 60000)) return 'La descripción debe contener entre 1 y 60,000 cracateres'
+		return ''
+	}
+
+	const validatePrice = (price) => {
+		const validatorPrice = Validator(price)
+
+		if(validatorPrice.isEmpty()) return 'Precio requerido'
+		if(validatorPrice.isOutOfMinQuantityRange(0)) return 'El precio no debe ser menor a cero'
+		if(validatorPrice.isOutOfDecimalRange()) return 'El precio debe tener máximo 2 decimales'
+		if(validatorPrice.isOutOfMaxQuantityRange(9999999999)) return 'El precio debe ser menor a 100,000,000.00'
+		return ''
 	}
 
 	const validateStock = (stock) => {
-		const validatorStock = new Validator(stock)
-		return validatorStock
-			.isNotEmpty('Stock requerido')
-			.isNegativeBalance('El stock no debe ser un número negativo').result
+		const validatorStock = Validator(stock)
+
+		if(validatorStock.isEmpty()) return 'Stock requerido'
+		if(validatorStock.isOutOfMinQuantityRange(0)) return 'El stock no debe ser menor a cero'
+		if(validatorStock.isOutOfMaxQuantityRange(999)) return 'El stock debe ser menor a 1000'
+		return ''
 	}
 
 	const queryClient = useQueryClient()
@@ -122,7 +117,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 		}
 	})
 
-	const typesProduct = [
+	const listTypes = [
 		{ label: 'Alimentos', value:'Alimentos' },
 		{ label: 'Dulcería', value:'Dulcería' },
 		{ label: 'Bebidas', value:'Bebidas' }
@@ -152,59 +147,79 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 			createMutation.reset()
 		}
 		await queryClient.resetQueries()
+		setTypeModal(product.id ? 3 : 2)
+		setIsShowingModal(true)
 	}
 
 	const {
-		nombre: nombreVal,
-		precioCompra: precioCompraVal,
-		precioPreferencial: precioPreferencialVal,
-		precioVenta: precioVentaVal,
-		stock: stockVal
+		name: nameValidation,
+		description: descriptionValidation,
+		purchase_price: purchasePriceValidation,
+		preferred_price: preferredPriceValidation,
+		sale_price: salePriceValidation,
+		stock: stockValidation
 	} = validations
 
 	return (
 		<>
 			<form>
 				<FormField
-					name='nombre'
+					name='name'
 					inputType='text'
 					iconClasses='fa-solid fa-i-cursor'
 					placeholder='Nombre del Producto'
-					value={product.nombre}
+					value={product.name}
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={nombreVal}/>
+				<ErrorMessage validation={nameValidation}/>
+				<div className='input-group mb-3'>
+					<span className='input-group-text' id='basic-addon1'>
+						<i className='fa-solid fa-i-cursor'></i>
+					</span>
+					<textarea 
+						name='description' 
+						className='formControl' 
+						placeholder='Descripción'
+						value={product.description}
+						maxLength={60000} 
+						rows={3}
+						cols={78}
+						onChange={handleInputChange} 
+						onBlur={validateOne}
+					></textarea>
+				</div>
+				<ErrorMessage validation={descriptionValidation}/>
 				<FormField
-					name='precioCompra'
+					name='purchase_price'
 					inputType='number'
 					iconClasses='fa-solid fa-dollar'
 					placeholder='Precio de Compra'
-					value={product.precioCompra}
+					value={product.purchase_price}
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={precioCompraVal}/>
+				<ErrorMessage validation={purchasePriceValidation}/>
 				<FormField
-					name='precioVenta'
+					name='sale_price'
 					inputType='number'
 					iconClasses='fa-solid fa-dollar'
 					placeholder='Precio de Venta'
-					value={product.precioVenta}
+					value={product.sale_price}
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={precioVentaVal}/>
+				<ErrorMessage validation={salePriceValidation}/>
 				<FormField
-					name='precioPreferencial'
+					name='preferred_price'
 					inputType='number'
 					iconClasses='fa-solid fa-dollar'
 					placeholder='Precio Preferencial'
-					value={product.precioPreferencial}
+					value={product.preferred_price}
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={precioPreferencialVal}/>
+				<ErrorMessage validation={preferredPriceValidation}/>
 				<FormField
 					name='stock'
 					inputType='number'
@@ -214,14 +229,14 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={stockVal}/>
+				<ErrorMessage validation={stockValidation}/>
 				Tipo de producto
 				<ComboBox
-					name='tipo'
+					name='product_type'
 					iconClasses='fa-solid fa-utensils'
-					value={product.tipo}
+					value={product.product_type}
 					onChange={handleInputChange}
-					options={typesProduct}
+					options={listTypes}
 				/>
 				<div className='modal-footer'>
 					<button
@@ -239,8 +254,6 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 						className='btn btn-primary'
 						onClick={() => {
 							submitProduct()
-							setTypeModal(product.id ? 3 : 2)
-							setIsShowingModal(true)
 						}}
 					>
 						{`${product.id ? 'Actualizar' : 'Guardar'}`}

@@ -1,62 +1,62 @@
 import { API_HOST, processResponse } from "./dataAccessUtils"
 
-const API_SERVICE = 'outcomes'
+const API_SERVICE = 'providers'
 
-export const createOutcome = (outcome) => {
-	return new Promise(async (resolve, reject) => {
-		try {
+export const createProvider = (provider) => {
+    return new Promise(async(resolve, reject) => {
+        try {
 			const url = `${API_HOST}/${API_SERVICE}`
 			const response = await fetch(url, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(outcome)
+				body: JSON.stringify(provider)
 			})
 			await processResponse(response)
 			resolve()
 		} catch (error) {
 			reject(error.message)
 		}
-	})
+    })
 }
 
-export const readAllOutcomes = () => {
-	return new Promise(async (resolve, reject) => {
-		try {
+export const readAllProviders = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
 			const url = `${API_HOST}/${API_SERVICE}`
 			const response = await fetch(url)
-			let outcomes = await processResponse(response)
-			resolve(outcomes)
+			let providers = await processResponse(response)
+			resolve(providers)
 		} catch (error) {
 			reject(error.message)
 		}
-	})
+    })
 }
 
-export const updateOutcome = (outcome) => {
-	const { id } = outcome
-	return new Promise(async (resolve, reject) => {
-		try {
+export const updateProvider = (provider) => {
+    const { id } = provider
+    return new Promise(async (resolve, reject) => {
+        try {
 			const url = `${API_HOST}/${API_SERVICE}/${id}`
 			const response = await fetch(url, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(outcome)
+				body: JSON.stringify(provider)
 			})
 			await processResponse(response)
 			resolve()
 		} catch (error) {
 			reject(error.message)
 		}
-	})
+    })
 }
 
-export const deleteOutcome = (id) => {
-	return new Promise(async (resolve, reject) => {
-		try {
+export const deleteProvider = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
 			const url = `${API_HOST}/${API_SERVICE}/${id}`
 			const response = await fetch(url, {
 				method: 'DELETE',
@@ -66,5 +66,5 @@ export const deleteOutcome = (id) => {
 		} catch (error) {
 			reject(error.message)
 		}
-	})
+    })
 }

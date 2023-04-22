@@ -24,19 +24,21 @@ const DeleteModal = ({ objectClass, deleteMutation, cancelAction, isShowingModal
                     cancelAction()
                 }}
             >
-                <button
-                    type='button'
-                    className='btn btn-danger'
-                    onClick={() => {
-                        cancelAction()
-                    }}
-                >
-                    Regresar
-                </button>
+                <div>
+                    <button
+                        type='button'
+                        className='btn btn-danger'
+                        onClick={() => {
+                            cancelAction()
+                        }}
+                    >
+                        Regresar
+                    </button>
 
-                <button type='button' className='btn btn-primary' onClick={deleteObject}>
-                    Aceptar
-                </button>
+                    <button type='button' className='btn btn-primary' onClick={deleteObject}>
+                        Aceptar
+                    </button>
+                </div>
             </Modal>
 
             <ConfirmModal

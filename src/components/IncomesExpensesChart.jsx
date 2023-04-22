@@ -1,26 +1,26 @@
 import React, { useMemo } from 'react'
 import { useQuery } from 'react-query'
 import { readAllIncomes } from '../data-access/incomesDataAccess'
-import { readAllOutcomes } from '../data-access/outcomesDataAccess'
+import { readAllExpenses } from '../data-access/expensesDataAccess'
 import CanvaJSReact from '../utils/canvasjs.react'
 import { QUERY_OPTIONS } from '../utils/useQuery'
 const { CanvasJSChart } = CanvaJSReact
 
-const IncomesOutcomesChart = () => {
+const IncomesExpensesChart = () => {
 	const { data: incomes = [] } = useQuery({
 		...QUERY_OPTIONS,
 		queryKey: 'incomes',
 		queryFn: readAllIncomes
 	})
-	const { data: outcomes = [] } = useQuery({
+	const { data: expenses = [] } = useQuery({
 		...QUERY_OPTIONS,
-		queryKey: 'outcomes',
-		queryFn: readAllOutcomes
+		queryKey: 'expenses',
+		queryFn: readAllExpenses
 	})
 
 	const options = useMemo(() => {
 		let totalIncomes = incomes.length !== 0 ? incomes.reduce((total, actual) => total + actual.monto, 0) : 0
-		let totalOutcomes = outcomes.length !== 0 ? outcomes.reduce((total, actual) => total + actual.total, 0) : 0
+		let totalExpenses = expenses.length !== 0 ? expenses.reduce((total, actual) => total + actual.total, 0) : 0
 
 		return {
 			animationEnabled: true,
@@ -31,7 +31,7 @@ const IncomesOutcomesChart = () => {
 			},
 			axisY: {
 				minimum: 0,
-				maximum: Math.max(totalIncomes, totalOutcomes)
+				maximum: Math.max(totalIncomes, totalExpenses)
 			},
 			data: [{
 				type: "bar", //change type to bar, line, area, pie, etc
@@ -45,16 +45,16 @@ const IncomesOutcomesChart = () => {
 					},
 					{
 						label: 'Egresos',
-						y: totalOutcomes
+						y: totalExpenses
 					},
 				]
 			}]
 		}
-	}, [incomes, outcomes])
+	}, [incomes, expenses])
 
 	return (
 		<CanvasJSChart options={options} />
 	)
 }
 
-export default IncomesOutcomesChart
+export default IncomesExpensesChart

@@ -8,10 +8,10 @@ import '../utils/formatting'
 import FormField from '../components/FormField'
 import TextInput from 'react-autocomplete-input'
 import PrintButton from '../components/PrintButton'
-import { readAllInterns } from '../data-access/internsDataAccess'
+import { readAllScholarships } from '../data-access/scholarshipsDataAccess'
 import { useMutation, useQueryClient } from 'react-query'
-import { createIncomeMutation, CREATE_MUTATION_OPTIONS } from '../utils/mutations'
-import { readAllIncomes } from '../data-access/incomesDataAccess'
+import { createExpenseMutation, CREATE_MUTATION_OPTIONS } from '../utils/mutations'
+import { readAllExpenses } from '../data-access/expensesDataAccess'
 
 const Menu = () => {
 	const [selectedCategory, setSelectedCategory] = useState('Alimentos')
@@ -22,10 +22,10 @@ const Menu = () => {
 		queryFn: readAllProducts,
 	})
 
-	const { data: interns } = useQuery({
+	const { data: scholarships } = useQuery({
 		...QUERY_OPTIONS,
-		queryKey: 'interns',
-		queryFn: readAllInterns,
+		queryKey: 'scholarships',
+		queryFn: readAllScholarships,
 	})
 
 	const [orderDetails, setOrderDetails] = useState({
@@ -36,7 +36,7 @@ const Menu = () => {
 		nombreBecario: '',
 	})
 
-	const [income, setIncome] = useState({
+	const [expense, setExpense] = useState({
 		concepto: '',
 		monto: '',
 		referencia: '',
@@ -44,21 +44,21 @@ const Menu = () => {
 	})
 
 	const queryClient = useQueryClient()
-	const { data: incomes } = useQuery({
+	const { data: expenses } = useQuery({
 		...QUERY_OPTIONS,
-		queryKey: 'incomes',
-		queryFn: readAllIncomes,
+		queryKey: 'expenses',
+		queryFn: readAllExpenses,
 	})
-	const createMutation = useMutation(createIncomeMutation, {
+	const createMutation = useMutation(createExpenseMutation, {
 		...CREATE_MUTATION_OPTIONS,
 		onSettled: async () => {
-			queryClient.resetQueries('incomes')
+			queryClient.resetQueries('expenses')
 		}
 	})
 
-	const internsNames = useMemo(() => {
-		return interns ? interns.map((intern) => {
-			return `${intern.firstName} ${intern.lastName}`
+	const scholarshipsNames = useMemo(() => {
+		return scholarships ? scholarships.map((scholarship) => {
+			return `${scholarship.first_name} ${scholarship.last_name}`
 		}) : []
 	})
 
@@ -142,23 +142,23 @@ const Menu = () => {
 	async function sellProduct(){
 
 		if(order.length > 0){
-			order.forEach((orderItem) => income.concepto += orderItem.product.nombre + "; ")
+			order.forEach((orderItem) => expense.concepto += orderItem.product.nombre + "; ")
 		}
 
-		let ultReference = incomes[incomes.length - 1].referencia
+		let ultReference = expenses[expenses.length - 1].referencia
 		if(ultReference == null || ultReference === ""){
 			ultReference = 1
 		}else{
 			ultReference += 1;
 		}
-		setIncome(prevIncome => {
+		setExpense(prevExpense => {
 			return {
-				...prevIncome,
+				...prevExpense,
 				referencia: ultReference
 			}
 		})
 		
-		await createMutation.mutateAsync(income)
+		await createMutation.mutateAsync(expense)
 		createMutation.reset()
 	}
 
@@ -276,7 +276,7 @@ const Menu = () => {
 							className='becario-input'
 							placeholder='Nombre del becario'
 							trigger={['']}
-							options={internsNames}
+							options={scholarshipsNames}
 							value={orderDetails.nombreBecario}
 							onChange={(value) => {
 								setOrderDetails(prevOrderDetails => {

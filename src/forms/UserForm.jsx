@@ -9,31 +9,28 @@ import ConfirmModal from '../components/ConfirmModal'
 
 const UserForm = ({ cancelAction, userUpdate }) => {
 	const [user, setUser] = useState(userUpdate ?? {
-		firstName: '',
-		lastName: '',
+		name: '',
 		email: '',
-		username: '',
-		rol: 'Cajero'
+		password: '',
+		role: 'Cajero'
 	})
 
 	const [typeModal, setTypeModal] = useState(0)
 	const [isShowingModal, setIsShowingModal] = useState(false)
 
 	const [validations, setValidations] = useState({
-		firstName: [],
-		lastName: [],
+		name: [],
 		email: [],
-		username: []
+		password: []
 	})
 
 	const validateAll = () => {
-		const { firstName, lastName, email, username } = user
-		const validations = { firstName: '', lastName: '', email: '', username: '' }
+		const { name, email, password } = user
+		const validations = { name: '', email: '', password: '' }
 
-		validations.firstName = validateFirstName(firstName)
-		validations.lastName = validateLastName(lastName)
+		validations.name = validateName(name)
 		validations.email = validateEmail(email)
-		validations.username = validateUsername(username)
+		validations.password = validatePassword(password)
 
 		const validationMessages = Object.values(validations).filter(
 			(validationMessage) => validationMessage.length > 0
@@ -52,68 +49,40 @@ const UserForm = ({ cancelAction, userUpdate }) => {
 		const value = user[name]
 		let message = ''
 
-		if(!value){
-
-			if(name === 'firstName') message = `Nombre requerido`
-
-			if(name === 'lastName') message = `Apellido requerido`
-
-			if(name === 'email') message = `Correo requerido`
-
-			if(name === 'username') message = `Usuario requerido`
-			
-		}else{
-			//falta validar longitud
-			if(name === 'firstName' && (value.length < 3 || value.length > 50)){
-				message = 'El nombre debe contener entre ...'
-			}
-
-			//falta validar longitud
-			if(name === 'lastName' && (value.length < 3 || value.length > 50)){
-				message = 'El apellido debe contener entre 3 y 50 caracteres'
-			}
-
-			//falta validar formato de correo
-			if(name === 'email' && (value.length < 10 || value.length > 50)){
-				message = 'El correo debe estar entre 10 y 50 caracteres'
-			}
-			
-			if(name === 'email' && !/.+@.+\.[A-Za-z]+$/.test(value)){
-				message = 'El correo debe ser como ejemplo@ejemplo.com'
-			}
-
-			//falta validar logitud
-			if(name === 'username' && (value.length < 6 || value.length > 20)){
-				message = 'El username debe contener entre ...'
-			}
-		}
+		if(name === 'name') message = validateName(value)
+		if(name === 'email') message = validateEmail(value)
+		if(name === 'password') message = validatePassword(value)
 
 		setValidations({ ...validations, [name]: [message] })
 	}
 
-	const validateFirstName = (firstName) => {
-		const validatorFirstName = new Validator(firstName)
-		return validatorFirstName
-			.isNotEmpty('Nombre requerido').result
-	}
-
-	const validateLastName = (lastName) => {
-		const validatorLastName = new Validator(lastName)
-		return validatorLastName
-			.isNotEmpty('Apellido requerido').result
+	const validateName = (name) => {
+		const validatorName = Validator(name)
+		
+		if(validatorName.isEmpty()) return 'Nombre requerido'
+		if(!validatorName.isCorrectLength(2, 51)) return 'El nombre debe contener entre 3 y 50 caracteres'
+		return ''
 	}
 
 	const validateEmail = (email) => {
-		const validatorEmail = new Validator(email)
-		return validatorEmail
-			.isNotEmpty('Correo requerido')
-			.isEmail('El correo debe ser como ejemplo@ejemplo.com').result
+		const validatorEmail = Validator(email)
+
+		if(validatorEmail.isEmpty()) return 'Correo requerido'
+		if(!validatorEmail.isCorrectLength(9, 31)) return 'El correo debe estar entre 10 y 30 caracteres'
+		if(!validatorEmail.isEmail()) return 'El correo debe tener el formato e-jem_pl.o@correo.com'
+		return ''
 	}
 
-	const validateUsername = (username) => {
-		const validatorUsername = new Validator(username)
-		return validatorUsername
-			.isNotEmpty('Username requerido').result
+	const validatePassword = (password) => {
+		const validatorPassword = Validator(password)
+
+		if(validatorPassword.isEmpty()) return 'Contraseña requerido'
+		if(validatorPassword.isPasswordWithWhitespace()) return 'La contraseña no debe tener espacios en blanco'
+		if(!validatorPassword.isCorrectLength(5, 15)) return 'La contraseña debe contener entre 6 y 14 caracteres'
+		if(!validatorPassword.isPasswordWithLowerCase()) return 'La contraseña debe tener al menos una letra minúscula'
+		if(!validatorPassword.isPasswordWithNumbers()) return 'La contraseña debe tener al menos un número'
+		if(!validatorPassword.isPasswordWithUpperCase()) return 'La contraseña debe tener al menos una letra mayúscula'
+		return ''
 	}
 
 	const queryClient = useQueryClient()
@@ -161,62 +130,53 @@ const UserForm = ({ cancelAction, userUpdate }) => {
 			createMutation.reset()
 		}
 		await queryClient.resetQueries()
+		setTypeModal(user.id ? 3 : 2)
+		setIsShowingModal(true)
 	}
 
-	const { firstName: firstNameVal, 
-		lastName: lastNameVal, 
-		email: emailVal, 
-		username: usernameVal
+	const { name: nameValidation,  
+		email: emailValidation, 
+		password: passwordValidation
 		} = validations
 
 	return (
 		<>
 			<form>
 				<FormField
-					name='firstName'
+					name='name'
 					inputType='text'
 					iconClasses='fa-solid fa-i-cursor'
 					placeholder='Nombre'
-					value={user.firstName}
+					value={user.name}
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={firstNameVal}/>
-				<FormField
-					name='lastName'
-					inputType='text'
-					iconClasses='fa-solid fa-i-cursor'
-					placeholder='Apellido'
-					value={user.lastName}
-					onChange={handleInputChange}
-					onBlur={validateOne}
-				/>
-				<ErrorMessage validation={lastNameVal}/>
+				<ErrorMessage validation={nameValidation}/>
 				<FormField
 					name='email'
 					inputType='email'
 					iconClasses='fa-solid fa-at'
-					placeholder='E-mail'
+					placeholder='Correo'
 					value={user.email}
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={emailVal}/>
+				<ErrorMessage validation={emailValidation}/>
 				<FormField
-					name='username'
+					name='password'
 					inputType='text'
-					iconClasses='fa-solid fa-user'
-					placeholder='Apellido'
-					value={user.username}
+					iconClasses='fa-solid fa-i-cursor'
+					placeholder='Contraseña'
+					value={user.password}
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={usernameVal}/>
+				<ErrorMessage validation={passwordValidation}/>
 				<ComboBox
 					name='rol'
 					options={roles}
 					iconClasses='fa-solid fa-address-book'
-					value={user.rol}
+					value={user.role}
 					onChange={handleInputChange}
 				/>
 				<div className='modal-footer'>
@@ -235,8 +195,6 @@ const UserForm = ({ cancelAction, userUpdate }) => {
 						className='btn btn-primary'
 						onClick={() => {
 							submitUser()
-							setTypeModal(user.id ? 3 : 2)
-							setIsShowingModal(true)
 						}}
 					>
 						{`${user.id ? 'Actualizar' : 'Guardar'}`}

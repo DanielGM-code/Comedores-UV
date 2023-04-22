@@ -61,12 +61,12 @@ const Products = () => {
 							<tbody className='table-group-divider'>
 								{products.map(product =>
 									<tr key={product.id}>
-										<td className='leading-row'>{product.nombre}</td>
-										<td>${product.precioCompra}</td>
-										<td>${product.precioVenta}</td>
-										<td>${product.precioPreferencial}</td>
+										<td className='leading-row'>{product.name}</td>
+										<td>${product.purchase_price}</td>
+										<td>${product.sale_price}</td>
+										<td>${product.preferred_price}</td>
 										<td>{product.stock}</td>
-										<td>{product.tipo}</td>
+										<td>{product.product_type}</td>
 										<td className='trailing-row'>
 											<button
 												type='button'

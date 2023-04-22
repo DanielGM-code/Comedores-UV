@@ -35,9 +35,9 @@ export const Layout = () => {
 						label='Usuarios'
 					/>
 
-					{/* Interns */}
+					{/* Scholarships */}
 					<SidebarButton
-						to='/interns'
+						to='/scholarships'
 						iconClasses='bi bi-person-plus-fill'
 						label='Becados'
 					/>
@@ -49,9 +49,9 @@ export const Layout = () => {
 						label='Ingresos'
 					/>
 
-					{/* Outcomes */}
+					{/* Expenses */}
 					<SidebarButton
-						to='/outcomes'
+						to='/expenses'
 						iconClasses='fa-solid fa-money-bill-transfer'
 						label='Egresos'
 					/>
@@ -77,9 +77,9 @@ export const Layout = () => {
 						label='Productos'
 					/>
 
-					{/* Suppliers */}
+					{/* Providers */}
 					<SidebarButton
-						to='/suppliers'
+						to='/providers'
 						iconClasses='fa fa-archive'
 						label='Proveedores'
 					/>

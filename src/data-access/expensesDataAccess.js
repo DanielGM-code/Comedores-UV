@@ -1,17 +1,17 @@
 import { API_HOST, processResponse } from "./dataAccessUtils"
 
-const API_SERVICE = 'interns'
+const API_SERVICE = 'expenses'
 
-export const createIntern = (intern) => {
+export const createExpense = (expense) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const url = `${API_HOST}/${API_SERVICE}`
 			const response = await fetch(url, {
 				method: 'POST',
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(intern)
+				body: JSON.stringify(expense)
 			})
 			await processResponse(response)
 			resolve()
@@ -21,22 +21,22 @@ export const createIntern = (intern) => {
 	})
 }
 
-export const readAllInterns = () => {
+export const readAllExpenses = () => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const url = `${API_HOST}/${API_SERVICE}`
 			const response = await fetch(url)
-			let interns = await processResponse(response)
-			resolve(interns)
+			let expenses = await processResponse(response)
+			resolve(expenses)
 		} catch (error) {
 			reject(error.message)
 		}
 	})
 }
 
-export const updateIntern = (intern) => {
+export const updateExpense = (expense) => {
+	const { id } = expense
 	return new Promise(async (resolve, reject) => {
-		const { id } = intern
 		try {
 			const url = `${API_HOST}/${API_SERVICE}/${id}`
 			const response = await fetch(url, {
@@ -44,7 +44,7 @@ export const updateIntern = (intern) => {
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(intern)
+				body: JSON.stringify(expense)
 			})
 			await processResponse(response)
 			resolve()
@@ -54,7 +54,7 @@ export const updateIntern = (intern) => {
 	})
 }
 
-export const deleteIntern = (id) => {
+export const deleteExpense = (id) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const url = `${API_HOST}/${API_SERVICE}/${id}`

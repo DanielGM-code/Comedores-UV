@@ -1,5 +1,5 @@
 import React from 'react'
-import IncomesOutcomesChart from '../components/IncomesOutcomesChart'
+import IncomesExpensesChart from '../components/IncomesExpensesChart'
 import NavigationTitle from '../components/NavigationTitle'
 import CanvaJSReact from '../utils/canvasjs.react'
 const { CanvasJSChart } = CanvaJSReact
@@ -13,7 +13,7 @@ const Reports = () => {
 				menu='Inicio'
 				submenu='Reportes'
 			/>
-			<IncomesOutcomesChart />
+			<IncomesExpensesChart />
 		</div>
 	)
 }

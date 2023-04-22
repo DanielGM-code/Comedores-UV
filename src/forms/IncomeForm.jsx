@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import ErrorMessage from '../components/ErrorMessage'
 import Validator from '../components/Validator'
-import DateField from '../components/DateField'
 import FormField from '../components/FormField'
 import { createIncomeMutation, CREATE_MUTATION_OPTIONS, updateIncomeMutation } from '../utils/mutations'
 import '../utils/formatting'
@@ -11,32 +10,27 @@ import ConfirmModal from '../components/ConfirmModal'
 const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 	const [income, setIncome] = useState(incomeUpdate ? {
 		...incomeUpdate,
-		fecha: new Date(incomeUpdate.fecha).formatted()
+		date: new Date(incomeUpdate.date).formatted()
 	} : {
-		concepto: '',
-		monto: '',
-		referencia: '',
-		fecha: new Date().formatted()
+		note: '',
+		total: '',
+		date: new Date().formatted()
 	})
 
 	const [typeModal, setTypeModal] = useState(0)
 	const [isShowingModal, setIsShowingModal] = useState(false)
 
 	const [validations, setValidations] = useState({
-		concepto: [],
-		monto: [],
-		referencia: [],
-		fecha: []
+		note: [],
+		total: []
 	})
 
 	const validateAll = () => {
-		const { concepto, monto, referencia, fecha } = income
-		const validations = { concepto: '', monto: '', referencia: '', fecha: '' }
+		const { note, total } = income
+		const validations = { note: '', total: '' }
 
-		validations.concepto = validateConcept(concepto)
-		validations.monto = validateAmount(monto)
-		validations.referencia = validateReference(referencia)
-		validations.fecha = validateDate(fecha)
+		validations.note = validateNote(note)
+		validations.total = validateTotal(total)
 
 		const validationMessages = Object.values(validations).filter(
 			(validationMessage) => validationMessage.length > 0
@@ -55,58 +49,28 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 		const value = income[name]
 		let message = ''
 
-		if(!value){
-
-			if(name === 'concepto') message = `Concepto requerido`
-
-			if(name === 'monto') message = `Monto requerido`
-
-			if(name === 'referencia') message = `Referencia requerida`
-
-			if(name === 'fecha') message = `Fecha requerida`
-			
-		}else{
-			//falta validar longitud
-			if(name === 'concepto' && (value.length < 3 || value.length > 50)){
-				message = 'El concepto debe contener entre ...'
-			}
-
-			//falta validar longitud
-			if(name === 'referencia' && (value.length < 3 || value.length > 50)){
-				message = 'Laa referencia debe contener entre 3 y 50 caracteres'
-			}
-			
-			//falta limite superior
-			if(name === 'monto' && value < 0){
-				message = 'El monto no debe ser un saldo negativo'
-			}
-		}
+		if(name === 'note') message = validateNote(value)
+		if(name === 'total') message = validateTotal(value)
 
 		setValidations({ ...validations, [name]: [message] })
 	}
 
-	const validateConcept = (concepto) => {
-		const validatorConcept = new Validator(concepto)
-		return validatorConcept
-			.isNotEmpty('Concepto requerido').result
+	const validateNote = (note) => {
+		const validatorNote = Validator(note)
+
+		if(validatorNote.isEmpty()) return 'Concepto requerido'
+		if(!validatorNote.isCorrectLength(4, 201)) return 'El concepto debe contener entre 5 y 200 caracteres'
+		return ''
 	}
 
-	const validateAmount = (monto) => {
-		const validatorAmount = new Validator(monto)
-		return validatorAmount
-			.isNotEmpty('Monto requerido')
-			.isNegativeBalance('El monto no debe tener saldo negativo').result
-	}
+	const validateTotal = (total) => {
+		const validatorTotal = Validator(total)
 
-	const validateReference = (referencia) => {
-		const validatorCarrera = new Validator(referencia)
-		return validatorCarrera
-			.isNotEmpty('Referencia requerida').result
-	}
-
-	const validateDate = (fecha) => {
-		const validatorFecha = new Validator(fecha)
-		return validatorFecha.isNotEmpty("Fecha requerida").result
+		if(validatorTotal.isEmpty()) return 'Total requerido'
+		if(validatorTotal.isOutOfMinQuantityRange(0)) return 'El total no debe ser menor a cero'
+		if(!validatorTotal.isInOfDecimalRange()) return 'El total debe tener máximo 2 decimales'
+		if(validatorTotal.isOutOfMaxQuantityRange(99999999)) return 'El total debe ser menor a 1,000,000.00'
+		return ''
 	}
 
 	const queryClient = useQueryClient()
@@ -148,67 +112,37 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 			createMutation.reset()
 		}
 		await queryClient.resetQueries()
+		setTypeModal(income.id ? 3 : 2)
+		setIsShowingModal(true)
 	}
 
-	const { concepto: conceptoVal, 
-		monto: montoVal,
-		referencia: referenciaVal,
-		fecha: fechaVal
+	const { note: noteValidation, 
+		total: totalValidation
 	} = validations
-
-	const today1 = new Date()
-	today1.setFullYear(today1.getFullYear() - 1)
-	const min = today1.formatted()
-	const today2 = new Date()
-	today2.setFullYear(today2.getFullYear() + 1)
-	const max = today2.formatted()
 
 	return (
 		<>
 			<form>
 				<FormField
-					name='concepto'
+					name='note'
 					inputType='text'
 					iconClasses='fa-solid fa-tag'
-					placeholder='Concepto'
-					value={income.concepto}
+					placeholder='Notas'
+					value={income.note}
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={conceptoVal}/>
+				<ErrorMessage validation={noteValidation}/>
 				<FormField
-					name='monto'
-					inputType='text'
+					name='total'
+					inputType='number'
 					iconClasses='fa-solid fa-coins'
-					placeholder='Monto'
-					value={income.monto}
+					placeholder='Total'
+					value={income.total}
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={montoVal}/>
-				<FormField
-					name='referencia'
-					inputType='text'
-					iconClasses='fa-solid fa-money-check'
-					placeholder='Referencia'
-					value={income.referencia}
-					onChange={handleInputChange}
-					onBlur={validateOne}
-				/>
-				<ErrorMessage validation={referenciaVal}/>
-				Fecha:
-				<DateField
-					name='fecha'
-					inputType='date'
-					iconClasses='fa-solid fa-calendar-days'
-					placeholder='Fecha'
-					value={income.fecha}
-					min={min}
-					max={max}
-					onChange={handleInputChange}
-					onBlur={validateOne}
-				/>
-				<ErrorMessage validation={fechaVal}/>
+				<ErrorMessage validation={totalValidation}/>
 				<div className='modal-footer'>
 					<button
 						type='button'
@@ -225,8 +159,6 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 						className='btn btn-primary'
 						onClick={() => {
 							submitIncome()
-							setTypeModal(income.id ? 3 : 2)
-							setIsShowingModal(true)
 						}}
 					>
 						{`${income.id ? 'Actualizar' : 'Guardar'}`}

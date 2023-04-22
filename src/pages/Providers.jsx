@@ -2,32 +2,32 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import NavigationTitle from '../components/NavigationTitle'
 import { datatableOptions } from '../utils/datatables'
-import { readAllSuppliers } from '../data-access/suppliersDataAccess'
+import { readAllProviders } from '../data-access/providersDataAccess'
 import $ from 'jquery'
 import Modal from '../components/Modal'
-import SupplierForm from '../forms/SupplierForm'
+import ProviderForm from '../forms/ProviderForm'
 import { QUERY_OPTIONS } from '../utils/useQuery'
-import { deleteSupplierMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutations'
+import { deleteProviderMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutations'
 import DeleteModal from '../components/DeleteModal'
 
-const Suppliers = () => {
-    const { data: suppliers, isLoading } = useQuery({
+const Providers = () => {
+    const { data: providers, isLoading } = useQuery({
         ...QUERY_OPTIONS,
-        queryKey: 'suppliers',
-        queryFn: readAllSuppliers,
+        queryKey: 'providers',
+        queryFn: readAllProviders,
     })
     const [isShowingModal, setIsShowingModal] = useState(false)
-    const [selectedSupplier, setSelectedSupplier] = useState(null)
+    const [selectedProvider, setSelectedProvider] = useState(null)
     const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
     const tableRef = useRef()
 
-    const deleteMutation = useMutation(deleteSupplierMutation, DELETE_MUTATION_OPTIONS)
+    const deleteMutation = useMutation(deleteProviderMutation, DELETE_MUTATION_OPTIONS)
 
     useEffect(() => {
         document.title = 'ComedorUV - Proveedores'
         const table = $(tableRef.current).DataTable(datatableOptions)
         table.draw()
-    }, [suppliers])
+    }, [providers])
 
     return(
         <>
@@ -57,18 +57,18 @@ const Suppliers = () => {
                                 </tr>
                             </thead>
                             <tbody className='table-group-divider'>
-                                {suppliers.map(supplier =>
-                                    <tr key={supplier.id}>
-                                        <td className='leading-row'>{supplier.name}</td>
-                                        <td>{supplier.address}</td>
-                                        <td>{supplier.phone}</td>
-                                        <td>{supplier.rfc}</td>
+                                {providers.map(provider =>
+                                    <tr key={provider.id}>
+                                        <td className='leading-row'>{provider.name}</td>
+                                        <td>{provider.address}</td>
+                                        <td>{provider.phone}</td>
+                                        <td>{provider.rfc}</td>
                                         <td className='trailing-row'>
                                             <button
                                                 type='button'
                                                 className='btn-opciones p-1'
                                                 onClick={() => {
-                                                    setSelectedSupplier(supplier)
+                                                    setSelectedProvider(provider)
                                                     setIsShowingModal(true)
                                                 }}
                                             >
@@ -78,7 +78,7 @@ const Suppliers = () => {
                                                 type='button'
                                                 className='btn-opciones p-1'
                                                 onClick={() => {
-                                                    setSelectedSupplier(supplier)
+                                                    setSelectedProvider(provider)
                                                     setIsShowingDeleteModal(true)
                                                 }}
                                             >
@@ -94,27 +94,27 @@ const Suppliers = () => {
             }
 
             <Modal
-				title={`${selectedSupplier ? 'Actualizar' : 'Registrar Nuevo'} Proveedor`}
+				title={`${selectedProvider ? 'Actualizar' : 'Registrar Nuevo'} Proveedor`}
 				isShowing={isShowingModal}
 				setIsShowing={setIsShowingModal}
 				onClose={() => {
-					setSelectedSupplier(null)
+					setSelectedProvider(null)
 				}}
 			>
-				<SupplierForm
+				<ProviderForm
 					cancelAction={() => {
-						setSelectedSupplier(null)
+						setSelectedProvider(null)
 						setIsShowingModal(false)
 					}}
-					supplierUpdate={selectedSupplier}
+					providerUpdate={selectedProvider}
 				/>
 			</Modal>
 
             <DeleteModal
-                objectClass={selectedSupplier}
+                objectClass={selectedProvider}
 				deleteMutation={deleteMutation}
 				cancelAction={() => {
-					setSelectedSupplier(null)
+					setSelectedProvider(null)
 					setIsShowingDeleteModal(false)
 				}}
 				isShowingModal={isShowingDeleteModal}
@@ -126,4 +126,4 @@ const Suppliers = () => {
     )
 }
 
-export default Suppliers
+export default Providers

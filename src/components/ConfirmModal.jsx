@@ -30,16 +30,18 @@ const ConfirmModal = ({ cancelAction, typeModal, isShowingModal, setIsShowingMod
 		if(typeModal === 1){
 			return (
 				<>
-					<button
-						type='button'
-						className='btn btn-danger'
-						onClick={() => {
-							setIsShowingModal(false)
-						}}
-					>
-						Regresar
-					</button>
-					{showButtonAcept()}
+					<div>
+						<button
+							type='button'
+							className='btn btn-danger'
+							onClick={() => {
+								setIsShowingModal(false)
+							}}
+						>
+							Regresar
+						</button>
+						{showButtonAcept()}
+					</div>
 				</>
 			)
 		}else{

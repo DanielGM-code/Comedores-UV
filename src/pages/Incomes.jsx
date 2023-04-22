@@ -51,9 +51,8 @@ const Incomes = () => {
 						<table ref={tableRef} className='table table-hover table-borderless'>
 							<thead>
 								<tr>
-									<th className='leading-row'>Concepto</th>
-									<th>Monto</th>
-									<th>Referencia</th>
+									<th className='leading-row'>Notas</th>
+									<th>Total</th>
 									<th>Fecha</th>
 									<th className='trailing-row'>Opciones</th>
 								</tr>
@@ -61,10 +60,9 @@ const Incomes = () => {
 							<tbody className='table-group-divider'>
 								{incomes.map(income =>
 									<tr key={income.id}>
-										<td className='leading-row'>{income.concepto}</td>
-										<td>{income.monto}</td>
-										<td>{income.referencia}</td>
-										<td>{new Date(income.fecha).formatted()}</td>
+										<td className='leading-row'>{income.note}</td>
+										<td>{income.total}</td>
+										<td>{new Date(income.date).formatted()}</td>
 										<td className='trailing-row'>
 											<button
 												type='button'

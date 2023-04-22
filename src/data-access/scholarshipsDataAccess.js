@@ -1,62 +1,62 @@
 import { API_HOST, processResponse } from "./dataAccessUtils"
 
-const API_SERVICE = 'suppliers'
+const API_SERVICE = 'scholarships'
 
-export const createSupplier = (supplier) => {
-    return new Promise(async(resolve, reject) => {
-        try {
+export const createScholarship = (scholarship) => {
+	return new Promise(async (resolve, reject) => {
+		try {
 			const url = `${API_HOST}/${API_SERVICE}`
 			const response = await fetch(url, {
 				method: 'POST',
 				headers: {
-					'Content-Type': 'application/json',
+					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify(supplier)
+				body: JSON.stringify(scholarship)
 			})
 			await processResponse(response)
 			resolve()
 		} catch (error) {
 			reject(error.message)
 		}
-    })
+	})
 }
 
-export const readAllSuppliers = () => {
-    return new Promise(async (resolve, reject) => {
-        try {
+export const readAllScholarships = () => {
+	return new Promise(async (resolve, reject) => {
+		try {
 			const url = `${API_HOST}/${API_SERVICE}`
 			const response = await fetch(url)
-			let suppliers = await processResponse(response)
-			resolve(suppliers)
+			let scholarships = await processResponse(response)
+			resolve(scholarships)
 		} catch (error) {
 			reject(error.message)
 		}
-    })
+	})
 }
 
-export const updateSupplier = (supplier) => {
-    const { id } = supplier
-    return new Promise(async (resolve, reject) => {
-        try {
+export const updateScholarship = (scholarship) => {
+	return new Promise(async (resolve, reject) => {
+		const { id } = scholarship
+		try {
 			const url = `${API_HOST}/${API_SERVICE}/${id}`
 			const response = await fetch(url, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(supplier)
+				body: JSON.stringify(scholarship)
 			})
 			await processResponse(response)
 			resolve()
 		} catch (error) {
 			reject(error.message)
 		}
-    })
+	})
 }
 
-export const deleteSupplier = (id) => {
-    return new Promise(async (resolve, reject) => {
-        try {
+export const deleteScholarship = (id) => {
+	return new Promise(async (resolve, reject) => {
+		try {
 			const url = `${API_HOST}/${API_SERVICE}/${id}`
 			const response = await fetch(url, {
 				method: 'DELETE',
@@ -66,5 +66,5 @@ export const deleteSupplier = (id) => {
 		} catch (error) {
 			reject(error.message)
 		}
-    })
+	})
 }
