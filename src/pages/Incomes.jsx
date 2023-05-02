@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import NavigationTitle from '../components/NavigationTitle'
 import { readAllIncomes } from '../data-access/incomesDataAccess'
-import $ from 'jquery'
+import $, { data } from 'jquery'
 import { datatableOptions } from '../utils/datatables'
 import { deleteIncomeMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutations'
 import { QUERY_OPTIONS } from '../utils/useQuery'
@@ -11,17 +11,31 @@ import IncomeForm from '../forms/IncomeForm'
 import 'datatables.net-buttons/js/buttons.colVis'
 import 'datatables.net-buttons/js/buttons.print'
 import DeleteModal from '../components/DeleteModal'
+import { readAllScholarships } from '../data-access/scholarshipsDataAccess'
 
 const Incomes = () => {
+	const [isShowingModal, setIsShowingModal] = useState(false)
+	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
+	const [selectedIncome, setSelectedIncome] = useState(null)
+
+	const tableRef = useRef()
+
 	const { data: incomes, isLoading } = useQuery({
 		...QUERY_OPTIONS,
 		queryKey: 'incomes',
 		queryFn: readAllIncomes,
 	})
-	const [isShowingModal, setIsShowingModal] = useState(false)
-	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
-	const [selectedIncome, setSelectedIncome] = useState(null)
-	const tableRef = useRef()
+	const { data: scholarships } = useQuery({
+		...QUERY_OPTIONS,
+		queryKey: 'scholarships',
+		queryFn: readAllScholarships
+	})
+
+	const scholarshipsNames = useMemo(() => {
+		return scholarships ? scholarships.map((scholarship) => {
+			return {id: scholarship.id, label: `${scholarship.first_name} ${scholarship.last_name}`}
+		}) : []
+	})
 
 	const deleteMutation = useMutation(deleteIncomeMutation, DELETE_MUTATION_OPTIONS)
 
@@ -107,6 +121,7 @@ const Incomes = () => {
 						setIsShowingModal(false)
 					}}
 					incomeUpdate={selectedIncome}
+					scholarships={scholarshipsNames}
 				/>
 			</Modal>
 

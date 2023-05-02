@@ -3,18 +3,21 @@ import { useState } from 'react'
 import FormField from '../components/FormField'
 import { useMutation, useQueryClient } from 'react-query'
 import { createExpenseMutation, CREATE_MUTATION_OPTIONS, updateExpenseMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
-import Validator from '../components/Validator'
+import Validator from '../validations/Validator'
 import ErrorMessage from '../components/ErrorMessage'
-import DateField from '../components/DateField'
 import ConfirmModal from '../components/ConfirmModal'
+import AutocompleteField from '../components/AutocompleteField'
+import ValidatorProviderId from '../validations/ValidatorProviderId'
+import ValidatorTotal from '../validations/ValidatorTotal'
+import ValidatorBill from '../validations/ValidatorBill'
+import ValidatorDeparture from '../validations/ValidatorDeparture'
 
-
-const ExpenseForm = ({ cancelAction, expenseUpdate }) => {
+const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 	const [expense, setExpense] = useState(expenseUpdate ? {
 		...expenseUpdate,
 		date: new Date(expenseUpdate.date).formatted()
 	} : {
-		provider_id: '',
+		provider_id: null,
 		date: new Date().formatted(),
 		description: '',
 		total: '',
@@ -26,7 +29,7 @@ const ExpenseForm = ({ cancelAction, expenseUpdate }) => {
 	const [isShowingModal, setIsShowingModal] = useState(false)
 
 	const [validations, setValidations] = useState({
-		date: '',
+		provider: '',
 		description: '',
 		total: '',
 		bill: '',
@@ -34,79 +37,43 @@ const ExpenseForm = ({ cancelAction, expenseUpdate }) => {
 	})
 
 	const validateAll = () => {
-		const { date, total, bill, description, departure } = expense
-		const validations = { date: '', total: '', bill: '', description: '', departure: '' }
+		const { provider_id, total, bill, description, departure } = expense
+		let validations = { provider: '', description: '', total: '', bill: '', departure: '' }
 
-		validations.date = validateDate(date)
-		validations.total = validateTotal(total)
-		validations.bill = validateBill(bill)
+		validations.provider = ValidatorProviderId(provider_id)
 		validations.description = validateDescription(description)
-		validations.departure = validateDeparture(departure)
+		validations.total = ValidatorTotal(total)
+		validations.bill = ValidatorBill(bill)
+		validations.departure = ValidatorDeparture(departure)
 
 		const validationMessages = Object.values(validations).filter(
 			(validationMessage) => validationMessage.length > 0
 		)
 		let isValid = !validationMessages.length
 
-		if(!isValid){
-			setValidations(validations)
-		}
+		if(!isValid) setValidations(validations)
 
 		return isValid
 	}
 
-	const validateOne = (e) => {
-		const {name} = e.target
+	const validateOne = (event) => {
+		const {name} = event.target
 		const value = expense[name]
 		let message = ''
 
-		if(name === 'date') message = validateDate(value)
-		if(name === 'total') message = validateTotal(value)
-		if(name === 'bill') message = validateBill(value)
-		if(name === 'description') message = validateBill(value)
-		if(name === 'departure') message = validateDeparture(value)
+		if(name === 'total') message = ValidatorTotal(value)
+		if(name === 'bill') message = ValidatorBill(value)
+		if(name === 'description') message = validateDescription(value)
+		if(name === 'departure') message = ValidatorDeparture(value)
 
-		setValidations({ ...validations, [name]: [message] })
-	}
-
-	const validateDate = (date) => {
-		const validatorDate = Validator(date)
-
-		if(validatorDate.isEmpty()) return 'Fecha requerida'
-		return ''
-	}
-
-	const validateTotal = (total) => {
-		const validatorTotal = Validator(total)
-
-		if(validatorTotal.isEmpty()) return 'Total requerido'
-		if(validatorTotal.isOutOfMinQuantityRange(0)) return 'El total no debe ser menor a cero'
-		if(!validatorTotal.isInOfDecimalRange()) return 'El total debe tener máximo 2 decimales'
-		if(validatorTotal.isOutOfMaxQuantityRange(99999999)) return 'El total debe ser menor a 1,000,000.00'
-		return ''
-	}
-
-	const validateBill = (factura) => {
-		const validatorBill = Validator(factura)
-
-		if(validatorBill.isEmpty()) return 'Factura requerida'
-		if(!validatorBill.isCorrectLength(0, 256)) return 'La factura debe tener entre 1 y 255 caracteres'
-		return ''
+		setValidations({ ...validations, [name]: message })
 	}
 
 	const validateDescription = (description) => {
 		const validatorDescription = Validator(description)
 
 		if(validatorDescription.isEmpty()) return 'Descripción requerida'
-		if(!validatorDescription.isCorrectLength(0, 256)) return 'La descripción debe tener entre 1 y 255 caracteres'
-		return ''
-	}
-
-	const validateDeparture = (departure) => {
-		const validatorDeparture = Validator(departure)
-
-		if(validatorDeparture.isEmpty()) return 'Partida requerida'
-		if(!validatorDeparture.isCorrectLength(0, 256)) return 'La partida debe tener entre 1 y 255 caracteres'
+		if(!validatorDescription.isCorrectLength(0, 251)) return 'La descripción debe tener entre 1 y 250 caracteres'
 		return ''
 	}
 
@@ -153,37 +120,29 @@ const ExpenseForm = ({ cancelAction, expenseUpdate }) => {
 		setIsShowingModal(true)
 	}
 
-	const { 
-		date: dateValidation,
-		bill: billValidation,
-		total: totalValidation,
-		description: descriptionValidation,
-		departure:  departureValidation
-	} = validations
-
-	const today1 = new Date()
-	today1.setFullYear(today1.getFullYear() - 1)
-	const min = today1.formatted()
-	const today2 = new Date()
-	today2.setFullYear(today2.getFullYear() + 1)
-	const max = today2.formatted()
-
 	return (
 		<>
 			<form>
-				Fecha:
-				<DateField
-					name='date'
-					inputType='date'
-					iconClasses='fa-solid fa-calendar-days'
-					placeholder='Fecha'
-					value={expense.date}
-					min={min}
-					max={max}
-					onChange={handleInputChange}
-					onBlur={validateOne}
+				<AutocompleteField
+					name='provider_id'
+					iconClasses='fa-solid fa-industry'
+					options={providers}
+					selectedOption={() => {
+						return providers.find(provider => provider.id === expense.provider_id)
+					}}
+					placeholder='Nombre del proveedor'
+					searchable={true}
+					onChange={(selectedProvider) => {
+						setExpense(prevExpense => {
+							return {
+								...prevExpense,
+								provider_id: selectedProvider.id
+							}
+						})
+					}}
+					clearable={false}
 				/>
-				<ErrorMessage validation={dateValidation}/>
+				<ErrorMessage validation={validations.provider}/>
 				<FormField
 					name='bill'
 					inputType='text'
@@ -193,7 +152,7 @@ const ExpenseForm = ({ cancelAction, expenseUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={billValidation}/>
+				<ErrorMessage validation={validations.bill}/>
 				<FormField
 					name='total'
 					inputType='number'
@@ -203,7 +162,7 @@ const ExpenseForm = ({ cancelAction, expenseUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={totalValidation}/>
+				<ErrorMessage validation={validations.total}/>
 				<FormField
 					name='description'
 					inputType='text'
@@ -213,7 +172,7 @@ const ExpenseForm = ({ cancelAction, expenseUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={descriptionValidation}/>
+				<ErrorMessage validation={validations.description}/>
 				<FormField
 					name='departure'
 					inputType='text'
@@ -223,7 +182,7 @@ const ExpenseForm = ({ cancelAction, expenseUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={departureValidation}/>
+				<ErrorMessage validation={validations.departure}/>
 				<div className='modal-footer'>
 					<button
 						type='button'

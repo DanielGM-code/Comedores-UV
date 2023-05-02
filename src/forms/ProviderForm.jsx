@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import FormField from '../components/FormField'
 import { createProviderMutation, CREATE_MUTATION_OPTIONS, updateProviderMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
-import Validator from '../components/Validator'
 import ErrorMessage from '../components/ErrorMessage'
 import ConfirmModal from '../components/ConfirmModal'
+import ValidatorName from '../validations/ValidatorName'
+import ValidatorAddress from '../validations/ValidatorAddress'
+import ValidatorPhone from '../validations/ValidatorPhone'
+import ValidatorRfc from '../validations/ValidatorRfc'
 
 const ProviderForm = ({ cancelAction, providerUpdate}) => {
     const [provider, setProvider] = useState(providerUpdate ?? {
@@ -18,20 +21,20 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
 	const [isShowingModal, setIsShowingModal] = useState(false)
 
     const [validations, setValidations] = useState({
-        name: [],
-        address: [],
-        phone: [],
-        rfc: []
+        name: '',
+        address: '',
+        phone: '',
+        rfc: ''
     })
 
     const validateAll = () => {
         const { name, address, phone, rfc } = provider
         const validations = { name: '', address: '', phone: '', rfc: '' }
 
-        validations.name = validateName(name)
-        validations.address = validateAddress(address)
-        validations.phone = validatePhone(phone)
-        validations.rfc = validateRfc(rfc)
+        validations.name = ValidatorName(name)
+        validations.address = ValidatorAddress(address)
+        validations.phone = ValidatorPhone(phone)
+        validations.rfc = ValidatorRfc(rfc)
 
         const validationMessages = Object.values(validations).filter(
 			(validationMessage) => validationMessage.length > 0
@@ -50,49 +53,12 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
         const value = provider[name]
         let message = ''
 
-        if(name ===  'name') message = validateName(value)
-        if(name === 'address') message = validateAddress(value)
-        if(name === 'phone') message = validatePhone(value)
-        if(name === 'rfc') message = validateRfc(value)
+        if(name ===  'name') message = ValidatorName(value)
+        if(name === 'address') message = ValidatorAddress(value)
+        if(name === 'phone') message = ValidatorPhone(value)
+        if(name === 'rfc') message = ValidatorRfc(value)
 
         setValidations({ ...validations, [name]: [message] })
-    }
-
-    const validateName = (name) => {
-        let validatorName = Validator(name)
-
-        if((validatorName.isEmpty())) return 'Nombre requerido'
-        if(!validatorName.isCorrectLength(4, 101)) return 'El nombre debe contener entre 5 y 100 caracteres'
-        return ''
-    }
-
-    const validateAddress = (address) => {
-        let validatorAddress = Validator(address)
-
-        if(validatorAddress.isEmpty()) return 'Dirección requerida'
-        if(!validatorAddress.isCorrectLength(4, 101)) return 'La dirección debe contener entre 5 y 100 caracteres'
-        return ''
-    }
-
-    const validatePhone = (phone) => {
-        const validatorPhone = Validator(phone)
-
-        if(validatorPhone.isEmpty()) return 'Teléfono requerido'
-        if(!validatorPhone.isCorrectPhoneDigits()) return 'El teléfono debe contener 10 dígitos'
-        if(!validatorPhone.isCorrectPhoneFormat()) return 'El teléfono debe tener un formato válido'
-        return ''
-    }
-
-    const validateRfc = (rfc) => {
-        const validatorRfc = Validator(rfc)
-
-        if(validatorRfc.isEmpty()) return 'RFC requerido'
-        if(!validatorRfc.isCorrectRfcName()) return 'El RFC debe contener 3 letras mayúsculas iniciales'
-        if(!validatorRfc.isCorrectRfcDate()) return 'El RFC debe tener una fecha válida. Consulte "Ayuda" para más información'
-        if(!validatorRfc.isCorrectRfcHomoclaveFirstLetter()) return 'El primer carácter de la homoclave debe ser una letra o un dígito. Consulte "Ayuda" para más información'
-        if(!validatorRfc.isCorrectRfcHomoclaveSecondLetter()) return 'El segundo carácter de la homoclave debe ser una una letra o un dígito. Consulte "Ayuda" para más información'
-        if(!validatorRfc.isCorrectRfcValidatorDigit()) return 'El dígito verificador debe ser la letra A o un dígito. Consulte "Ayuda" para más información'
-        return ''
     }
 
     const queryClient = useQueryClient()
@@ -138,13 +104,6 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
         setIsShowingModal(true)
     }
 
-    const {
-        name: nameValidation,
-        address: addressValidation,
-        phone: phoneValidation,
-        rfc: rfcValidation
-    } = validations
-
     return (
         <>
             <form>
@@ -157,7 +116,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                     onChange={handleInputChange}
                     onBlur={validateOne}
                 />
-                <ErrorMessage validation={nameValidation}/>
+                <ErrorMessage validation={validations.name}/>
                 <FormField
                     name='address'
                     inputType='text'
@@ -167,7 +126,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                     onChange={handleInputChange}
                     onBlur={validateOne}
                 />
-                <ErrorMessage validation={addressValidation}/>
+                <ErrorMessage validation={validations.address}/>
                 <FormField
                     name='phone'
                     inputType='text'
@@ -177,7 +136,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                     onChange={handleInputChange}
                     onBlur={validateOne}
                 />
-                <ErrorMessage validation={phoneValidation}/>
+                <ErrorMessage validation={validations.phone}/>
                 <FormField
                     name='rfc'
                     inputType='text'
@@ -187,7 +146,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                     onChange={handleInputChange}
                     onBlur={validateOne}
                 />
-                <ErrorMessage validation={rfcValidation}/>
+                <ErrorMessage validation={validations.rfc}/>
                 <div className='modal-footer'>
                     <button
                         type='button'

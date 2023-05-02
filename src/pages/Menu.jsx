@@ -6,108 +6,124 @@ import { QUERY_OPTIONS } from '../utils/useQuery'
 import '../css/menu.css'
 import '../utils/formatting'
 import FormField from '../components/FormField'
-import TextInput from 'react-autocomplete-input'
 import PrintButton from '../components/PrintButton'
 import { readAllScholarships } from '../data-access/scholarshipsDataAccess'
 import { useMutation, useQueryClient } from 'react-query'
-import { createExpenseMutation, CREATE_MUTATION_OPTIONS } from '../utils/mutations'
-import { readAllExpenses } from '../data-access/expensesDataAccess'
+import { createIncomeMutation, CREATE_MUTATION_OPTIONS } from '../utils/mutations'
+import AutocompleteField from '../components/AutocompleteField'
+import ValidatorScholarshipId from '../validations/ValidatorScholarshipId'
+import ValidatorNote from '../validations/ValidatorNote'
+import ValidatorTotal from '../validations/ValidatorTotal'
+import ValidatorName from '../validations/ValidatorName'
+import ErrorMessage from '../components/ErrorMessage'
 
 const Menu = () => {
 	const [selectedCategory, setSelectedCategory] = useState('Alimentos')
 	const [order, setOrder] = useState([])
+	const [orderDetails, setOrderDetails] = useState({
+		name: '',
+		scholarshipName: '',
+		printTicket: false,
+		isScholarship: false
+	})
+	const [income, setIncome] = useState({
+		user_id: null,
+		scholarship_id: null,
+		date: new Date().formatted(),
+		note: '',
+		total: 0
+	})
+	const [income_details, setIncomeDetails] = useState([{
+		income_id: null,
+		product_id: null,
+		quantity: 0,
+		price: 0,
+	}])
+	const [validations, setValidations] = useState({
+		name: '',
+		order: '',
+		scholarship: '',
+		note: '',
+		total: '',
+		product: '',
+		stock: '',
+		income: ''
+	})
+
 	const { data: products, isLoading } = useQuery({
 		...QUERY_OPTIONS,
 		queryKey: 'products',
-		queryFn: readAllProducts,
+		queryFn: readAllProducts
 	})
-
 	const { data: scholarships } = useQuery({
 		...QUERY_OPTIONS,
 		queryKey: 'scholarships',
-		queryFn: readAllScholarships,
+		queryFn: readAllScholarships
 	})
-
-	const [orderDetails, setOrderDetails] = useState({
-		nombre: '',
-		notas: '',
-		imprimirTicket: false,
-		esBecario: false,
-		nombreBecario: '',
-	})
-
-	const [expense, setExpense] = useState({
-		concepto: '',
-		monto: '',
-		referencia: '',
-		fecha: new Date().formatted()
-	})
-
 	const queryClient = useQueryClient()
-	const { data: expenses } = useQuery({
-		...QUERY_OPTIONS,
-		queryKey: 'expenses',
-		queryFn: readAllExpenses,
-	})
-	const createMutation = useMutation(createExpenseMutation, {
+	const createMutation = useMutation(createIncomeMutation, {
 		...CREATE_MUTATION_OPTIONS,
 		onSettled: async () => {
-			queryClient.resetQueries('expenses')
+			queryClient.resetQueries('incomes')
 		}
 	})
 
 	const scholarshipsNames = useMemo(() => {
 		return scholarships ? scholarships.map((scholarship) => {
-			return `${scholarship.first_name} ${scholarship.last_name}`
+			return {
+				id: scholarship.id, 
+				label: `${scholarship.first_name} ${scholarship.last_name}`
+			}
 		}) : []
 	})
-
 	const total = useMemo(() => {
-		return order.reduce((total, actual) => total + (actual.cantidad * actual.producto.precioVenta), 0
+		return order.reduce((total, current) => total + (current.amount * current.product.sale_price), 0
 		)
 	}, [order])
-
 	const filteredProducts = useMemo(() => {
-		return products ? products.filter(product => product.tipo === selectedCategory) : []
+		return products ? products.filter(product => product.product_type === selectedCategory) : []
 	}, [products, selectedCategory])
 
 	function onTabElementClicked(event) {
 		setSelectedCategory(event.target.innerHTML)
 	}
 
-	function addToOrder(producto) {
-		let found = order.find(orderItem => orderItem.producto.id === producto.id)
+	function addToOrder(product) {
+		if(product.stock < 1) return
+		let found = order.find(orderItem => orderItem.product.id === product.id)
 		if (!found) {
 			setOrder(prevOrder => {
 				return [
 					...prevOrder,
 					{
-						producto: producto,
-						cantidad: 1
+						product: product,
+						amount: 1
 					}
 				]
 			})
 			return
 		}
+		let rest = product.stock - found.amount
+		if(rest < 1) return
 		setOrder(prevOrder => {
 			let newOrder = prevOrder.filter(orderItem => orderItem !== found)
 			newOrder.push({
 				...found,
-				cantidad: found.cantidad + 1
+				amount: found.amount + 1
 			})
 			return newOrder
 		})
 	}
 
-	function removeFromOrder(producto) {
-		let found = order.find(orderItem => orderItem.producto.id === producto.id)
+	function removeFromOrder(product) {
+		let found = order.find(orderItem => orderItem.product.id === product.id)
 		if (!found) return
 		setOrder(prevOrder => {
 			let newOrder = prevOrder.filter(orderItem => orderItem !== found)
-			if (found.cantidad > 1) {
+			if (found.amount > 1) {
 				newOrder.push({
 					...found,
-					cantidad: found.cantidad - 1
+					amount: found.amount - 1
 				})
 			}
 			return newOrder
@@ -115,51 +131,73 @@ const Menu = () => {
 	}
 
 	function countProduct(product) {
-		let found = order.find(orderItem => orderItem.producto.id === product.id)
+		let found = order.find(orderItem => orderItem.product.id === product.id)
 		if (!found) return 0
-		return found.cantidad
+		return found.amount
+	}
+
+	const validateAll = () => {
+		const { scholarship_id, note, total } = income
+		const { quantity } = income_details
+		const { name } = orderDetails
+		const validations = { name: '', order: '', scholarship: '',
+			note: '', total: '', product: '', stock: '', income: '' 
+		}
+		if(order.length < 1) return false
+
+		validations.scholarship = ValidatorScholarshipId(scholarship_id, scholarships)
+		validations.note = ValidatorNote(note)
+		validations.total = ValidatorTotal(total)
+		validations.name = ValidatorName(name)
+
+		const validationMessages = Object.values(validations).filter(
+			(validationMessage) => validationMessage.length > 0
+		)
+		let isValid = !validationMessages.length
+		console.log(isValid)
+
+		if(!isValid){
+			setValidations(validations)
+		}
+
+		return isValid
 	}
 
 	function handleInputChange(event) {
-		setOrderDetails(prevOrderDetails => {
+		setIncome(prevIncome => {
 			return {
-				...prevOrderDetails,
+				...prevIncome,
 				[event.target.name]: event.target.value
 			}
 		})
 	}
 
-	function resetOrder(){
-		setOrder([])
-		setOrderDetails({
-			nombre: '',
-			notas: '',
-			imprimirTicket: false,
-			esBecario: false,
-			nombreBecario: ''})
-	}
-
 	async function sellProduct(){
 
-		if(order.length > 0){
-			order.forEach((orderItem) => expense.concepto += orderItem.product.nombre + "; ")
-		}
-
-		let ultReference = expenses[expenses.length - 1].referencia
-		if(ultReference == null || ultReference === ""){
-			ultReference = 1
-		}else{
-			ultReference += 1;
-		}
-		setExpense(prevExpense => {
+		setIncome(prevIncome => {
 			return {
-				...prevExpense,
-				referencia: ultReference
+				...prevIncome,
+				total: total
 			}
 		})
+
+		const isValid = validateAll()
+		if(!isValid) return false
+
+		//await createMutation.mutateAsync(income)
+		//createMutation.reset()
+
 		
-		await createMutation.mutateAsync(expense)
-		createMutation.reset()
+
+		setIncomeDetails(prevIncomeDetails => {
+			return {
+				...prevIncomeDetails,
+				quantity: order.amount
+			}
+		})
+
+		console.log(income)
+		console.log(income_details)
 	}
 
 	return (
@@ -183,8 +221,8 @@ const Menu = () => {
 								<div key={product.id} className='menu-item'>
 									<img className='menu-item-image' src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Empanadas_de_Queso.jpg" alt="empanadas" />
 									<div className='menu-item-content'>
-										<p className='menu-item-nombre'>{product.nombre}</p>
-										<p className='menu-item-precio'>${product.precioVenta}</p>
+										<p className='menu-item-nombre'>{product.name}</p>
+										<p className='menu-item-precio'>${product.sale_price}</p>
 										<p className='menu-item-stock'>Existencia: {product.stock}</p>
 									</div>
 									<div className='stepper-container'>
@@ -222,10 +260,10 @@ const Menu = () => {
 								<tbody>
 									{order.map(orderItem => {
 										return (
-											<tr key={orderItem.producto.id}>
-												<td>{orderItem.cantidad}</td>
-												<td>{orderItem.producto.nombre}</td>
-												<td>${(orderItem.producto.precioVenta * orderItem.cantidad).priceFormat()}</td>
+											<tr key={orderItem.product.id}>
+												<td>{orderItem.amount}</td>
+												<td>{orderItem.product.name}</td>
+												<td>${(orderItem.product.sale_price * orderItem.amount).priceFormat()}</td>
 											</tr>
 										)
 									})}
@@ -244,11 +282,11 @@ const Menu = () => {
 					<div className='ticket-toggle'>
 						<label className="form-check-label" >Imprimir ticket</label>
 						<label className="switch">
-							<input type="checkbox" checked={orderDetails.imprimirTicket} onChange={() => {
+							<input type="checkbox" checked={orderDetails.printTicket} onChange={() => {
 								setOrderDetails(prevOrderDetails => {
 									return {
 										...prevOrderDetails,
-										imprimirTicket: !prevOrderDetails.imprimirTicket
+										printTicket: !prevOrderDetails.printTicket
 									}
 								})
 							}} />
@@ -258,11 +296,18 @@ const Menu = () => {
 					<div className='ticket-toggle'>
 						<label className="form-check-label" >Es Becario</label>
 						<label className="switch">
-							<input type="checkbox" checked={orderDetails.esBecario} onChange={() => {
+							<input type="checkbox" checked={orderDetails.isScholarship} onChange={() => {
 								setOrderDetails(prevOrderDetails => {
 									return {
 										...prevOrderDetails,
-										esBecario: !prevOrderDetails.esBecario
+										isScholarship: !prevOrderDetails.isScholarship,
+										name: ''
+									}
+								})
+								setIncome(prevIncome => {
+									return {
+										...prevIncome,
+										scholarship_id: null
 									}
 								})
 							}} />
@@ -270,59 +315,91 @@ const Menu = () => {
 						</label>
 					</div>
 
-					{orderDetails.esBecario ?
-						<TextInput
-							rows={1}
-							className='becario-input'
-							placeholder='Nombre del becario'
-							trigger={['']}
-							options={scholarshipsNames}
-							value={orderDetails.nombreBecario}
-							onChange={(value) => {
-								setOrderDetails(prevOrderDetails => {
-									return {
-										...prevOrderDetails,
-										nombreBecario: value
-									}
-								})
-							}}
-						/>
+					{orderDetails.isScholarship ?
+						<>
+							<AutocompleteField
+								name='scholarship_id'
+								iconClasses='fa-solid fa-user'
+								className='becario-input'
+								placeholder='Nombre del becario'
+								options={scholarshipsNames}
+								onChange={(selectedScholarship) => {
+									setOrderDetails(prevOrderDetails => {
+										return {
+											...prevOrderDetails,
+											scholarshipName: selectedScholarship.label
+										}
+									})
+									setIncome(prevIncome => {
+										return {
+											...prevIncome,
+											scholarship_id: selectedScholarship.id
+										}
+									})
+								}}
+							/>
+							<ErrorMessage validation={validations.scholarship}/>
+						</>
 						:
-						<FormField
-							name='nombre'
-							inputType='text'
-							iconClasses='fa-solid fa-user'
-							placeholder='Nombre'
-							value={orderDetails.nombre}
-							onChange={handleInputChange}
-						/>
+						<>
+							<FormField
+								name='name'
+								inputType='text'
+								iconClasses='fa-solid fa-user'
+								placeholder='Nombre'
+								value={orderDetails.name}
+								onChange={(event) => {
+									setOrderDetails(prevOrderDetails => {
+										return {
+											...prevOrderDetails,
+											name: event.target.value
+										}
+									})
+								}}
+							/>
+							<ErrorMessage validation={validations.name}/>
+						</>
 					}
 
 
 
 
 					<textarea
-						name="notas"
+						name="note"
 						cols="30"
 						rows="5"
 						placeholder='Notas'
-						value={orderDetails.notas}
+						value={income.note}
 						onChange={handleInputChange}
 					></textarea>
-
+					<ErrorMessage validation={validations.note}/>
 					<div className='modal-footer'>
 						<button
 							type='button'
 							className='btn btn-danger'
 							onClick={() => {
-								resetOrder()
+								setOrder([])
+								setOrderDetails({
+									name: '',
+									scholarshipName: '',
+									printTicket: false,
+									isScholarship: false})
+								setIncome((prevIncome) => {
+									return {
+										...prevIncome,
+										scholarship_id: null,
+										total: 0,
+										note: ''
+									}
+								})
 							}}
 						>
 							Cancelar
 						</button>
 						<PrintButton
-							 order={order} 
+							order={order} 
 							orderDetails={orderDetails} 
+							onClick={sellProduct}
 						/>
 					</div>
 				</div>

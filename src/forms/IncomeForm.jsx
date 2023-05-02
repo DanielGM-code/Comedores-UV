@@ -1,36 +1,42 @@
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import ErrorMessage from '../components/ErrorMessage'
-import Validator from '../components/Validator'
 import FormField from '../components/FormField'
 import { createIncomeMutation, CREATE_MUTATION_OPTIONS, updateIncomeMutation } from '../utils/mutations'
 import '../utils/formatting'
 import ConfirmModal from '../components/ConfirmModal'
+import AutocompleteInput from '../components/AutocompleteField'
+import ValidatorScholarshipId from '../validations/ValidatorScholarshipId'
+import ValidatorNote from '../validations/ValidatorNote'
+import ValidatorTotal from '../validations/ValidatorTotal'
 
-const IncomeForm = ({ cancelAction, incomeUpdate }) => {
+const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 	const [income, setIncome] = useState(incomeUpdate ? {
 		...incomeUpdate,
 		date: new Date(incomeUpdate.date).formatted()
 	} : {
+		scholarship_id: null,
+		user_id: null,
 		note: '',
 		total: '',
 		date: new Date().formatted()
 	})
-
 	const [typeModal, setTypeModal] = useState(0)
 	const [isShowingModal, setIsShowingModal] = useState(false)
-
 	const [validations, setValidations] = useState({
-		note: [],
-		total: []
+		scholarship: '',
+		user: '',
+		note: '',
+		total: ''
 	})
 
 	const validateAll = () => {
-		const { note, total } = income
-		const validations = { note: '', total: '' }
+		const { scholarship_id, user_id, note, total } = income
+		const validations = { scholarship: '', user: '', note: '', total: '' }
 
-		validations.note = validateNote(note)
-		validations.total = validateTotal(total)
+		validations.scholarship = ValidatorScholarshipId(scholarship_id, scholarships)
+		validations.note = ValidatorNote(note)
+		validations.total = ValidatorTotal(total)
 
 		const validationMessages = Object.values(validations).filter(
 			(validationMessage) => validationMessage.length > 0
@@ -49,28 +55,10 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 		const value = income[name]
 		let message = ''
 
-		if(name === 'note') message = validateNote(value)
-		if(name === 'total') message = validateTotal(value)
+		if(name === 'note') message = ValidatorNote(value)
+		if(name === 'total') message = ValidatorTotal(value)
 
 		setValidations({ ...validations, [name]: [message] })
-	}
-
-	const validateNote = (note) => {
-		const validatorNote = Validator(note)
-
-		if(validatorNote.isEmpty()) return 'Concepto requerido'
-		if(!validatorNote.isCorrectLength(4, 201)) return 'El concepto debe contener entre 5 y 200 caracteres'
-		return ''
-	}
-
-	const validateTotal = (total) => {
-		const validatorTotal = Validator(total)
-
-		if(validatorTotal.isEmpty()) return 'Total requerido'
-		if(validatorTotal.isOutOfMinQuantityRange(0)) return 'El total no debe ser menor a cero'
-		if(!validatorTotal.isInOfDecimalRange()) return 'El total debe tener máximo 2 decimales'
-		if(validatorTotal.isOutOfMaxQuantityRange(99999999)) return 'El total debe ser menor a 1,000,000.00'
-		return ''
 	}
 
 	const queryClient = useQueryClient()
@@ -80,7 +68,6 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 			queryClient.resetQueries('incomes')
 		}
 	})
-
 	const updateMutation = useMutation(updateIncomeMutation, {
 		...CREATE_MUTATION_OPTIONS,
 		onSettled: async () => {
@@ -116,13 +103,29 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 		setIsShowingModal(true)
 	}
 
-	const { note: noteValidation, 
-		total: totalValidation
-	} = validations
-
 	return (
 		<>
 			<form>
+				<AutocompleteInput
+					name='scholarship_id'
+					iconClasses='fa-solid fa-industry'
+					options={scholarships}
+					selectedOption={() => {
+						return scholarships.find(scholarship => scholarship.id === income.scholarship_id)
+					}}
+					placeholder='Nombre del becado'
+					searchable={true}
+					onChange={(selectedScholarship) => {
+						setIncome(prevIncome => {
+							return {
+								...prevIncome,
+								scholarship_id: selectedScholarship.id
+							}
+						})
+					}}
+					clearable={false}
+				/>
+				<ErrorMessage validation={validations.scholarship}/>
 				<FormField
 					name='note'
 					inputType='text'
@@ -132,7 +135,7 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={noteValidation}/>
+				<ErrorMessage validation={validations.note}/>
 				<FormField
 					name='total'
 					inputType='number'
@@ -142,7 +145,7 @@ const IncomeForm = ({ cancelAction, incomeUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={totalValidation}/>
+				<ErrorMessage validation={validations.total}/>
 				<div className='modal-footer'>
 					<button
 						type='button'

@@ -108,6 +108,7 @@ const Users = () => {
 						setIsShowingModal(false)
 					}}
 					userUpdate={selectedUser}
+					users={users}
 				/>
 			</Modal>
 

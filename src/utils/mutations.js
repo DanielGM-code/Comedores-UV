@@ -5,6 +5,7 @@ import { createExpense, deleteExpense, updateExpense } from "../data-access/expe
 import { createProduct, deleteProduct, updateProduct } from "../data-access/productsDataAccess"
 import { createUser, deleteUser, updateUser } from "../data-access/usersDataAccess"
 import { createProvider, deleteProvider, updateProvider } from "../data-access/providersDataAccess"
+import { createDetailsExpense, deleteDetailsExpense, updateDetailsExpense } from "../data-access/detailsExpenseDataAccess"
 
 export const CREATE_MUTATION_OPTIONS = {
 	onMutate: async () => {
@@ -73,6 +74,19 @@ export const updateExpenseMutation = (expense) => {
 
 export const deleteExpenseMutation = (id) => {
 	deleteExpense(id)
+}
+
+//Details expense Mutations
+export const createDetailsExpenseMutation = (details_expense) => {
+	createDetailsExpense(details_expense)
+}
+
+export const updateDetailsExpenseMutation = (details_expense) => {
+	updateDetailsExpense(details_expense)
+}
+
+export const deleteDetailsExpenseMutation = (id) => {
+	deleteDetailsExpense(id)
 }
 
 // User Mutations

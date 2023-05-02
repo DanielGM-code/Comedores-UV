@@ -2,7 +2,7 @@
   "expenses": [
     {
       "id": 1,
-      "provider_id": 1,
+      "provider_id": 5,
       "date": "2023-03-01",
       "description": "Compra de chiles",
       "total": 12.23,
@@ -11,12 +11,30 @@
     },
     {
       "id": 2,
-      "provider_id": 8,
+      "provider_id": 4,
       "date": "2023-03-04",
       "description": "Compra de detergentes",
       "total": 23.5,
       "bill": "235687",
       "departure": "Producto de limpieza"
+    },
+    {
+      "provider_id": 6,
+      "date": "2023-04-26",
+      "description": "1",
+      "total": "34.839",
+      "bill": "aSSD",
+      "departure": "iij",
+      "id": 3
+    },
+    {
+      "provider_id": 2,
+      "date": "2023-04-26",
+      "description": ",xlmkxz",
+      "total": "45",
+      "bill": "ksdk",
+      "departure": "skldmk",
+      "id": 4
     }
   ],
   "expense_details": [
@@ -75,16 +93,16 @@
   "incomes": [
     {
       "id": 3,
-      "user_id":4,
-      "scholarship_id":2,
+      "user_id": 4,
+      "scholarship_id": 4,
       "total": 4.55,
       "note": "venenatis tristique fusce congue diam id ornare imperdiet sapien urna pretium nisl",
       "date": "3/3/2023"
     },
     {
       "id": 4,
-      "user_id":5,
-      "scholarship_id":6,
+      "user_id": 5,
+      "scholarship_id": 6,
       "total": 9.1,
       "note": "commodo placerat praesent blandit nam nulla integer pede justo lacinia eget tincidunt eget tempus vel pede morbi porttitor lorem",
       "date": "3/3/2023"
@@ -292,42 +310,42 @@
   ],
   "providers": [
     {
-      "id": 4,
+      "id": 1,
       "name": "Santorini",
       "address": "Río Molares 12",
       "phone": "2283341786",
       "rfc": "MART895621SCD"
     },
     {
-      "id": 5,
+      "id": 2,
       "name": "Chedraui",
       "address": "Río Molares 12",
       "phone": "2283341786",
       "rfc": "MART895621SCD"
     },
     {
-      "id": 6,
+      "id": 3,
       "name": "La paz",
       "address": "Río Molares 12",
       "phone": "2283341786",
       "rfc": "MART895621SCD"
     },
     {
-      "id": 8,
+      "id": 4,
       "name": "Moleros",
       "address": "Río Molares 12",
       "phone": "2283341786",
       "rfc": "MART895621SCD"
     },
     {
-      "id": 9,
+      "id": 5,
       "name": "Bola de Oro",
       "address": "Río Molares 12",
       "phone": "2283341786",
       "rfc": "MART895621SCD"
     },
     {
-      "id": 10,
+      "id": 6,
       "name": "Bodega Aurrera",
       "address": "Río Molares 12",
       "phone": "2283341786",

@@ -90,3 +90,4 @@ class _0x4d9d0d{
     }return _0x4d9d0d;
 })());
 
+export default connetor_plugin

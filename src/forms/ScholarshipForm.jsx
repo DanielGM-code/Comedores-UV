@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import FormField from '../components/FormField'
-import Validator from '../components/Validator'
 import ErrorMessage from '../components/ErrorMessage'
 import DateField from '../components/DateField'
 import { createScholarshipMutation, CREATE_MUTATION_OPTIONS, updateScholarshipMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import '../utils/formatting'
 import ConfirmModal from '../components/ConfirmModal'
+import ValidatorFirstName from '../validations/ValidatorFirstame'
+import ValidatorLastName from '../validations/ValidatorLastName'
+import ValidatorCareer from '../validations/ValidatorCareer'
+import ValidatorStartDate from '../validations/ValidatorStartDate'
+import ValidatorEndDate from '../validations/ValidatorEndDate'
 
 const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 	const [scholarship, setScholarship] = useState(scholarshipUpdate ? {
@@ -14,10 +18,10 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 		start_date: new Date(scholarshipUpdate.start_date).formatted(),
 		end_date: new Date(scholarshipUpdate.end_date).formatted(),
 	} : {
-		user_id: '',
+		user_id: null,
 		first_name: '',
 		last_name: '',
-		paid_meals: 0,
+		paid_meals: '',
 		career: '',
 		start_date: new Date().formatted(),
 		end_date: new Date().formatted()
@@ -27,22 +31,22 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 	const [isShowingModal, setIsShowingModal] = useState(false)
 
 	const [validations, setValidations] = useState({
-		first_name: [],
-		last_name: [],
-		career: [],
-		start_date: [],
-		end_date: []
+		first_name: '',
+		last_name: '',
+		career: '',
+		start_date: '',
+		end_date: ''
 	})
 
 	const validateAll = () => {
 		const { first_name, last_name, career, start_date, end_date } = scholarship
 		const validations = { first_name: '', last_name: '', career: '', start_date: '', end_date: '' }
 
-		validations.first_name = validateFirstName(first_name)
-		validations.last_name = validateLastName(last_name)
-		validations.career = validateCareer(career)
-		validations.start_date = validateStartDate(start_date, end_date)
-		validations.end_date = validateEndDate(end_date, start_date)
+		validations.first_name = ValidatorFirstName(first_name)
+		validations.last_name = ValidatorLastName(last_name)
+		validations.career = ValidatorCareer(career)
+		validations.start_date = ValidatorStartDate(start_date, end_date)
+		validations.end_date = ValidatorEndDate(end_date, start_date)
 
 		const validationMessages = Object.values(validations).filter(
 			(validationMessage) => validationMessage.length > 0
@@ -61,53 +65,13 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 		const value = scholarship[name]
 		let message = ''
 
-		if(name === 'first_name') message = validateFirstName(value)
-		if(name === 'last_name') message = validateLastName(value)
-		if(name === 'career') message = validateCareer(value)
-		if(name === 'start_date') message = validateStartDate(value)
-		if(name === 'end_date') message = validateEndDate(value)
+		if(name === 'first_name') message = ValidatorFirstName(value)
+		if(name === 'last_name') message = ValidatorLastName(value)
+		if(name === 'career') message = ValidatorCareer(value)
+		if(name === 'start_date') message = ValidatorStartDate(value)
+		if(name === 'end_date') message = ValidatorEndDate(value)
 
 		setValidations({ ...validations, [name]: [message] })
-	}
-
-	const validateFirstName = (first_name) => {
-		const validatorFirstName = Validator(first_name)
-
-		if(validatorFirstName.isEmpty()) return 'Nombre requerido'
-		if(!validatorFirstName.isCorrectLength(2, 51)) return 'El nombre debe contener entre 3 y 50 caracteres'
-		return ''
-	}
-
-	const validateLastName = (last_name) => {
-		const validatorLastName = Validator(last_name)
-
-		if(validatorLastName.isEmpty()) return 'Apellido requerido'
-		if(!validatorLastName.isCorrectLength(2, 51)) return 'El apellido deb contener entre 3 y 50 caracteres'
-		return ''
-	}
-
-	const validateCareer = (career) => {
-		const validatorCareer = Validator(career)
-
-		if(validatorCareer.isEmpty()) return 'Carrera requerida'
-		if(validatorCareer.isCorrectLength(9, 101)) return 'La carrera debe contener entre 10 y 100 caracteres'
-		return ''
-	}
-
-	const validateStartDate = (start_date, end_date) => {
-		const validatorDate = Validator(start_date)
-
-		if(validatorDate.isEmpty()) return 'Fecha de inicio requerida'
-		if(validatorDate.isOutOfMaxDateRange(end_date)) return 'La fecha de inicio debe ser menor a la fecha de fin'
-		return ''
-	}
-
-	const validateEndDate = (end_date, start_date) => {
-		const validatorDate = Validator(end_date)
-
-		if(validatorDate.isEmpty()) return 'Fecha de fin requerida'
-		if(validatorDate.isOutOfMinDateRange(start_date)) return 'La fecha de fin debe ser mayor a la fecha de inicio'
-		return ''
 	}
 
 	const queryClient = useQueryClient()
@@ -153,13 +117,6 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 		setIsShowingModal(true)
 	}
 
-	const { first_name: firstNameValidation, 
-		last_name: lastNameValidation,
-		career: careerValidation,
-		start_date: startDateValidation,
-		end_date: endDateValidation
-	} = validations
-
 	const today1 = new Date()
 	today1.setFullYear(today1.getFullYear() - 1)
 	const min = today1.formatted()
@@ -179,7 +136,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={firstNameValidation}/>
+				<ErrorMessage validation={validations.first_name}/>
 				<FormField
 					name='last_name'
 					inputType='text'
@@ -189,7 +146,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={lastNameValidation}/>
+				<ErrorMessage validation={validations.last_name}/>
 				<FormField
 					name='career'
 					inputType='text'
@@ -199,7 +156,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={careerValidation}/>
+				<ErrorMessage validation={validations.career}/>
 				Fecha de inicio:
 				<DateField
 					name='start_date'
@@ -212,7 +169,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={startDateValidation}/>
+				<ErrorMessage validation={validations.start_date}/>
 				Fecha de fin:
 				<DateField
 					name='end_date'
@@ -225,7 +182,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={endDateValidation}/>
+				<ErrorMessage validation={validations.end_date}/>
 				<div className='modal-footer'>
 					<button
 						type='button'
