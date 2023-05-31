@@ -6,11 +6,11 @@ import DateField from '../components/DateField'
 import { createScholarshipMutation, CREATE_MUTATION_OPTIONS, updateScholarshipMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import '../utils/formatting'
 import ConfirmModal from '../components/ConfirmModal'
-import ValidatorFirstName from '../validations/ValidatorFirstame'
 import ValidatorLastName from '../validations/ValidatorLastName'
 import ValidatorCareer from '../validations/ValidatorCareer'
 import ValidatorStartDate from '../validations/ValidatorStartDate'
 import ValidatorEndDate from '../validations/ValidatorEndDate'
+import ValidatorName from '../validations/ValidatorName'
 
 const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 	const [scholarship, setScholarship] = useState(scholarshipUpdate ? {
@@ -42,7 +42,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 		const { first_name, last_name, career, start_date, end_date } = scholarship
 		const validations = { first_name: '', last_name: '', career: '', start_date: '', end_date: '' }
 
-		validations.first_name = ValidatorFirstName(first_name)
+		validations.first_name = ValidatorName(first_name)
 		validations.last_name = ValidatorLastName(last_name)
 		validations.career = ValidatorCareer(career)
 		validations.start_date = ValidatorStartDate(start_date, end_date)
@@ -65,7 +65,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 		const value = scholarship[name]
 		let message = ''
 
-		if(name === 'first_name') message = ValidatorFirstName(value)
+		if(name === 'first_name') message = ValidatorName(value)
 		if(name === 'last_name') message = ValidatorLastName(value)
 		if(name === 'career') message = ValidatorCareer(value)
 		if(name === 'start_date') message = ValidatorStartDate(value)

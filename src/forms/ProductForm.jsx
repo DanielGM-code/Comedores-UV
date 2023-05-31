@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import FormField from '../components/FormField'
-import ComboBox from '../components/ComboBox'
 import { createProductMutation, CREATE_MUTATION_OPTIONS, updateProductMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import ErrorMessage from '../components/ErrorMessage'
 import ConfirmModal from '../components/ConfirmModal'
@@ -9,6 +8,7 @@ import ValidatorName from '../validations/ValidatorName'
 import ValidatorDescription from '../validations/ValidatorDescription'
 import ValidatorPrice from '../validations/ValidatorPrice'
 import ValidatorStock from '../validations/ValidatorStock'
+import ValidatorProductType from '../validations/ValidatorProductType'
 
 const ProductForm = ({ cancelAction, productUpdate }) => {
 	const [product, setProduct] = useState(productUpdate ?? {
@@ -35,8 +35,8 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 	})
 
 	const validateAll = () => {
-		const { name, description, purchase_price, sale_price, preferred_price, stock } = product
-		const validations = { name: '', description: '', purchase_price: '', sale_price: '', preferred_price: '', stock: ''}
+		const { name, description, purchase_price, sale_price, preferred_price, stock, product_type } = product
+		const validations = { name: '', description: '', purchase_price: '', sale_price: '', preferred_price: '', stock: '', product_type: ''}
 
 		validations.name = ValidatorName(name)
 		validations.description = ValidatorDescription(description)
@@ -44,6 +44,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 		validations.preferred_price = ValidatorPrice(preferred_price)
 		validations.sale_price = ValidatorPrice(sale_price)
 		validations.stock = ValidatorStock(stock)
+		validations.product_type = ValidatorProductType(product_type)
 
 		const validationMessages = Object.values(validations).filter(
 			(validationMessage) => validationMessage.length > 0
@@ -68,6 +69,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 		if(name === 'preferred_price') message = ValidatorPrice(value)
 		if(name === 'sale_price') message = ValidatorPrice(value)
 		if(name === 'stock') message = ValidatorStock(value)
+		if(name === 'product_type') message = ValidatorProductType(value)
 
 		setValidations({ ...validations, [name]: [message] })
 	}
@@ -86,12 +88,6 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 			queryClient.resetQueries('products')
 		}
 	})
-
-	const listTypes = [
-		{ label: 'Alimentos', value:'Alimentos' },
-		{ label: 'Dulcería', value:'Dulcería' },
-		{ label: 'Bebidas', value:'Bebidas' }
-	]
 
 	function handleInputChange(event) {
 		setProduct(prevProduct => {
@@ -127,7 +123,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 				<FormField
 					name='name'
 					inputType='text'
-					iconClasses='fa-solid fa-i-cursor'
+					iconClasses='fa-brands fa-shopify'
 					placeholder='Nombre del Producto'
 					value={product.name}
 					onChange={handleInputChange}
@@ -136,7 +132,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 				<ErrorMessage validation={validations.name}/>
 				<div className='input-group mb-3'>
 					<span className='input-group-text' id='basic-addon1'>
-						<i className='fa-solid fa-i-cursor'></i>
+						<i className='fa-solid fa-pencil'></i>
 					</span>
 					<textarea 
 						name='description' 
@@ -145,7 +141,8 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 						value={product.description}
 						maxLength={60000} 
 						rows={3}
-						cols={78}
+						cols={77}
+						aria-describedby='basic-addon1'
 						onChange={handleInputChange} 
 						onBlur={validateOne}
 					></textarea>
@@ -184,20 +181,21 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 				<FormField
 					name='stock'
 					inputType='number'
-					iconClasses='fa-solid fa-dollar'
+					iconClasses='fa-solid fa-cart-arrow-down'
 					placeholder='Stock'
 					value={product.stock}
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
 				<ErrorMessage validation={validations.stock}/>
-				Tipo de producto
-				<ComboBox
+				<FormField 
 					name='product_type'
-					iconClasses='fa-solid fa-utensils'
+					inputType='text'
+					iconClasses='fa-solid fa-bowl-food'
+					placeholder='Tipo de Producto'
 					value={product.product_type}
 					onChange={handleInputChange}
-					options={listTypes}
+					onBlur={validateOne}
 				/>
 				<div className='modal-footer'>
 					<button

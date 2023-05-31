@@ -25,8 +25,19 @@ const Scholarships = () => {
 
 	useEffect(() => {
 		document.title = 'ComedorUV - Becarios'
+		$('#tableScholarship tfoot th').each( function (i) {
+            var title = $('#tableScholarship thead th').eq( $(this).index() ).text()
+            $(this).html( '<input type="text" placeholder="'+title+'" data-index="'+i+'" />' )
+        } )
+		$('#tableScholarship #notShow input').prop('hidden', true)
 		const table = $(tableRef.current).DataTable(datatableOptions)
 		table.draw()
+		$( table.table().container() ).on( 'keyup', 'tfoot input', function () {
+            table
+                .column( $(this).data('index') )
+                .search( this.value )
+                .draw()
+        } )
 	}, [scholarships])
 
 	return (
@@ -46,7 +57,7 @@ const Scholarships = () => {
 					</button>
 					<div className='contenedor-tabla'>
 						<h3>Becarios</h3>
-						<table ref={tableRef} className='table table-hover table-borderless'>
+						<table id='tableScholarship' width='100%' ref={tableRef} className='table table-hover table-borderless'>
 							<thead>
 								<tr>
 									<th className='leading-row'>Nombre</th>
@@ -92,6 +103,17 @@ const Scholarships = () => {
 									</tr>
 								)}
 							</tbody>
+							<tfoot>
+								<tr>
+									<th>Nombre</th>
+									<th>Apellido</th>
+									<th>Carrera</th>
+									<th>Menús pagados</th>
+									<th>Fecha de Inicio</th>
+									<th>Fecha de Fin</th>
+									<th id='notShow'>Opciones</th>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 				</>

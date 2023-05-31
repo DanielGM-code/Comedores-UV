@@ -4,7 +4,7 @@ const ValidatorCareer = (career) => {
     const validatorCareer = Validator(career)
 
     if(validatorCareer.isEmpty()) return 'Carrera requerida'
-    if(validatorCareer.isCorrectLength(9, 101)) return 'La carrera debe contener entre 10 y 100 caracteres'
+    if(validatorCareer.isCorrectLength(9, 101)) return 'La carrera debe contener máximo 100 caracteres'
     return ''
 }
 

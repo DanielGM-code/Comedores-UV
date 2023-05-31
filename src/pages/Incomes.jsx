@@ -41,8 +41,19 @@ const Incomes = () => {
 
 	useEffect(() => {
 		document.title = 'ComedorUV - Ingresos'
+		$('#tableIncome tfoot th').each( function (i) {
+            var title = $('#tableIncome thead th').eq( $(this).index() ).text()
+            $(this).html( '<input type="text" placeholder="'+title+'" data-index="'+i+'" />' )
+        } )
+		$('#tableIncome #notShow input').prop('hidden', true)
 		const table = $(tableRef.current).DataTable(datatableOptions)
 		table.draw()
+		$( table.table().container() ).on( 'keyup', 'tfoot input', function () {
+            table
+                .column( $(this).data('index') )
+                .search( this.value )
+                .draw()
+        } )
 	}, [incomes])
 
 	return (
@@ -62,7 +73,7 @@ const Incomes = () => {
 					</button>
 					<div className='contenedor-tabla'>
 						<h3>Ingresos</h3>
-						<table ref={tableRef} className='table table-hover table-borderless'>
+						<table id='tableIncome' width='100%' ref={tableRef} className='table table-hover table-borderless'>
 							<thead>
 								<tr>
 									<th className='leading-row'>Notas</th>
@@ -102,6 +113,14 @@ const Incomes = () => {
 									</tr>
 								)}
 							</tbody>
+							<tfoot>
+								<tr>
+									<th>Notas</th>
+									<th>Total</th>
+									<th>Fecha</th>
+									<th id='notShow'>Opciones</th>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 				</>

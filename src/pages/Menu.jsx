@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import NavigationTitle from '../components/NavigationTitle'
 import { readAllProducts } from '../data-access/productsDataAccess'
@@ -9,13 +9,12 @@ import FormField from '../components/FormField'
 import PrintButton from '../components/PrintButton'
 import { readAllScholarships } from '../data-access/scholarshipsDataAccess'
 import { useMutation, useQueryClient } from 'react-query'
-import { createIncomeMutation, CREATE_MUTATION_OPTIONS } from '../utils/mutations'
+import { createIncomeMutation, CREATE_MUTATION_OPTIONS, createDetailsIncomeMutation } from '../utils/mutations'
 import AutocompleteField from '../components/AutocompleteField'
-import ValidatorScholarshipId from '../validations/ValidatorScholarshipId'
 import ValidatorNote from '../validations/ValidatorNote'
-import ValidatorTotal from '../validations/ValidatorTotal'
-import ValidatorName from '../validations/ValidatorName'
 import ErrorMessage from '../components/ErrorMessage'
+import ValidatorMenuName from '../validations/ValidatorMenuName'
+import ValidatorMenuScholarship from '../validations/ValidatorMenuScholarship'
 
 const Menu = () => {
 	const [selectedCategory, setSelectedCategory] = useState('Alimentos')
@@ -33,20 +32,11 @@ const Menu = () => {
 		note: '',
 		total: 0
 	})
-	const [income_details, setIncomeDetails] = useState([{
-		income_id: null,
-		product_id: null,
-		quantity: 0,
-		price: 0,
-	}])
 	const [validations, setValidations] = useState({
 		name: '',
-		order: '',
 		scholarship: '',
 		note: '',
-		total: '',
 		product: '',
-		stock: '',
 		income: ''
 	})
 
@@ -65,6 +55,12 @@ const Menu = () => {
 		...CREATE_MUTATION_OPTIONS,
 		onSettled: async () => {
 			queryClient.resetQueries('incomes')
+		}
+	})
+	const createDetailsMutation = useMutation(createDetailsIncomeMutation, {
+		...CREATE_MUTATION_OPTIONS,
+		onSettled: async () => {
+			queryClient.resetQueries('details_income')
 		}
 	})
 
@@ -137,30 +133,37 @@ const Menu = () => {
 	}
 
 	const validateAll = () => {
-		const { scholarship_id, note, total } = income
-		const { quantity } = income_details
-		const { name } = orderDetails
-		const validations = { name: '', order: '', scholarship: '',
-			note: '', total: '', product: '', stock: '', income: '' 
+		const { scholarship_id, note } = income
+		const { name, isScholarship } = orderDetails
+		const validations = { name: '', scholarship: '',
+			note: '', product: '', income: '' 
 		}
-		if(order.length < 1) return false
 
-		validations.scholarship = ValidatorScholarshipId(scholarship_id, scholarships)
+		validations.scholarship = ValidatorMenuScholarship(isScholarship, scholarship_id, scholarships)
 		validations.note = ValidatorNote(note)
-		validations.total = ValidatorTotal(total)
-		validations.name = ValidatorName(name)
+		validations.name = ValidatorMenuName(isScholarship, name)
 
 		const validationMessages = Object.values(validations).filter(
 			(validationMessage) => validationMessage.length > 0
 		)
 		let isValid = !validationMessages.length
-		console.log(isValid)
 
 		if(!isValid){
 			setValidations(validations)
 		}
+		if(order.length < 1) return false
 
 		return isValid
+	}
+
+	const validateOne = (e) => {
+		const { name } = e.target
+		let message = ''
+
+		if(name === 'name') message = ValidatorMenuName(orderDetails.isScholarship, orderDetails[name])
+		if(name === 'note') message = ValidatorNote(income[name])
+
+		setValidations({ ...validations, [name]: [message]})
 	}
 
 	function handleInputChange(event) {
@@ -173,31 +176,37 @@ const Menu = () => {
 	}
 
 	async function sellProduct(){
-
 		setIncome(prevIncome => {
 			return {
 				...prevIncome,
 				total: total
 			}
 		})
+		let newIncome = {
+			user_id: income.user_id,
+			scholarship_id: income.scholarship_id,
+			date: income.date,
+			note: income.note,
+			total: total
+		}
 
 		const isValid = validateAll()
 		if(!isValid) return false
 
-		//await createMutation.mutateAsync(income)
-		//createMutation.reset()
+		await createMutation.mutateAsync(newIncome)
+		createMutation.reset()
 
-		
-
-		setIncomeDetails(prevIncomeDetails => {
+		let income_details = order.map(orderItem => {
 			return {
-				...prevIncomeDetails,
-				quantity: order.amount
+				income_id: null,
+				quantity: orderItem.amount,
+				price: orderItem.product.sale_price,
+				product_id: orderItem.product.id
 			}
 		})
 
-		console.log(income)
-		console.log(income_details)
+		income_details.forEach(async details => await createDetailsMutation.mutateAsync(details))
+		createDetailsMutation.reset()
 	}
 
 	return (
@@ -356,6 +365,7 @@ const Menu = () => {
 										}
 									})
 								}}
+								onBlur={validateOne}
 							/>
 							<ErrorMessage validation={validations.name}/>
 						</>
@@ -371,6 +381,7 @@ const Menu = () => {
 						placeholder='Notas'
 						value={income.note}
 						onChange={handleInputChange}
+						onBlur={validateOne}
 					></textarea>
 					<ErrorMessage validation={validations.note}/>
 					<div className='modal-footer'>

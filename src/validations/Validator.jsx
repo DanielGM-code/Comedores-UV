@@ -95,6 +95,10 @@ const Validator = function(value) {
 
             if(valueInteger < minValue) return true
             return false
+        },
+        isOutOfStockRange(minValue, maxValue){
+            if(value < minValue || value > maxValue) return true
+            return false
         }
     }
 }

@@ -6,6 +6,7 @@ import { createProduct, deleteProduct, updateProduct } from "../data-access/prod
 import { createUser, deleteUser, updateUser } from "../data-access/usersDataAccess"
 import { createProvider, deleteProvider, updateProvider } from "../data-access/providersDataAccess"
 import { createDetailsExpense, deleteDetailsExpense, updateDetailsExpense } from "../data-access/detailsExpenseDataAccess"
+import { createDetailsIncome, deleteDetailsIncome, updateDetailsIncome } from "../data-access/detailsIncomeDataAccess"
 
 export const CREATE_MUTATION_OPTIONS = {
 	onMutate: async () => {
@@ -113,6 +114,19 @@ export const updateIncomeMutation = (income) => {
 
 export const deleteIncomeMutation = (id) => {
 	deleteIncome(id)
+}
+
+// Details income Mutations
+export const createDetailsIncomeMutation = (details_income) => {
+	createDetailsIncome(details_income)
+}
+
+export const updateDetailsIncomeMutation = (details_income) => {
+	updateDetailsIncome(details_income)
+}
+
+export const deleteDetailsIncomeMutation = (id) => {
+	deleteDetailsIncome(id)
 }
 
 // Scholarship Mutations

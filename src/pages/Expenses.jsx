@@ -54,8 +54,19 @@ const Expenses = () => {
 
 	useEffect(() => {
 		document.title = 'ComedorUV - Egresos'
+		$('#tableExpense tfoot th').each( function (i) {
+            var title = $('#tableExpense thead th').eq( $(this).index() ).text()
+            $(this).html( '<input type="text" placeholder="'+title+'" data-index="'+i+'" />' )
+        } )
+		$('#tableExpense #notShow input').prop('hidden', true)
 		const table = $(tableRef.current).DataTable(datatableOptions)
 		table.draw()
+		$( table.table().container() ).on( 'keyup', 'tfoot input', function () {
+            table
+                .column( $(this).data('index') )
+                .search( this.value )
+                .draw()
+        } )
 	}, [expenses])
 
 	return (
@@ -75,7 +86,7 @@ const Expenses = () => {
 					</button>
 					<div className='contenedor-tabla'>
 						<h3>Egresos</h3>
-						<table ref={tableRef} className='table table-hover table-borderless'>
+						<table id='tableExpense' width='100%' ref={tableRef} className='table table-hover table-borderless'>
 							<thead>
 								<tr>
 									<th className='leading-row'>Proveedor</th>
@@ -135,6 +146,17 @@ const Expenses = () => {
 									</tr>
 								)}
 							</tbody>
+							<tfoot>
+								<tr>
+									<th>Proveedor</th>
+									<th>Fecha</th>
+									<th>Descripción</th>
+									<th>Total</th>
+									<th>Factura</th>
+									<th>Partida</th>
+									<th id='notShow'>Opciones</th>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 				</>

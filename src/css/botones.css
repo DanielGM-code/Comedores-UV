@@ -74,6 +74,12 @@ Vienen de la biblioteca datatable
 	height: 40px;
 }
 
+.buttons-copy:hover{
+    color: #FFFF !important;
+    background-color: #597fb3 !important;  
+    transition: all 0.4s ease;
+}
+
 .buttons-excel:hover{
     color: #FFFF !important;
     background-color: #107c41 !important;  
@@ -89,6 +95,55 @@ Vienen de la biblioteca datatable
 .buttons-print:hover{
     color: #FFFF !important;
     background-color: #1B59F8 !important;  
+    transition: all 0.4s ease;
+}
+
+
+.btn-visibilidad{
+    background-color: #e8e8e8 !important;
+    color: #2c2c2c !important;
+    border: none !important;
+    padding: 5px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.buttons-colvis:hover{
+    color: #FFFF !important;
+    background-color: rgb(42, 151, 165) !important;
+    transition: all 0.4s ease;
+}
+
+.buttons-colvis[aria-expanded=true]{
+    color: #FFFF !important;
+    background-color: rgb(42, 151, 165) !important;
+    transition: all 0.4s ease;
+}
+
+.buttons-columnVisibility{
+    background-color: #e8e8e8;
+    color: #2c2c2c;
+    border: none;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.buttons-columnVisibility:hover,
+.buttons-columnVisibility.active:hover{
+    color: #FFFF !important;
+    background-color: rgb(168, 46, 115) !important;
+    transition: all 0.4s ease;
+}
+
+.buttons-columnVisibility.active{
+    color: #FFFF !important;
+    background-color: rgb(42, 168, 124) !important;
+    transition: all 0.4s ease;
+}
+
+.buttons-colvisRestore:hover{
+    color: #FFFF !important;
+    background-color: brown !important;
     transition: all 0.4s ease;
 }
 

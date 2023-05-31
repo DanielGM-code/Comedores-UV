@@ -1,22 +1,17 @@
 import { useEffect, useRef, useState } from "react"
-import Validator from "../validations/Validator"
-import FormField from "../components/FormField"
-import ErrorMessage from "../components/ErrorMessage"
-import ConfirmModal from "../components/ConfirmModal"
+import { Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { CREATE_MUTATION_OPTIONS, createDetailsExpenseMutation, updateDetailsExpenseMutation } from "../utils/mutations"
-import { useMemo } from "react"
 import AutocompleteField from "../components/AutocompleteField"
 import ValidatorPrice from '../validations/ValidatorPrice'
-import { datatableOptions } from "../utils/datatables"
-import $ from 'jquery'
+import Validator from "../validations/Validator"
+import { useMemo } from "react"
 import { QUERY_OPTIONS } from "../utils/useQuery"
 import { readAllProducts } from "../data-access/productsDataAccess"
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material"
 
-const DetailsExpenseForm = ({ cancelAction, expenseDetails }) => {
+const DetailsExpenseDialog = ({ cancelAction, expenseDetails }) => {
 
-	const { data: products } = useQuery({
+    const { data: products } = useQuery({
 		...QUERY_OPTIONS,
 		queryKey: 'expenses',
 		queryFn: readAllProducts
@@ -33,7 +28,7 @@ const DetailsExpenseForm = ({ cancelAction, expenseDetails }) => {
 
     const [expense_details, setDetailsExpense] = useState(expenseDetails ?? [])
     const [typeModal, setTypeModal] = useState(0)
-	const [open, setOpen] = useState(true)
+	const [open, setOpen] = useState(false)
 	const [isShowingModal, setIsShowingModal] = useState(false)
 	const [listedProduct, setListedProduct] = useState(null)
 	const [selectedProduct, setSelectedProduct] = useState(null)
@@ -143,72 +138,48 @@ const DetailsExpenseForm = ({ cancelAction, expenseDetails }) => {
 		setTypeModal(expense_details.id ? 3 : 2)
 		setIsShowingModal(true)
 	}
-
+    
     return (
-		<>
-			<table className='table table-hover table-borderless'>
-				<thead>
-					<tr>
-						<th className="leading-row">Nombre</th>
-						<th>Precio Compra</th>
-						<th>Stock</th>
-						<th>Tipo</th>
-					</tr>
-				</thead>
-				<tbody className="table-group-divider">
-					{selectedProducts.map(product =>
-						<tr key={product.id}
-							onClick={setListedProduct(product)}
+        <Dialog
+				open={open}
+				onClose={handleClose()}
+				scroll="paper"
+				aria-labelledby="scroll-dialog-title"
+			>
+				<DialogTitle id='scroll-dialog-title'>Detalles del egreso</DialogTitle>
+				<DialogContent dividers={true}>
+					<AutocompleteField
+						name='product_id'
+						iconClasses='fa-solid fa-burger-soda'
+						options={productsNames}
+						selectedOption={null}
+						placeholder='Producto'
+						onChange={handleAutocompleteChange}
+					/>
+				</DialogContent>
+				<DialogActions>
+					<div className='modal-footer'>
+						<button
+							type='button'
+							className='btn btn-danger'
+							onClick={() => {
+								setTypeModal(1)
+								setIsShowingModal(true)
+							}}
 						>
-							<td className="leading-row">{product.name}</td>
-							<td>{product.purchase_price}</td>
-							<td>{product.stock}</td>
-							<td>{product.product_type}</td>
-						</tr>
-					)}
-				</tbody>
-			</table>
-			<form>
-				<AutocompleteField
-					name='product_id'
-					iconClasses='fa-solid fa-burger-soda'
-					options={productsNames}
-					selectedOption={null}
-					placeholder='Producto'
-					onChange={handleAutocompleteChange}
-				/>
-				<div className='modal-footer'>
-					<button
-						type='button'
-						className='btn btn-danger'
-						onClick={() => {
-							setTypeModal(1)
-							setIsShowingModal(true)
-						}}
-					>
-						Cancelar
-					</button>
-					<button
-						type='button'
-						className='btn btn-primary'
-						onClick={() => {
-							submitDetailsExpense()
-						}}
-					>
-						{`${expense_details.id ? 'Actualizar' : 'Guardar'}`}
-					</button>
-				</div>
-			</form>
-
-			<ConfirmModal
-				cancelAction={cancelAction} 
-				typeModal={typeModal} 
-				isShowingModal={isShowingModal} 
-				setIsShowingModal={setIsShowingModal}
-				typeClass={'detalles del egreso'}
-			/>
-		</>
-	)
+							Cancelar
+						</button>
+						<button
+							type='button'
+							className='btn btn-primary'
+							onClick={() => {
+								submitDetailsExpense()
+							}}
+						>
+							{`${expense_details.id ? 'Actualizar' : 'Guardar'}`}
+						</button>
+					</div>
+				</DialogActions>
+			</Dialog>
+    )
 }
-
-export default DetailsExpenseForm

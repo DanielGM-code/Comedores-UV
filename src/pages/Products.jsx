@@ -25,8 +25,19 @@ const Products = () => {
 
 	useEffect(() => {
 		document.title = 'ComedorUV - Productos'
+		$('#tableProduct tfoot th').each( function (i) {
+            var title = $('#tableProduct thead th').eq( $(this).index() ).text()
+            $(this).html( '<input type="text" placeholder="'+title+'" data-index="'+i+'" />' )
+        } )
+		$('#tableProduct #notShow input').prop('hidden', true)
 		const table = $(tableRef.current).DataTable(datatableOptions)
 		table.draw()
+		$( table.table().container() ).on( 'keyup', 'tfoot input', function () {
+            table
+                .column( $(this).data('index') )
+                .search( this.value )
+                .draw()
+        } )
 	}, [products])
 
 	return (
@@ -46,7 +57,7 @@ const Products = () => {
 					</button>
 					<div className='contenedor-tabla'>
 						<h3>Productos</h3>
-						<table ref={tableRef} className='table table-hover table-borderless'>
+						<table id='tableProduct' width='100%' ref={tableRef} className='table table-hover table-borderless'>
 							<thead>
 								<tr>
 									<th className='leading-row'>Nombre</th>
@@ -92,6 +103,17 @@ const Products = () => {
 									</tr>
 								)}
 							</tbody>
+							<tfoot>
+								<tr>
+									<th>Nombre</th>
+									<th>Precio de Compra</th>
+									<th>Precio de Venta</th>
+									<th>Precio Preferencial</th>
+									<th>Stock</th>
+									<th>Tipo</th>
+									<th id='notShow'>Opciones</th>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 				</>

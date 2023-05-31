@@ -4,7 +4,7 @@ const ValidatorAddress = (address) => {
     let validatorAddress = Validator(address)
 
     if(validatorAddress.isEmpty()) return 'Dirección requerida'
-    if(!validatorAddress.isCorrectLength(4, 101)) return 'La dirección debe contener entre 5 y 100 caracteres'
+    if(!validatorAddress.isCorrectLength(4, 101)) return 'La dirección debe tener máximo 100 caracteres'
     return ''
 }
 

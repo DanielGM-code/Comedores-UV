@@ -110,7 +110,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                 <FormField
                     name='name'
                     inputType='text'
-                    iconClasses='fa-solid fa-i-cursor'
+                    iconClasses='fa-solid fa-person'
                     placeholder='Nombre'
                     value={provider.name}
                     onChange={handleInputChange}
@@ -120,7 +120,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                 <FormField
                     name='address'
                     inputType='text'
-                    iconClasses='fa-solid fa-i-cursor'
+                    iconClasses='fa-solid fa-compass'
                     placeholder='Dirección'
                     value={provider.address}
                     onChange={handleInputChange}
@@ -130,7 +130,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                 <FormField
                     name='phone'
                     inputType='text'
-                    iconClasses='fa-solid fa-i-cursor'
+                    iconClasses='fa-solid fa-phone'
                     placeholder='Teléfono'
                     value={provider.phone}
                     onChange={handleInputChange}
@@ -140,7 +140,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                 <FormField
                     name='rfc'
                     inputType='text'
-                    iconClasses='fa-solid fa-i-cursor'
+                    iconClasses='fa-solid fa-id-card'
                     placeholder='RFC'
                     value={provider.rfc}
                     onChange={handleInputChange}

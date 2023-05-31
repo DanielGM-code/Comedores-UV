@@ -26,8 +26,19 @@ const Users = () => {
 
 	useEffect(() => {
 		document.title = 'ComedorUV - Usuarios'
+		$('#tableUser tfoot th').each( function (i) {
+            var title = $('#tableUser thead th').eq( $(this).index() ).text()
+            $(this).html( '<input type="text" placeholder="'+title+'" data-index="'+i+'" />' )
+        } )
+		$('#tableUser #notShow input').prop('hidden', true)
 		const table = $(tableRef.current).DataTable(datatableOptions)
 		table.draw()
+		$( table.table().container() ).on( 'keyup', 'tfoot input', function () {
+            table
+                .column( $(this).data('index') )
+                .search( this.value )
+                .draw()
+        } )
 	}, [users])
 
 	return (
@@ -47,7 +58,7 @@ const Users = () => {
 					</button>
 					<div className='contenedor-tabla'>
 						<h3>Usuarios</h3>
-						<table ref={tableRef} className='table table-hover table-borderless'>
+						<table id='tableUser' width='100%' ref={tableRef} className='table table-hover table-borderless'>
 							<thead>
 								<tr>
 									<th className='leading-row'>Nombre</th>
@@ -89,6 +100,15 @@ const Users = () => {
 									</tr>
 								)}
 							</tbody>
+							<tfoot>
+								<tr>
+									<th>Nombre</th>
+									<th>Correo</th>
+									<th>Contraseña</th>
+									<th>Rol</th>
+									<th id='notShow'>Opciones</th>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 				</>

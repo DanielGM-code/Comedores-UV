@@ -4,7 +4,7 @@ const ValidatorName = (name) => {
     const validatorName = Validator(name)
     
     if(validatorName.isEmpty()) return 'Nombre requerido'
-    if(!validatorName.isCorrectLength(2, 51)) return 'El nombre debe contener entre 3 y 50 caracteres'
+    if(!validatorName.isCorrectLength(2, 101)) return 'El nombre debe contener máximo 100 caracteres'
     return ''
 }
 

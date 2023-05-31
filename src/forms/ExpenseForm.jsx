@@ -20,7 +20,7 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 		provider_id: null,
 		date: new Date().formatted(),
 		description: '',
-		total: '',
+		total: 0,
 		bill: '',
 		departure: ''
 	})
@@ -31,18 +31,16 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 	const [validations, setValidations] = useState({
 		provider: '',
 		description: '',
-		total: '',
 		bill: '',
 		departure: ''
 	})
 
 	const validateAll = () => {
-		const { provider_id, total, bill, description, departure } = expense
+		const { provider_id, bill, description, departure } = expense
 		let validations = { provider: '', description: '', total: '', bill: '', departure: '' }
 
 		validations.provider = ValidatorProviderId(provider_id)
 		validations.description = validateDescription(description)
-		validations.total = ValidatorTotal(total)
 		validations.bill = ValidatorBill(bill)
 		validations.departure = ValidatorDeparture(departure)
 
@@ -61,7 +59,6 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 		const value = expense[name]
 		let message = ''
 
-		if(name === 'total') message = ValidatorTotal(value)
 		if(name === 'bill') message = ValidatorBill(value)
 		if(name === 'description') message = validateDescription(value)
 		if(name === 'departure') message = ValidatorDeparture(value)
@@ -73,7 +70,7 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 		const validatorDescription = Validator(description)
 
 		if(validatorDescription.isEmpty()) return 'Descripción requerida'
-		if(!validatorDescription.isCorrectLength(0, 251)) return 'La descripción debe tener entre 1 y 250 caracteres'
+		if(!validatorDescription.isCorrectLength(0, 251)) return 'La descripción debe tener máximo 250 caracteres'
 		return ''
 	}
 
@@ -153,16 +150,6 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 					onBlur={validateOne}
 				/>
 				<ErrorMessage validation={validations.bill}/>
-				<FormField
-					name='total'
-					inputType='number'
-					iconClasses='fa-solid fa-circle-dollar-to-slot'
-					placeholder='Total'
-					value={expense.total}
-					onChange={handleInputChange}
-					onBlur={validateOne}
-				/>
-				<ErrorMessage validation={validations.total}/>
 				<FormField
 					name='description'
 					inputType='text'

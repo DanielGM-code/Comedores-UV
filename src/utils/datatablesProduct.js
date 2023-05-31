@@ -35,7 +35,7 @@ export const datatableOptions = {
 			'copyKeys': 'Presione ctrl o u2318 + C para copiar los datos de la tabla al portapapeles del sistema. <br /> <br /> Para cancelar, haga clic en este mensaje o presione escape.',
 			'copySuccess': {
 				'1': 'Copiada 1 fila al portapapeles',
-				'_': 'Copiadas %d filas al portapapeles'
+				'_': 'Copiadas %ds fila al portapapeles'
 			},
 			'copyTitle': 'Copiar al portapapeles',
 			'csv': 'CSV',
@@ -130,55 +130,6 @@ export const datatableOptions = {
 		'info': 'Mostrando _START_ a _END_ de _TOTAL_ registros',
 	},
 	buttons: [
-		{
-			extend: 'copy',
-			text: '<i class="fas fa-clipboard"></i>',
-			titleAttr: 'Copiar al portapapeles',
-			className: 'btn-exportar',
-			exportOptions: {
-				columns: ':visible'
-			}
-		},
-		{
-			extend: 'excel',
-			text: '<i class="fas fa-file-excel"></i>',
-			titleAttr: 'Exportar a Excel',
-			className: 'btn-exportar',
-			exportOptions: {
-				columns: ':visible'
-			}
-		},
-		{
-			extend: 'pdf',
-			text: '<i class="fas fa-file-pdf"></i>',
-			titleAttr: 'Exportar a PDF',
-			className: 'btn-exportar',
-			exportOptions: {
-				columns: ':visible'
-			},
-			download: 'open',
-			customize: function(document){
-				document.content[1].layout = 'borders'
-			}
-		},
-		{
-			extend: 'print',
-			text: '<i class="fa fa-print"></i>',
-			titleAttr: 'Imprimir',
-			className: 'btn-exportar',
-			exportOptions: {
-				columns: ':visible'
-			}
-		},
-		{
-			extend: 'colvis',
-			titleAttr: 'Visibilidad',
-			className: 'btn-visibilidad'
-		}, 
-		{
-			extend: 'colvisRestore',
-			titleAttr: 'Restaurar visibilidad',
-			className: 'btn-visibilidad'
-		}
+		'csv','copy'
 	]
 }
