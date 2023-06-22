@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import FormField from '../components/FormField'
-import ComboBox from '../components/ComboBox'
 import ErrorMessage from '../components/ErrorMessage'
 import { createUserMutation, CREATE_MUTATION_OPTIONS, updateUserMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import ConfirmModal from '../components/ConfirmModal'
 import ValidatorPassword from '../validations/ValidatorPassword'
 import ValidatorName from '../validations/ValidatorName'
 import ValidatorEmail from '../validations/ValidatorEmail'
+import AutocompleteField from '../components/AutocompleteField'
 
 
-const UserForm = ({ cancelAction, userUpdate, users }) => {
+const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
+	const isUpdate = userUpdate !== null ? true : false
 	const [user, setUser] = useState(userUpdate ?? {
 		name: '',
 		email: '',
@@ -32,7 +33,7 @@ const UserForm = ({ cancelAction, userUpdate, users }) => {
 		const validations = { name: '', email: '', password: '' }
 
 		validations.name = ValidatorName(name)
-		validations.email = ValidatorEmail(email)
+		validations.email = ValidatorEmail(isUpdate, email, users)
 		validations.password = ValidatorPassword(password)
 
 		const validationMessages = Object.values(validations).filter(
@@ -53,7 +54,7 @@ const UserForm = ({ cancelAction, userUpdate, users }) => {
 		let message = ''
 
 		if(name === 'name') message = ValidatorName(value)
-		if(name === 'email') message = ValidatorEmail(value)
+		if(name === 'email') message = ValidatorEmail(isUpdate, value, users)
 		if(name === 'password') message = ValidatorPassword(value)
 
 		setValidations({ ...validations, [name]: [message] })
@@ -74,12 +75,11 @@ const UserForm = ({ cancelAction, userUpdate, users }) => {
 		}
 	})
 
-	const roles = [
-		{ label: 'Administrador', value: 'admin' }, 
-		{ label: 'Cajero', value: 'cajero' }, 
-		{ label: 'Chef', value: 'chef' },
-		{ label: 'Usuario', value: 'user'}
-	]
+	function showPassword(){
+		var inputPassword = document.getElementsByName('password')[0]
+		if(inputPassword.type === 'password') inputPassword.type = 'text'
+		else inputPassword.type = 'password'
+	}
 
 	function handleInputChange(event) {
 		setUser(prevUser => {
@@ -115,7 +115,7 @@ const UserForm = ({ cancelAction, userUpdate, users }) => {
 				<FormField
 					name='name'
 					inputType='text'
-					iconClasses='fa-solid fa-i-cursor'
+					iconClasses='fa-solid fa-user'
 					placeholder='Nombre'
 					value={user.name}
 					onChange={handleInputChange}
@@ -134,20 +134,37 @@ const UserForm = ({ cancelAction, userUpdate, users }) => {
 				<ErrorMessage validation={validations.email}/>
 				<FormField
 					name='password'
-					inputType='text'
-					iconClasses='fa-solid fa-i-cursor'
+					inputType='password'
+					iconClasses='fa-solid fa-key'
 					placeholder='Contraseña'
 					value={user.password}
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
 				<ErrorMessage validation={validations.password}/>
-				<ComboBox
-					name='rol'
-					options={roles}
+				<div>
+					<input id='show' type='checkbox' aria-describedby='show' onClick={showPassword}/>
+					<label id='show'>Mostrar contraseña</label>
+				</div>
+				<label htmlFor='role'>Rol:</label>
+				<AutocompleteField
+					name='role'
 					iconClasses='fa-solid fa-address-book'
-					value={user.role}
-					onChange={handleInputChange}
+					options={roles}
+					selectedOption={() => {
+						return roles.find(rol => rol.id === user.role)
+					}}
+					placeholder='Rol del usuario'
+					searchable={false}
+					onChange={(selectedRole) => {
+						setUser(prevUser => {
+							return {
+								...prevUser,
+								role: selectedRole.id
+							}
+						})
+					}}
+					clearable={false}
 				/>
 				<div className='modal-footer'>
 					<button

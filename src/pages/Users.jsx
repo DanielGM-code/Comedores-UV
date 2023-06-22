@@ -22,6 +22,18 @@ const Users = () => {
 	const [selectedUser, setSelectedUser] = useState(null)
 	const tableRef = useRef()
 
+	const roles = [
+		{ label: 'Administrador', id: 'admin' }, 
+		{ label: 'Cajero', id: 'cajero' }, 
+		{ label: 'Chef', id: 'chef' }
+	]
+
+	function getUserRole(roleId){
+		let foundRole = roles.find(role => role.id === roleId)
+		if(!foundRole) return ''
+		return foundRole.label
+	}
+
 	const deleteMutation = useMutation(deleteUserMutation, DELETE_MUTATION_OPTIONS)
 
 	useEffect(() => {
@@ -61,9 +73,8 @@ const Users = () => {
 						<table id='tableUser' width='100%' ref={tableRef} className='table table-hover table-borderless'>
 							<thead>
 								<tr>
-									<th className='leading-row'>Nombre</th>
+									<th className='leading-row'>Nombre completo</th>
 									<th>Correo</th>
-									<th>Contraseña</th>
 									<th>Rol</th>
 									<th className='trailing-row'>Opciones</th>
 								</tr>
@@ -73,8 +84,7 @@ const Users = () => {
 									<tr key={user.id}>
 										<td className='leading-row'>{user.name}</td>
 										<td>{user.email}</td>
-										<td>{user.password}</td>
-										<td>{user.role}</td>
+										<td>{getUserRole(user.role)}</td>
 										<td className='trailing-row'>
 											<button
 												type='button'
@@ -102,9 +112,8 @@ const Users = () => {
 							</tbody>
 							<tfoot>
 								<tr>
-									<th>Nombre</th>
+									<th>Nombre completo</th>
 									<th>Correo</th>
-									<th>Contraseña</th>
 									<th>Rol</th>
 									<th id='notShow'>Opciones</th>
 								</tr>
@@ -129,6 +138,7 @@ const Users = () => {
 					}}
 					userUpdate={selectedUser}
 					users={users}
+					roles={roles}
 				/>
 			</Modal>
 

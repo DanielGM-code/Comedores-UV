@@ -9,6 +9,7 @@ import ValidatorDescription from '../validations/ValidatorDescription'
 import ValidatorPrice from '../validations/ValidatorPrice'
 import ValidatorStock from '../validations/ValidatorStock'
 import ValidatorProductType from '../validations/ValidatorProductType'
+import '../utils/formatting'
 
 const ProductForm = ({ cancelAction, productUpdate }) => {
 	const [product, setProduct] = useState(productUpdate ?? {
@@ -61,13 +62,18 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 	const validateOne = (e) => {
 		const { name } = e.target
 		const value = product[name]
+		let numberPrice = 0
 		let message = ''
 
 		if(name === 'name') message = ValidatorName(value)
 		if(name === 'description') message = ValidatorDescription(value)
-		if(name === 'purchase_price') message = ValidatorPrice(value)
-		if(name === 'preferred_price') message = ValidatorPrice(value)
-		if(name === 'sale_price') message = ValidatorPrice(value)
+		if(name === 'purchase_price' || name === 'preferred_price' || 
+			name === 'sale_price'
+		) {
+			numberPrice = Number(Number(value).priceFormat())
+			product[name] = numberPrice
+			message = ValidatorPrice(numberPrice)
+		}
 		if(name === 'stock') message = ValidatorStock(value)
 		if(name === 'product_type') message = ValidatorProductType(value)
 

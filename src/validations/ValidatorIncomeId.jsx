@@ -5,7 +5,7 @@ const ValidatorIncomeId = (id, incomes) => {
 
     if(validatorIncome.isEmpty()) return 'Ingreso requerido'
     let foundIncome = incomes.find(income => income.id === id)
-    if(!foundIncome) return `El ingreso ya no existe`
+    if(!foundIncome) return 'El ingreso ya no existe'
 }
 
 export default ValidatorIncomeId

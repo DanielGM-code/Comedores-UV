@@ -50,6 +50,7 @@ const Expenses = () => {
 			if(!foundProvider) return ''
 			return foundProvider.label
 		}
+		return ''
 	}
 
 	useEffect(() => {

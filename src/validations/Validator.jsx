@@ -3,23 +3,44 @@ const rfcDateRegex =  /^([0-9]{2})([0][13578]|[1][02])(([0][1-9]|[12][\d])|[3][0
 const rfcHomoclaveFirstLetterRegex = /^\w{9}[A-V1-9]\w{2}$/
 const rfcHomoclaveSecondLetterRegex =/\w{10}[A-Z1-9]\w/
 const rfcValidatorDigitRegex = /\w{11}[\dA]/
-const emailRegex = /^\w+([.-_+]?\w+)*@[a-z]+(\.[a-z]{3})$/
+const emailRegex = /^([a-zA-Z0-9.!#$%&*+/=?^_~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*)$/
 const phoneRegex = /^([0-9]{2,3})([\s.-]?)([0-9]{3,4})([\s.-]?)([0-9]{4})$/
-const passwordNumbersRegex = /^(.+?[0-9])|([0-9].+?)$/
+const numbersRegex = /^(.+?[0-9])|([0-9].+?)$/
 const passwordLowerCaseRegex = /^(.+?[a-z])|([a-z].+?)$/
-const passwordUpperCaseRegex = /^(.+?[A-Z])|(A-Z].+?)$/
-const passwordWhitespaceRegex = /^(.+?[\s])|(\s].+?)$/
+const passwordUpperCaseRegex = /^(.+?[A-Z])|([A-Z].+?)$/
+const passwordWhitespaceRegex = /^(.+?[\s])|([\s].+?)$/
 const decimalRegex = /^\d+\.\d{3,}?$/
+const skipRegex = /^[?]+$/
 
 const Validator = function(value) {
 
     return {
-        isEmpty(){
-            if(!value) return true
+        isCorrectMaxDateRange(date){
+            if(value <= date) return true
             return false
         },
-        isCorrectLength(minLength, maxLength){
-            if(value.length > minLength && value.length < maxLength) return true
+        isCorrectMinDateRange(date){
+            if(value >= date) return true
+            return false
+        },
+        isCorrectMaxLength(maxLength){
+            if(value.length < maxLength) return true
+            return false
+        },
+        isCorrectMinLength(minLength){
+            if(value.length < minLength) return true
+            return false
+        },
+        isCorrectMaxQuantityRange(maxValue){
+            const valueInteger = value * 100
+
+            if(valueInteger <= maxValue) return true
+            return false
+        },
+        isCorrectMinQuantityRange(minValue){
+            const valueInteger = value * 100
+
+            if(valueInteger >= minValue) return true
             return false
         },
         isCorrectPhoneDigits(){
@@ -52,12 +73,16 @@ const Validator = function(value) {
             if(rfcValidatorDigitRegex.test(value)) return true
             return false
         },
+        isCorrectStockRange(minValue, maxValue){
+            if(value >= minValue || value <= maxValue) return true
+            return false
+        },
         isEmail(){
             if(emailRegex.test(value)) return true
             return false
         },
-        isPasswordWithNumbers(){
-            if(passwordNumbersRegex.test(value)) return true
+        isEmpty(){
+            if(!value) return true
             return false
         },
         isPasswordWithLowerCase(){
@@ -72,32 +97,16 @@ const Validator = function(value) {
             if(passwordWhitespaceRegex.test(value)) return true
             return false
         },
+        isOmitted(){
+            if(skipRegex.test(value)) return true
+            return false
+        },
         isOutOfDecimalRange(){
             if(decimalRegex.test(value)) return true
             return false
         },
-        isOutOfMaxDateRange(date){
-            if(value > date) return true
-            return false
-        },
-        isOutOfMinDateRange(date){
-            if(value < date) return true
-            return false
-        },
-        isOutOfMaxQuantityRange(maxValue){
-            const valueInteger = value * 100
-
-            if(valueInteger > maxValue) return true
-            return false
-        },
-        isOutOfMinQuantityRange(minValue){
-            const valueInteger = value * 100
-
-            if(valueInteger < minValue) return true
-            return false
-        },
-        isOutOfStockRange(minValue, maxValue){
-            if(value < minValue || value > maxValue) return true
+        isWithNumbers(){
+            if(numbersRegex.test(value)) return true
             return false
         }
     }

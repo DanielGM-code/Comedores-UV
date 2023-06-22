@@ -14,8 +14,9 @@ const Scholarships = () => {
 	const { data: scholarships, isLoading } = useQuery({
 		...QUERY_OPTIONS,
 		queryKey: 'scholarships',
-		queryFn: readAllScholarships,
+		queryFn: readAllScholarships
 	})
+
 	const [isShowingModal, setIsShowingModal] = useState(false)
 	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
 	const [selectedScholarship, setSelectedScholarship] = useState(null)

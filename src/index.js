@@ -34,7 +34,7 @@ root.render(
 				pauseOnHover
 				theme="light"
 			/>
-			<ReactQueryDevtools initialIsOpen={false} />
+			{/*<ReactQueryDevtools initialIsOpen={false} />*/}
 		</QueryClientProvider>
 	</React.StrictMode>
 );

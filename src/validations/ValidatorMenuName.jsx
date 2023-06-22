@@ -4,7 +4,7 @@ const ValidatorMenuName = (isScholarship, name) => {
     const validatorName = Validator(name)
 
     if(!isScholarship && validatorName.isEmpty()) return 'Nombre requerido'
-    if(name.length > 100) return 'El nombre debe tener máximo 100 caracteres'
+    if(!validatorName.isCorrectMaxLength(100)) return 'El nombre debe tener menos de 100 caracteres'
     return ''
 }
 

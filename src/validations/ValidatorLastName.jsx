@@ -4,7 +4,7 @@ const ValidatorLastName = (last_name) => {
     const validatorLastName = Validator(last_name)
 
     if(validatorLastName.isEmpty()) return 'Apellido requerido'
-    if(!validatorLastName.isCorrectLength(2, 101)) return 'El apellido debe contener máximo 100 caracteres'
+    if(!validatorLastName.isCorrectMaxLength(100)) return 'El apellido debe tener menos de 100 caracteres'
     return ''
 }
 

@@ -9,6 +9,7 @@ const AutocompleteInput = ({ name, iconClasses, options, selectedOption, placeho
                     <i className={iconClasses}></i>
                 </span>
                 <Select
+                    id={name}
                     name={name}
                     aria-labelledby='basic-addon1'
                     placeholder={placeholder}

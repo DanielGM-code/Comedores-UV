@@ -39,7 +39,7 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 		const { provider_id, bill, description, departure } = expense
 		let validations = { provider: '', description: '', total: '', bill: '', departure: '' }
 
-		validations.provider = ValidatorProviderId(provider_id)
+		validations.provider = ValidatorProviderId(provider_id, providers)
 		validations.description = validateDescription(description)
 		validations.bill = ValidatorBill(bill)
 		validations.departure = ValidatorDeparture(departure)

@@ -63,31 +63,59 @@
   "users": [
     {
       "id": 10,
-      "name": "AtLorem.jpeg",
-      "email": "vdawe9@trellian.com",
-      "password": "vdawe9",
-      "role": "Professor"
+      "name": "Laura Torres Marquéz",
+      "email": "estrella2.2@outlook.com",
+      "password": "jsa23OE?",
+      "role": "user"
     },
     {
       "id": 12,
-      "name": "Diam.png",
-      "email": "squoitb@paypal.com",
-      "password": "gquoitb",
-      "role": "Sales Associate"
+      "name": "Fernando Dorantes Ortega",
+      "email": "Nandor2_45@hotmail.com",
+      "password": "Qwerty99",
+      "role": "user"
     },
     {
       "id": 13,
-      "name": "UltricesPhasellusId.jpeg",
-      "email": "btremainec@umn.edu",
-      "password": "ttremainec",
-      "role": "Internal Auditor"
+      "name": "Luis Yahir Cervantes Araujo",
+      "email": "LuCer384@yahoo.com",
+      "password": "IsoftW12",
+      "role": "cajero"
     },
     {
       "id": 14,
-      "name": "ImperdietEtCommodo.gif",
-      "email": "aspellsworthd@reference.com",
-      "password": "ospellsworthd",
-      "role": "Senior Sales Associate"
+      "name": "Miguel Alexis Domínguez Dorantes",
+      "email": "ar12iannGr@gmail.com",
+      "password": "comedoresUV1",
+      "role": "chef"
+    },
+    {
+      "name": "Ana Dorantes",
+      "email": "kkPepsi82@gmail.com",
+      "password": "PSP10-01en",
+      "role": "user",
+      "id": 15
+    },
+    {
+      "name": "Daniel García",
+      "email": "GarDB_45@gmail.com",
+      "password": "123-SISuv",
+      "role": "admin",
+      "id": 16
+    },
+    {
+      "name": "Moises Paredes Landa",
+      "email": "MEMEX_102@gmail.com",
+      "password": "Uni-iNU1",
+      "role": "user",
+      "id": 17
+    },
+    {
+      "name": "Josue de Jesus Torres Alejo",
+      "email": "wowLOL123@gmail.com",
+      "password": "Agua_P&S1",
+      "role": "user",
+      "id": 18
     }
   ],
   "incomes": [
@@ -343,6 +371,16 @@
       "preferred_price": 98.78,
       "stock": 75,
       "product_type": "Bebidas"
+    },
+    {
+      "name": "Chocoroles",
+      "description": "",
+      "purchase_price": 123000,
+      "sale_price": 123.3,
+      "preferred_price": 123.09,
+      "stock": "23",
+      "product_type": "Dulcería",
+      "id": 16
     }
   ],
   "providers": [
@@ -387,6 +425,13 @@
       "address": "San Bruno",
       "phone": "2283341786",
       "rfc": "MAT101010SC9"
+    },
+    {
+      "name": "Walmart",
+      "address": "Jardines",
+      "phone": "2281332478",
+      "rfc": "SHO100903RN3",
+      "id": 7
     }
   ]
 }

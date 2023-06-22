@@ -5,9 +5,9 @@ const ValidatorPassword = (password) => {
 
     if(validatorPassword.isEmpty()) return 'Contraseña requerida'
     if(validatorPassword.isPasswordWithWhitespace()) return 'La contraseña no debe tener espacios en blanco'
-    if(!validatorPassword.isCorrectLength(7, 17)) return 'La contraseña debe contener entre 6 y 14 caracteres'
+    if(!validatorPassword.isCorrectMaxLength(16) || !validatorPassword.isCorrectMinLength(8)) return 'La contraseña debe contener entre 8 y 16 caracteres'
     if(!validatorPassword.isPasswordWithLowerCase()) return 'La contraseña debe tener al menos una letra minúscula'
-    if(!validatorPassword.isPasswordWithNumbers()) return 'La contraseña debe tener al menos un número'
+    if(!validatorPassword.isWithNumbers()) return 'La contraseña debe tener al menos un número'
     if(!validatorPassword.isPasswordWithUpperCase()) return 'La contraseña debe tener al menos una letra mayúscula'
     return ''
 }

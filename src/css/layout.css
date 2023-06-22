@@ -231,6 +231,11 @@ ol, ul {
   width: calc(100% - 250px);
 }
 
+label{
+  padding: 0px;
+  margin: 0px;
+}
+
 @media (max-width: 420px) {
   .sidebar li .tooltip{
     display: none;

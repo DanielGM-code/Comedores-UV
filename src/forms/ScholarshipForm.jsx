@@ -21,7 +21,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 		user_id: null,
 		first_name: '',
 		last_name: '',
-		paid_meals: '',
+		paid_meals: 0,
 		career: '',
 		start_date: new Date().formatted(),
 		end_date: new Date().formatted()
@@ -157,7 +157,6 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					onBlur={validateOne}
 				/>
 				<ErrorMessage validation={validations.career}/>
-				Fecha de inicio:
 				<DateField
 					name='start_date'
 					inputType='date'
@@ -166,11 +165,11 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					value={scholarship.start_date}
 					min={min}
 					max={max}
+					label='Fecha de inicio:'
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
 				<ErrorMessage validation={validations.start_date}/>
-				Fecha de fin:
 				<DateField
 					name='end_date'
 					inputType='date'
@@ -179,6 +178,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					value={scholarship.end_date}
 					min={min}
 					max={max}
+					label='Fecha de fin:'
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
