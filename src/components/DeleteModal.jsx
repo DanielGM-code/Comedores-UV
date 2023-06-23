@@ -3,7 +3,7 @@ import Modal from '../components/Modal'
 import { useQueryClient } from 'react-query'
 import ConfirmModal from './ConfirmModal'
 
-const DeleteModal = ({ objectClass, deleteMutation, cancelAction, isShowingModal, setIsShowingModal, typeClass}) => {
+const DeleteModal = ({ objectClass, deleteMutation, cancelAction, isShowingModal, setIsShowingModal, typeClass, isDelete}) => {
 
     const queryClient = useQueryClient()
 	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
@@ -13,6 +13,13 @@ const DeleteModal = ({ objectClass, deleteMutation, cancelAction, isShowingModal
 		queryClient.resetQueries()
 		setIsShowingDeleteModal(true)
 	}
+
+    async function updateObject(){
+        await deleteMutation.mutateAsync(objectClass)
+        deleteMutation.reset()
+        await queryClient.resetQueries()
+        setIsShowingDeleteModal(true)
+    }
 
     return (
         <>
@@ -37,7 +44,7 @@ const DeleteModal = ({ objectClass, deleteMutation, cancelAction, isShowingModal
                 <button 
                     type='button' 
                     className='btn btn-primary' 
-                    onClick={deleteObject}
+                    onClick={isDelete ? deleteObject : updateObject}
                 >
                     Aceptar
                 </button>

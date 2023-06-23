@@ -62,20 +62,6 @@
   ],
   "users": [
     {
-      "id": 10,
-      "name": "Laura Torres Marquéz",
-      "email": "estrella2.2@outlook.com",
-      "password": "jsa23OE?",
-      "role": "user"
-    },
-    {
-      "id": 12,
-      "name": "Fernando Dorantes Ortega",
-      "email": "Nandor2_45@hotmail.com",
-      "password": "Qwerty99",
-      "role": "user"
-    },
-    {
       "id": 13,
       "name": "Luis Yahir Cervantes Araujo",
       "email": "LuCer384@yahoo.com",
@@ -90,13 +76,6 @@
       "role": "chef"
     },
     {
-      "name": "Ana Dorantes",
-      "email": "kkPepsi82@gmail.com",
-      "password": "PSP10-01en",
-      "role": "user",
-      "id": 15
-    },
-    {
       "name": "Daniel García",
       "email": "GarDB_45@gmail.com",
       "password": "123-SISuv",
@@ -104,18 +83,11 @@
       "id": 16
     },
     {
-      "name": "Moises Paredes Landa",
-      "email": "MEMEX_102@gmail.com",
-      "password": "Uni-iNU1",
-      "role": "user",
+      "name": "Miguel Araujo Hernández",
+      "email": "masterChef_10@gmail.com",
+      "password": "QIEU_394q",
+      "role": "inactivo",
       "id": 17
-    },
-    {
-      "name": "Josue de Jesus Torres Alejo",
-      "email": "wowLOL123@gmail.com",
-      "password": "Agua_P&S1",
-      "role": "user",
-      "id": 18
     }
   ],
   "incomes": [
@@ -428,8 +400,8 @@
     },
     {
       "name": "Walmart",
-      "address": "Jardines",
-      "phone": "2281332478",
+      "address": "Sumidero",
+      "phone": "228-234-1034",
       "rfc": "SHO100903RN3",
       "id": 7
     }

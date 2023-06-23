@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useQuery } from 'react-query'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useQueryClient, useQuery } from 'react-query'
 import NavigationTitle from '../components/NavigationTitle'
 import { datatableOptions } from '../utils/datatables'
 import { readAllUsers } from '../data-access/usersDataAccess'
-import { deleteUserMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutations'
+import { updateUserMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import { useMutation } from 'react-query'
 import $ from 'jquery'
 import Modal from '../components/Modal'
@@ -22,6 +22,14 @@ const Users = () => {
 	const [selectedUser, setSelectedUser] = useState(null)
 	const tableRef = useRef()
 
+	const queryClient = useQueryClient()
+	const updateMutation = useMutation(updateUserMutation, {
+		...UPDATE_MUTATION_OPTIONS,
+		onSettled: async () => {
+			queryClient.resetQueries('users')
+		}
+	})
+
 	const roles = [
 		{ label: 'Administrador', id: 'admin' }, 
 		{ label: 'Cajero', id: 'cajero' }, 
@@ -34,7 +42,9 @@ const Users = () => {
 		return foundRole.label
 	}
 
-	const deleteMutation = useMutation(deleteUserMutation, DELETE_MUTATION_OPTIONS)
+	const activeUsers = useMemo(() => {
+		return users ? users.filter((user) => user.role !== 'inactivo') : []
+	})
 
 	useEffect(() => {
 		document.title = 'ComedorUV - Usuarios'
@@ -80,7 +90,7 @@ const Users = () => {
 								</tr>
 							</thead>
 							<tbody className='table-group-divider'>
-								{users.map(user =>
+								{activeUsers.map(user =>
 									<tr key={user.id}>
 										<td className='leading-row'>{user.name}</td>
 										<td>{user.email}</td>
@@ -101,6 +111,12 @@ const Users = () => {
 												className='btn-opciones p-1'
 												onClick={() => {
 													setSelectedUser(user)
+													setSelectedUser(prevUser => {
+														return {
+															...prevUser,
+															role: 'inactivo'
+														}
+													})
 													setIsShowingDeleteModal(true)
 												}}
 											>
@@ -144,7 +160,7 @@ const Users = () => {
 
 			<DeleteModal
 				objectClass={selectedUser}
-				deleteMutation={deleteMutation}
+				deleteMutation={updateMutation}
 				cancelAction={() => {
 					setSelectedUser(null)
 					setIsShowingDeleteModal(false)
@@ -152,6 +168,7 @@ const Users = () => {
 				isShowingModal={isShowingDeleteModal}
 				setIsShowingModal={setIsShowingDeleteModal}
 				typeClass={'usuario'}
+				isDelete={false}
 			/>
 		</>
 	)

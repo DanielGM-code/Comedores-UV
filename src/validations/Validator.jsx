@@ -24,11 +24,11 @@ const Validator = function(value) {
             return false
         },
         isCorrectMaxLength(maxLength){
-            if(value.length < maxLength) return true
+            if(value.length <= maxLength) return true
             return false
         },
         isCorrectMinLength(minLength){
-            if(value.length < minLength) return true
+            if(value.length >= minLength) return true
             return false
         },
         isCorrectMaxQuantityRange(maxValue){
