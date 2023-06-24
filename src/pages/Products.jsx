@@ -146,6 +146,7 @@ const Products = () => {
 				isShowingModal={isShowingDeleteModal}
 				setIsShowingModal={setIsShowingDeleteModal}
 				typeClass={'producto'}
+				isDelete={true}
 			/>
 
 		</>

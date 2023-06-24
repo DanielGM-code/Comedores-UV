@@ -140,6 +140,7 @@ const Providers = () => {
 				isShowingModal={isShowingDeleteModal}
 				setIsShowingModal={setIsShowingDeleteModal}
 				typeClass={'proveedor'}
+                isDelete={true}
             />
 
 		</>

@@ -146,7 +146,8 @@ const Scholarships = () => {
 				}}
 				isShowingModal={isShowingDeleteModal}
 				setIsShowingModal={setIsShowingDeleteModal}
-				typeClass={'becado'}
+				typeClass={'becario'}
+				isDelete={true}
 			/>
 		</>
 	)

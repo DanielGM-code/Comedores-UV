@@ -16,11 +16,11 @@ const Validator = function(value) {
 
     return {
         isCorrectMaxDateRange(date){
-            if(value <= date) return true
+            if(value >= date) return true
             return false
         },
         isCorrectMinDateRange(date){
-            if(value >= date) return true
+            if(value <= date) return true
             return false
         },
         isCorrectMaxLength(maxLength){

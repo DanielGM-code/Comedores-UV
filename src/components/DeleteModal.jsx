@@ -10,7 +10,7 @@ const DeleteModal = ({ objectClass, deleteMutation, cancelAction, isShowingModal
 
     async function deleteObject(){
 		await deleteMutation.mutateAsync(objectClass.id)
-		queryClient.resetQueries()
+		await queryClient.resetQueries()
 		setIsShowingDeleteModal(true)
 	}
 

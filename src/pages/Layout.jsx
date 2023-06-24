@@ -39,7 +39,7 @@ export const Layout = () => {
 					<SidebarButton
 						to='/scholarships'
 						iconClasses='bi bi-person-plus-fill'
-						label='Becados'
+						label='Becarios'
 					/>
 
 					{/* Incomes */}

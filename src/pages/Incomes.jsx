@@ -154,6 +154,7 @@ const Incomes = () => {
 				isShowingModal={isShowingDeleteModal}
 				setIsShowingModal={setIsShowingDeleteModal}
 				typeClass={'ingreso'}
+				isDelete={true}
 			/>
 		</>
 	)

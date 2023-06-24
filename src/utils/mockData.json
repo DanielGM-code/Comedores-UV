@@ -165,42 +165,32 @@
     {
       "id": 4,
       "user_id": 2,
-      "first_name": "Torr",
-      "last_name": "Yeoman",
-      "career": "Product Engineer",
+      "first_name": "Adrián",
+      "last_name": "Hernández Hernández",
+      "career": "Geografía",
       "paid_meals": 11,
       "start_date": "2023-04-25",
-      "end_date": "2023-05-05"
+      "end_date": "2023-09-05"
     },
     {
       "id": 5,
       "user_id": 2,
-      "first_name": "Alana",
-      "last_name": "Akhurst",
-      "career": "Operator",
+      "first_name": "Luisa",
+      "last_name": "Mateos García",
+      "career": "Estadística",
       "paid_meals": 11,
-      "start_date": "6/17/2022",
-      "end_date": "9/25/2022"
+      "start_date": "2023-06-17",
+      "end_date": "2023-12-25"
     },
     {
       "id": 6,
       "user_id": 2,
-      "first_name": "Merrile",
-      "last_name": "Moy",
-      "career": "Automation Specialist II",
+      "first_name": "Ramses",
+      "last_name": "Donaji Peréz",
+      "career": "Ingeniería cívil",
       "paid_meals": 3,
-      "start_date": "2022-08-11",
-      "end_date": "2022-03-12"
-    },
-    {
-      "id": 7,
-      "user_id": 2,
-      "first_name": "Budd",
-      "last_name": "Yielding",
-      "career": "Professor",
-      "paid_meals": 9,
-      "start_date": "9/22/2022",
-      "end_date": "3/1/2022"
+      "start_date": "2023-08-11",
+      "end_date": "2023-10-12"
     },
     {
       "user_id": "",

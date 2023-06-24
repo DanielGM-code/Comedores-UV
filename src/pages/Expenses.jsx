@@ -208,6 +208,7 @@ const Expenses = () => {
 				isShowingModal={isShowingDeleteModal}
 				setIsShowingModal={setIsShowingDeleteModal}
 				typeClass={'egreso'}
+				isDelete={true}
 			/>
 
 		</>

@@ -68,8 +68,8 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 		if(name === 'first_name') message = ValidatorName(value)
 		if(name === 'last_name') message = ValidatorLastName(value)
 		if(name === 'career') message = ValidatorCareer(value)
-		if(name === 'start_date') message = ValidatorStartDate(value)
-		if(name === 'end_date') message = ValidatorEndDate(value)
+		if(name === 'start_date') message = ValidatorStartDate(value, scholarship['end_date'])
+		if(name === 'end_date') message = ValidatorEndDate(value, scholarship['start_date'])
 
 		setValidations({ ...validations, [name]: [message] })
 	}
@@ -211,7 +211,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 				typeModal={typeModal}
 				isShowingModal={isShowingModal}
 				setIsShowingModal={setIsShowingModal}
-				typeClass={'becado'}
+				typeClass={'becario'}
 			/>
 		</>
 	)
