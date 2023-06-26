@@ -1,7 +1,7 @@
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import '../css/accordion.css'
+import '../css/muiComponent.css'
 
 const AccordionHelp = ({ question, answer }) => {
     return (

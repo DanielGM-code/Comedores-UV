@@ -52,9 +52,7 @@ const Help = () => {
 
 			<AccordionHelp
 				question={'¿Es obligatorio registrar un becario cuando se realiza el pago de un platillo?'}
-				answer={
-					'Solo es obligatorio si habilita la opción \'Es bcario\'.'
-				}
+				answer={'Solo es obligatorio si habilita la opción \'Es becario\'.'}
 			/>
 
 			<AccordionHelp
@@ -63,6 +61,11 @@ const Help = () => {
 					'Por el momento no. Solo se puede registrar productos para los egresos por ' +
 					'parte del administrador.'
 				}
+			/>
+
+			<AccordionHelp
+				question={'¿Existe algún manual de usuario?'}
+				answer={'Por supuesto. Accediendo a este enlace.'}
 			/>
 		</>
 	)
