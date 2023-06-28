@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import FormField from '../components/FormField'
 import { createProductMutation, CREATE_MUTATION_OPTIONS, updateProductMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
-import ErrorMessage from '../components/ErrorMessage'
 import ConfirmModal from '../components/ConfirmModal'
 import ValidatorName from '../validations/ValidatorName'
 import ValidatorDescription from '../validations/ValidatorDescription'
 import ValidatorPrice from '../validations/ValidatorPrice'
 import ValidatorStock from '../validations/ValidatorStock'
 import ValidatorProductType from '../validations/ValidatorProductType'
+import MessageAlert from '../components/MessageAlert'
 import '../utils/formatting'
 
 const ProductForm = ({ cancelAction, productUpdate }) => {
@@ -77,7 +77,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 		if(name === 'stock') message = ValidatorStock(value)
 		if(name === 'product_type') message = ValidatorProductType(value)
 
-		setValidations({ ...validations, [name]: [message] })
+		setValidations({ ...validations, [name]: message })
 	}
 
 	const queryClient = useQueryClient()
@@ -135,7 +135,10 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.name}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.name}
+                />
 				<div className='input-group mb-3'>
 					<span className='input-group-text' id='basic-addon1'>
 						<i className='fa-solid fa-pencil'></i>
@@ -153,7 +156,10 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 						onBlur={validateOne}
 					></textarea>
 				</div>
-				<ErrorMessage validation={validations.description}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.description}
+                />
 				<FormField
 					name='purchase_price'
 					inputType='number'
@@ -163,7 +169,10 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.purchase_price}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.purchase_price}
+                />
 				<FormField
 					name='sale_price'
 					inputType='number'
@@ -173,7 +182,10 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.sale_price}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.sale_price}
+                />
 				<FormField
 					name='preferred_price'
 					inputType='number'
@@ -183,7 +195,10 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.preferred_price}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.preferred_price}
+                />
 				<FormField
 					name='stock'
 					inputType='number'
@@ -193,7 +208,10 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.stock}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.stock}
+                />
 				<FormField 
 					name='product_type'
 					inputType='text'
@@ -203,6 +221,10 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.product_type}
+                />
 				<div className='modal-footer'>
 					<button
 						type='button'

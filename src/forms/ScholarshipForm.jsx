@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import FormField from '../components/FormField'
-import ErrorMessage from '../components/ErrorMessage'
 import DateField from '../components/DateField'
 import { createScholarshipMutation, CREATE_MUTATION_OPTIONS, updateScholarshipMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import '../utils/formatting'
@@ -11,6 +10,7 @@ import ValidatorCareer from '../validations/ValidatorCareer'
 import ValidatorStartDate from '../validations/ValidatorStartDate'
 import ValidatorEndDate from '../validations/ValidatorEndDate'
 import ValidatorName from '../validations/ValidatorName'
+import MessageAlert from '../components/MessageAlert'
 
 const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 	const [scholarship, setScholarship] = useState(scholarshipUpdate ? {
@@ -71,7 +71,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 		if(name === 'start_date') message = ValidatorStartDate(value, scholarship['end_date'])
 		if(name === 'end_date') message = ValidatorEndDate(value, scholarship['start_date'])
 
-		setValidations({ ...validations, [name]: [message] })
+		setValidations({ ...validations, [name]: message })
 	}
 
 	const queryClient = useQueryClient()
@@ -136,7 +136,10 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.first_name}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.first_name}
+                />
 				<FormField
 					name='last_name'
 					inputType='text'
@@ -146,7 +149,10 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.last_name}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.last_name}
+                />
 				<FormField
 					name='career'
 					inputType='text'
@@ -156,7 +162,10 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.career}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.career}
+                />
 				<DateField
 					name='start_date'
 					inputType='date'
@@ -169,7 +178,10 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.start_date}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.start_date}
+                />
 				<DateField
 					name='end_date'
 					inputType='date'
@@ -182,7 +194,10 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.end_date}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.end_date}
+                />
 				<div className='modal-footer'>
 					<button
 						type='button'

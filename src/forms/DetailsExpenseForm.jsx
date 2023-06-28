@@ -1,14 +1,12 @@
 import { useEffect, useRef, useState } from "react"
 import Validator from "../validations/Validator"
 import FormField from "../components/FormField"
-import ErrorMessage from "../components/ErrorMessage"
 import ConfirmModal from "../components/ConfirmModal"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { CREATE_MUTATION_OPTIONS, createDetailsExpenseMutation, updateDetailsExpenseMutation } from "../utils/mutations"
 import { useMemo } from "react"
 import AutocompleteField from "../components/AutocompleteField"
 import ValidatorPrice from '../validations/ValidatorPrice'
-import { datatableOptions } from "../utils/datatables"
 import $ from 'jquery'
 import { QUERY_OPTIONS } from "../utils/useQuery"
 import { readAllProducts } from "../data-access/productsDataAccess"

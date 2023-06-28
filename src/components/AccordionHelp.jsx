@@ -1,9 +1,9 @@
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import '../css/muiComponent.css'
+import '../css/accordion.css';
 
-const AccordionHelp = ({ question, answer }) => {
+const AccordionHelp = ({ title, content }) => {
     return (
         <>
             <Accordion>
@@ -12,10 +12,10 @@ const AccordionHelp = ({ question, answer }) => {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                 >
-                    {question}
+                    {title}
                 </AccordionSummary>
                 <AccordionDetails>
-                    {answer}
+                    {content}
                 </AccordionDetails>
             </Accordion>
         </>

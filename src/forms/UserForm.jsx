@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import FormField from '../components/FormField'
-import ErrorMessage from '../components/ErrorMessage'
 import { createUserMutation, CREATE_MUTATION_OPTIONS, updateUserMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import ConfirmModal from '../components/ConfirmModal'
 import ValidatorPassword from '../validations/ValidatorPassword'
 import ValidatorName from '../validations/ValidatorName'
 import ValidatorEmail from '../validations/ValidatorEmail'
 import AutocompleteField from '../components/AutocompleteField'
+import MessageAlert from '../components/MessageAlert'
 
 
 const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
@@ -16,7 +16,7 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 		name: '',
 		email: '',
 		password: '',
-		role: 'user'
+		role: 'admin'
 	})
 
 	const [typeModal, setTypeModal] = useState(0)
@@ -57,7 +57,7 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 		if(name === 'email') message = ValidatorEmail(isUpdate, value, users)
 		if(name === 'password') message = ValidatorPassword(value)
 
-		setValidations({ ...validations, [name]: [message] })
+		setValidations({ ...validations, [name]: message })
 	}
 
 	const queryClient = useQueryClient()
@@ -121,7 +121,10 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.name}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.name}
+                />
 				<FormField
 					name='email'
 					inputType='email'
@@ -131,7 +134,10 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.email}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.email}
+                />
 				<FormField
 					name='password'
 					inputType='password'
@@ -141,7 +147,10 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.password}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.password}
+                />
 				<div>
 					<input id='show' type='checkbox' aria-describedby='show' onClick={showPassword}/>
 					<label id='show'>Mostrar contraseña</label>

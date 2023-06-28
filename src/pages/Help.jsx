@@ -11,8 +11,8 @@ const Help = () => {
 			/>
 
 			<AccordionHelp 
-				question={'¿Cómo se compone un RFC?'} 
-				answer={
+				title={'¿Cómo se compone un RFC?'} 
+				content={
 					'El RFC se compone de 12 caracteres:' +
 					'\n	>	Primero de 3 letras mayúsculas.' +
 					'\n		*	Solo puede contener de A-Z, la letra Ñ y el símbolo &.' +
@@ -32,8 +32,8 @@ const Help = () => {
 			/>
 
 			<AccordionHelp
-				question={'¿Hasta qué fechas se puede registrar un estudiante como becario?'}
-				answer={
+				title={'¿Hasta qué fechas se puede registrar un estudiante como becario?'}
+				content={
 					'Es posible hasta un año máximo y mínimo con respecto al año actual.' + 
 					'Por ejemplo, si estamos a 2 de octubre de 2019, el año máximo es hasta el 2 ' + 
 					'de octubre de 2020 y el año mínimo es hasta el 2 de octubre de 2018.'
@@ -41,8 +41,8 @@ const Help = () => {
 			/>
 
 			<AccordionHelp
-				question={'¿Por qué no me permite ingresar el precio exacto?'}
-				answer={
+				title={'¿Por qué no me permite ingresar el precio exacto?'}
+				content={
 					'El sistema está configurado para que el precio no exceda más de 2 ' + 
 					'decimales, por lo que redondeará hacia arriba o abajo a partir de la mitad. ' +
 					'Por ejemplo, si ingresa 12.245 se redondea a 12.24, pero si ingresa ' +
@@ -51,21 +51,21 @@ const Help = () => {
 			/>
 
 			<AccordionHelp
-				question={'¿Es obligatorio registrar un becario cuando se realiza el pago de un platillo?'}
-				answer={'Solo es obligatorio si habilita la opción \'Es becario\'.'}
+				title={'¿Es obligatorio registrar un becario cuando se realiza el pago de un platillo?'}
+				content={'Solo es obligatorio si habilita la opción \'Es becario\'.'}
 			/>
 
 			<AccordionHelp
-				question={'¿Puedo registrar nuevos platillos al menú'}
-				answer={
+				title={'¿Puedo registrar nuevos platillos al menú'}
+				content={
 					'Por el momento no. Solo se puede registrar productos para los egresos por ' +
 					'parte del administrador.'
 				}
 			/>
 
 			<AccordionHelp
-				question={'¿Existe algún manual de usuario?'}
-				answer={'Por supuesto. Accediendo a este enlace.'}
+				title={'¿Existe algún manual de usuario?'}
+				content={'Por supuesto. Accediendo a este enlace.'}
 			/>
 		</>
 	)

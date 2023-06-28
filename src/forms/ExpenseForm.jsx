@@ -4,13 +4,12 @@ import FormField from '../components/FormField'
 import { useMutation, useQueryClient } from 'react-query'
 import { createExpenseMutation, CREATE_MUTATION_OPTIONS, updateExpenseMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import Validator from '../validations/Validator'
-import ErrorMessage from '../components/ErrorMessage'
 import ConfirmModal from '../components/ConfirmModal'
 import AutocompleteField from '../components/AutocompleteField'
 import ValidatorProviderId from '../validations/ValidatorProviderId'
-import ValidatorTotal from '../validations/ValidatorTotal'
 import ValidatorBill from '../validations/ValidatorBill'
 import ValidatorDeparture from '../validations/ValidatorDeparture'
+import MessageAlert from '../components/MessageAlert'
 
 const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 	const [expense, setExpense] = useState(expenseUpdate ? {
@@ -139,7 +138,10 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 					}}
 					clearable={false}
 				/>
-				<ErrorMessage validation={validations.provider}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.provider}
+                />
 				<FormField
 					name='bill'
 					inputType='text'
@@ -149,7 +151,10 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.bill}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.bill}
+                />
 				<FormField
 					name='description'
 					inputType='text'
@@ -159,7 +164,10 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.description}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.description}
+                />
 				<FormField
 					name='departure'
 					inputType='text'
@@ -169,7 +177,10 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.departure}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.departure}
+                />
 				<div className='modal-footer'>
 					<button
 						type='button'

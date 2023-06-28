@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import FormField from '../components/FormField'
 import { createProviderMutation, CREATE_MUTATION_OPTIONS, updateProviderMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
-import ErrorMessage from '../components/ErrorMessage'
+import MessageAlert from '../components/MessageAlert'
 import ConfirmModal from '../components/ConfirmModal'
 import ValidatorName from '../validations/ValidatorName'
 import ValidatorAddress from '../validations/ValidatorAddress'
@@ -58,7 +58,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
         if(name === 'phone') message = ValidatorPhone(value)
         if(name === 'rfc') message = ValidatorRfc(value)
 
-        setValidations({ ...validations, [name]: [message] })
+        setValidations({ ...validations, [name]: message })
     }
 
     const queryClient = useQueryClient()
@@ -116,7 +116,10 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                     onChange={handleInputChange}
                     onBlur={validateOne}
                 />
-                <ErrorMessage validation={validations.name}/>
+                <MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.name}
+                />
                 <FormField
                     name='address'
                     inputType='text'
@@ -126,7 +129,10 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                     onChange={handleInputChange}
                     onBlur={validateOne}
                 />
-                <ErrorMessage validation={validations.address}/>
+                <MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.address}
+                />
                 <FormField
                     name='phone'
                     inputType='text'
@@ -136,7 +142,10 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                     onChange={handleInputChange}
                     onBlur={validateOne}
                 />
-                <ErrorMessage validation={validations.phone}/>
+                <MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.phone}
+                />
                 <FormField
                     name='rfc'
                     inputType='text'
@@ -146,7 +155,10 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                     onChange={handleInputChange}
                     onBlur={validateOne}
                 />
-                <ErrorMessage validation={validations.rfc}/>
+                <MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.rfc}
+                />
                 <div className='modal-footer'>
                     <button
                         type='button'

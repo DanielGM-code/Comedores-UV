@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
-import ErrorMessage from '../components/ErrorMessage'
 import FormField from '../components/FormField'
 import { createIncomeMutation, CREATE_MUTATION_OPTIONS, updateIncomeMutation } from '../utils/mutations'
 import '../utils/formatting'
@@ -9,6 +8,7 @@ import AutocompleteInput from '../components/AutocompleteField'
 import ValidatorScholarshipId from '../validations/ValidatorScholarshipId'
 import ValidatorNote from '../validations/ValidatorNote'
 import ValidatorTotal from '../validations/ValidatorTotal'
+import MessageAlert from '../components/MessageAlert'
 
 const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 	const [income, setIncome] = useState(incomeUpdate ? {
@@ -58,7 +58,7 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 		if(name === 'note') message = ValidatorNote(value)
 		if(name === 'total') message = ValidatorTotal(value)
 
-		setValidations({ ...validations, [name]: [message] })
+		setValidations({ ...validations, [name]: message })
 	}
 
 	const queryClient = useQueryClient()
@@ -125,7 +125,10 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 					}}
 					clearable={false}
 				/>
-				<ErrorMessage validation={validations.scholarship}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.scholarship}
+                />
 				<FormField
 					name='note'
 					inputType='text'
@@ -135,7 +138,10 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.note}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.note}
+                />
 				<FormField
 					name='total'
 					inputType='number'
@@ -145,7 +151,10 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<ErrorMessage validation={validations.total}/>
+				<MessageAlert 
+                    typeAlert='warning'
+                    validation={validations.total}
+                />
 				<div className='modal-footer'>
 					<button
 						type='button'

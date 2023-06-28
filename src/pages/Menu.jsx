@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import NavigationTitle from '../components/NavigationTitle'
+import MessageAlert from '../components/MessageAlert'
 import { readAllProducts } from '../data-access/productsDataAccess'
 import { QUERY_OPTIONS } from '../utils/useQuery'
 import '../css/menu.css'
@@ -12,9 +13,9 @@ import { useMutation, useQueryClient } from 'react-query'
 import { createIncomeMutation, CREATE_MUTATION_OPTIONS, createDetailsIncomeMutation } from '../utils/mutations'
 import AutocompleteField from '../components/AutocompleteField'
 import ValidatorNote from '../validations/ValidatorNote'
-import ErrorMessage from '../components/ErrorMessage'
 import ValidatorMenuName from '../validations/ValidatorMenuName'
 import ValidatorMenuScholarship from '../validations/ValidatorMenuScholarship'
+import { Alert } from '@mui/material'
 
 const Menu = () => {
 	const [selectedCategory, setSelectedCategory] = useState('Alimentos')
@@ -347,7 +348,10 @@ const Menu = () => {
 									})
 								}}
 							/>
-							<ErrorMessage validation={validations.scholarship}/>
+							<MessageAlert 
+								typeAlert='warning'
+								validation={validations.scholarship}
+							/>
 						</>
 						:
 						<>
@@ -367,7 +371,10 @@ const Menu = () => {
 								}}
 								onBlur={validateOne}
 							/>
-							<ErrorMessage validation={validations.name}/>
+							<MessageAlert 
+								typeAlert='warning'
+								validation={validations.name}
+							/>
 						</>
 					}
 
@@ -383,7 +390,10 @@ const Menu = () => {
 						onChange={handleInputChange}
 						onBlur={validateOne}
 					></textarea>
-					<ErrorMessage validation={validations.note}/>
+					<MessageAlert 
+						typeAlert='warning'
+						validation={validations.note}
+					/>
 					<div className='modal-footer'>
 						<button
 							type='button'
