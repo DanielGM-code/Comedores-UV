@@ -1,27 +1,29 @@
-#panel1a-content {
+.card {
     white-space: pre-wrap;
-    background-color: cadetblue;
-}
-
-.MuiAccordion-root.MuiAccordion-rounded{
     border-radius: 20px;
 }
 
-.MuiAccordion-root.MuiAccordion-rounded.Mui-expanded{
-    border-radius: 20px;
-}
-
-.MuiAccordionSummary-root.Mui-expanded{
-    background-color: cadetblue;
-    color: white;
+.card-header:defined {
     border-radius: 20px 20px 0 0;
 }
 
-.MuiAccordion-region{
-    border-radius: 0 0 20px 20px;
+.card-header.collapsed {
+    background-color: cadetblue;
+    border-radius: 20px;
+    cursor: pointer;
 }
 
-.MuiAccordionDetails-root{
+.card-header, 
+.card-header:hover {
+    background-color: rgb(106, 95, 167);
+}
+
+.btn, 
+.btn:hover {
+    color: white;
+}
+
+.card-body {
     background-color: rgb(62, 138, 199);
     color: white;
     border-radius: 0 0 20px 20px;

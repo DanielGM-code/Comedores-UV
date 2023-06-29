@@ -3,13 +3,10 @@ import { useState } from 'react'
 import FormField from '../components/FormField'
 import { useMutation, useQueryClient } from 'react-query'
 import { createExpenseMutation, CREATE_MUTATION_OPTIONS, updateExpenseMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
-import Validator from '../validations/Validator'
 import ConfirmModal from '../components/ConfirmModal'
 import AutocompleteField from '../components/AutocompleteField'
-import ValidatorProviderId from '../validations/ValidatorProviderId'
-import ValidatorBill from '../validations/ValidatorBill'
-import ValidatorDeparture from '../validations/ValidatorDeparture'
-import MessageAlert from '../components/MessageAlert'
+import Alert from '../components/Alert'
+import ExpenseFormValidator from '../validations/ExpenseFormValidator'
 
 const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 	const [expense, setExpense] = useState(expenseUpdate ? {
@@ -28,23 +25,23 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 	const [isShowingModal, setIsShowingModal] = useState(false)
 
 	const [validations, setValidations] = useState({
-		provider: '',
-		description: '',
-		bill: '',
-		departure: ''
+		provider: null,
+		description: null,
+		bill: null,
+		departure: null
 	})
 
 	const validateAll = () => {
 		const { provider_id, bill, description, departure } = expense
-		let validations = { provider: '', description: '', total: '', bill: '', departure: '' }
+		let validations = { provider: null, description: null, bill: null, departure: null }
 
-		validations.provider = ValidatorProviderId(provider_id, providers)
-		validations.description = validateDescription(description)
-		validations.bill = ValidatorBill(bill)
-		validations.departure = ValidatorDeparture(departure)
+		validations.provider = ExpenseFormValidator(provider_id).providerIdValidator(providers)
+		validations.description = ExpenseFormValidator(description).descriptionValidator()
+		validations.bill = ExpenseFormValidator(bill).billValidator()
+		validations.departure = ExpenseFormValidator(departure).departureValidator()
 
 		const validationMessages = Object.values(validations).filter(
-			(validationMessage) => validationMessage.length > 0
+			(validationMessage) => validationMessage !== null
 		)
 		let isValid = !validationMessages.length
 
@@ -56,21 +53,13 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 	const validateOne = (event) => {
 		const {name} = event.target
 		const value = expense[name]
-		let message = ''
+		let message = null
 
-		if(name === 'bill') message = ValidatorBill(value)
-		if(name === 'description') message = validateDescription(value)
-		if(name === 'departure') message = ValidatorDeparture(value)
+		if(name === 'bill') message = ExpenseFormValidator(value).billValidator()
+		if(name === 'description') message = ExpenseFormValidator(value).descriptionValidator()
+		if(name === 'departure') message = ExpenseFormValidator(value).departureValidator()
 
 		setValidations({ ...validations, [name]: message })
-	}
-
-	const validateDescription = (description) => {
-		const validatorDescription = Validator(description)
-
-		if(validatorDescription.isEmpty()) return 'Descripción requerida'
-		if(!validatorDescription.isCorrectLength(0, 251)) return 'La descripción debe tener máximo 250 caracteres'
-		return ''
 	}
 
 	const queryClient = useQueryClient()
@@ -138,8 +127,8 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 					}}
 					clearable={false}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.provider}
                 />
 				<FormField
@@ -151,8 +140,8 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.bill}
                 />
 				<FormField
@@ -164,8 +153,8 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.description}
                 />
 				<FormField
@@ -177,8 +166,8 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.departure}
                 />
 				<div className='modal-footer'>

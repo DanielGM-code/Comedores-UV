@@ -221,21 +221,3 @@ textarea {
 	border-radius: 15px;
 	border: solid 0.5px #CED4DA;
 }
-
-ul.react-autocomplete-input {
-	background-color: white;
-	border-radius: 15px;
-	text-align: start;
-	list-style: none;
-	padding: 5px;
-}
-
-ul.react-autocomplete-input > li {
-	padding-inline-start: 5px;
-	cursor: pointer;
-}
-
-ul.react-autocomplete-input > li:hover {
-	border-radius: 15px;
-	background-color: #dae0e7;
-}

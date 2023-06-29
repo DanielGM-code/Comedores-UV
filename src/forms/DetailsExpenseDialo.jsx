@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react"
-import { Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { CREATE_MUTATION_OPTIONS, createDetailsExpenseMutation, updateDetailsExpenseMutation } from "../utils/mutations"
 import AutocompleteField from "../components/AutocompleteField"
@@ -140,46 +139,7 @@ const DetailsExpenseDialog = ({ cancelAction, expenseDetails }) => {
 	}
     
     return (
-        <Dialog
-				open={open}
-				onClose={handleClose()}
-				scroll="paper"
-				aria-labelledby="scroll-dialog-title"
-			>
-				<DialogTitle id='scroll-dialog-title'>Detalles del egreso</DialogTitle>
-				<DialogContent dividers={true}>
-					<AutocompleteField
-						name='product_id'
-						iconClasses='fa-solid fa-burger-soda'
-						options={productsNames}
-						selectedOption={null}
-						placeholder='Producto'
-						onChange={handleAutocompleteChange}
-					/>
-				</DialogContent>
-				<DialogActions>
-					<div className='modal-footer'>
-						<button
-							type='button'
-							className='btn btn-danger'
-							onClick={() => {
-								setTypeModal(1)
-								setIsShowingModal(true)
-							}}
-						>
-							Cancelar
-						</button>
-						<button
-							type='button'
-							className='btn btn-primary'
-							onClick={() => {
-								submitDetailsExpense()
-							}}
-						>
-							{`${expense_details.id ? 'Actualizar' : 'Guardar'}`}
-						</button>
-					</div>
-				</DialogActions>
-			</Dialog>
+		<>
+		</>
     )
 }

@@ -5,12 +5,8 @@ import DateField from '../components/DateField'
 import { createScholarshipMutation, CREATE_MUTATION_OPTIONS, updateScholarshipMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import '../utils/formatting'
 import ConfirmModal from '../components/ConfirmModal'
-import ValidatorLastName from '../validations/ValidatorLastName'
-import ValidatorCareer from '../validations/ValidatorCareer'
-import ValidatorStartDate from '../validations/ValidatorStartDate'
-import ValidatorEndDate from '../validations/ValidatorEndDate'
-import ValidatorName from '../validations/ValidatorName'
-import MessageAlert from '../components/MessageAlert'
+import Alert from '../components/Alert'
+import ScholarshipFormValidator from '../validations/ScholarshipFormValidator'
 
 const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 	const [scholarship, setScholarship] = useState(scholarshipUpdate ? {
@@ -31,25 +27,25 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 	const [isShowingModal, setIsShowingModal] = useState(false)
 
 	const [validations, setValidations] = useState({
-		first_name: '',
-		last_name: '',
-		career: '',
-		start_date: '',
-		end_date: ''
+		first_name: null,
+		last_name: null,
+		career: null,
+		start_date: null,
+		end_date: null
 	})
 
 	const validateAll = () => {
 		const { first_name, last_name, career, start_date, end_date } = scholarship
-		const validations = { first_name: '', last_name: '', career: '', start_date: '', end_date: '' }
+		const validations = { first_name: null, last_name: null, career: null, start_date: null, end_date: null }
 
-		validations.first_name = ValidatorName(first_name)
-		validations.last_name = ValidatorLastName(last_name)
-		validations.career = ValidatorCareer(career)
-		validations.start_date = ValidatorStartDate(start_date, end_date)
-		validations.end_date = ValidatorEndDate(end_date, start_date)
+		validations.first_name = ScholarshipFormValidator(first_name).nameValidator()
+		validations.last_name = ScholarshipFormValidator(last_name).lastNameValidator()
+		validations.career = ScholarshipFormValidator(career).careerValidator()
+		validations.start_date = ScholarshipFormValidator(start_date).startDateValidator(end_date)
+		validations.end_date = ScholarshipFormValidator(end_date).endDateValidator(start_date)
 
 		const validationMessages = Object.values(validations).filter(
-			(validationMessage) => validationMessage.length > 0
+			(validationMessage) => validationMessage !== null
 		)
 		let isValid = !validationMessages.length
 
@@ -63,13 +59,13 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 	const validateOne = (e) => {
 		const { name } = e.target
 		const value = scholarship[name]
-		let message = ''
+		let message = null
 
-		if(name === 'first_name') message = ValidatorName(value)
-		if(name === 'last_name') message = ValidatorLastName(value)
-		if(name === 'career') message = ValidatorCareer(value)
-		if(name === 'start_date') message = ValidatorStartDate(value, scholarship['end_date'])
-		if(name === 'end_date') message = ValidatorEndDate(value, scholarship['start_date'])
+		if(name === 'first_name') message = ScholarshipFormValidator(value).nameValidator()
+		if(name === 'last_name') message = ScholarshipFormValidator(value).lastNameValidator()
+		if(name === 'career') message = ScholarshipFormValidator(value).careerValidator()
+		if(name === 'start_date') message = ScholarshipFormValidator(value).startDateValidator(scholarship['end_date'])
+		if(name === 'end_date') message = ScholarshipFormValidator(value).endDateValidator(scholarship['start_date'])
 
 		setValidations({ ...validations, [name]: message })
 	}
@@ -136,8 +132,8 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.first_name}
                 />
 				<FormField
@@ -149,8 +145,8 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.last_name}
                 />
 				<FormField
@@ -162,8 +158,8 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.career}
                 />
 				<DateField
@@ -178,8 +174,8 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.start_date}
                 />
 				<DateField
@@ -194,8 +190,8 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.end_date}
                 />
 				<div className='modal-footer'>

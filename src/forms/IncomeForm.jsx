@@ -5,10 +5,8 @@ import { createIncomeMutation, CREATE_MUTATION_OPTIONS, updateIncomeMutation } f
 import '../utils/formatting'
 import ConfirmModal from '../components/ConfirmModal'
 import AutocompleteInput from '../components/AutocompleteField'
-import ValidatorScholarshipId from '../validations/ValidatorScholarshipId'
-import ValidatorNote from '../validations/ValidatorNote'
-import ValidatorTotal from '../validations/ValidatorTotal'
-import MessageAlert from '../components/MessageAlert'
+import Alert from '../components/Alert'
+import IncomeFormValidator from '../validations/IncomeFormValidator'
 
 const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 	const [income, setIncome] = useState(incomeUpdate ? {
@@ -24,22 +22,19 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 	const [typeModal, setTypeModal] = useState(0)
 	const [isShowingModal, setIsShowingModal] = useState(false)
 	const [validations, setValidations] = useState({
-		scholarship: '',
-		user: '',
-		note: '',
-		total: ''
+		scholarship: null,
+		note: null
 	})
 
 	const validateAll = () => {
-		const { scholarship_id, user_id, note, total } = income
-		const validations = { scholarship: '', user: '', note: '', total: '' }
+		const { scholarship_id, note } = income
+		const validations = { scholarship: null, note: null }
 
-		validations.scholarship = ValidatorScholarshipId(scholarship_id, scholarships)
-		validations.note = ValidatorNote(note)
-		validations.total = ValidatorTotal(total)
+		validations.scholarship = IncomeFormValidator(scholarship_id).scholarshipIdValidator(scholarships)
+		validations.note = IncomeFormValidator(note).noteValidator()
 
 		const validationMessages = Object.values(validations).filter(
-			(validationMessage) => validationMessage.length > 0
+			(validationMessage) => validationMessage !== null
 		)
 		let isValid = !validationMessages.length
 
@@ -53,10 +48,9 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 	const validateOne = (e) => {
 		const { name } = e.target
 		const value = income[name]
-		let message = ''
+		let message = null
 
-		if(name === 'note') message = ValidatorNote(value)
-		if(name === 'total') message = ValidatorTotal(value)
+		if(name === 'note') message = IncomeFormValidator(value).noteValidator()
 
 		setValidations({ ...validations, [name]: message })
 	}
@@ -125,8 +119,8 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 					}}
 					clearable={false}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.scholarship}
                 />
 				<FormField
@@ -138,22 +132,9 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.note}
-                />
-				<FormField
-					name='total'
-					inputType='number'
-					iconClasses='fa-solid fa-coins'
-					placeholder='Total'
-					value={income.total}
-					onChange={handleInputChange}
-					onBlur={validateOne}
-				/>
-				<MessageAlert 
-                    typeAlert='warning'
-                    validation={validations.total}
                 />
 				<div className='modal-footer'>
 					<button

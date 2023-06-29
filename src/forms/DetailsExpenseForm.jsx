@@ -10,7 +10,6 @@ import ValidatorPrice from '../validations/ValidatorPrice'
 import $ from 'jquery'
 import { QUERY_OPTIONS } from "../utils/useQuery"
 import { readAllProducts } from "../data-access/productsDataAccess"
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material"
 
 const DetailsExpenseForm = ({ cancelAction, expenseDetails }) => {
 

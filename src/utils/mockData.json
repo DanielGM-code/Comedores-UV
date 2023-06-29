@@ -88,6 +88,27 @@
       "password": "QIEU_394q",
       "role": "inactivo",
       "id": 17
+    },
+    {
+      "name": "",
+      "email": "",
+      "password": "",
+      "role": "inactivo",
+      "id": 18
+    },
+    {
+      "name": "",
+      "email": "",
+      "password": "",
+      "role": "inactivo",
+      "id": 19
+    },
+    {
+      "name": "",
+      "email": "",
+      "password": "",
+      "role": "admin",
+      "id": 20
     }
   ],
   "incomes": [

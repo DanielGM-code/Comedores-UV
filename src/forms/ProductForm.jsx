@@ -3,13 +3,9 @@ import { useMutation, useQueryClient } from 'react-query'
 import FormField from '../components/FormField'
 import { createProductMutation, CREATE_MUTATION_OPTIONS, updateProductMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import ConfirmModal from '../components/ConfirmModal'
-import ValidatorName from '../validations/ValidatorName'
-import ValidatorDescription from '../validations/ValidatorDescription'
-import ValidatorPrice from '../validations/ValidatorPrice'
-import ValidatorStock from '../validations/ValidatorStock'
-import ValidatorProductType from '../validations/ValidatorProductType'
-import MessageAlert from '../components/MessageAlert'
+import Alert from '../components/Alert'
 import '../utils/formatting'
+import ProductFormValidator from '../validations/ProductFormValidator'
 
 const ProductForm = ({ cancelAction, productUpdate }) => {
 	const [product, setProduct] = useState(productUpdate ?? {
@@ -26,29 +22,29 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 	const [isShowingModal, setIsShowingModal] = useState(false)
 
 	const [validations, setValidations] = useState({
-		name: '',
-		description: '',
-		purchase_price: '',
-		sale_price: '',
-		preferred_price: '',
-		stock: '',
-		product_type: ''
+		name: null,
+		description: null,
+		purchase_price: null,
+		sale_price: null,
+		preferred_price: null,
+		stock: null,
+		product_type: null
 	})
 
 	const validateAll = () => {
 		const { name, description, purchase_price, sale_price, preferred_price, stock, product_type } = product
-		const validations = { name: '', description: '', purchase_price: '', sale_price: '', preferred_price: '', stock: '', product_type: ''}
+		const validations = { name: null, description: null, purchase_price: null, sale_price: null, preferred_price: null, stock: null, product_type: null}
 
-		validations.name = ValidatorName(name)
-		validations.description = ValidatorDescription(description)
-		validations.purchase_price = ValidatorPrice(purchase_price)
-		validations.preferred_price = ValidatorPrice(preferred_price)
-		validations.sale_price = ValidatorPrice(sale_price)
-		validations.stock = ValidatorStock(stock)
-		validations.product_type = ValidatorProductType(product_type)
+		validations.name = ProductFormValidator(name).nameValidator()
+		validations.description = ProductFormValidator(description).descriptionValidator()
+		validations.purchase_price = ProductFormValidator(purchase_price).priceValidator()
+		validations.preferred_price = ProductFormValidator(preferred_price).priceValidator()
+		validations.sale_price = ProductFormValidator(sale_price).priceValidator()
+		validations.stock = ProductFormValidator(stock).stockValidator()
+		validations.product_type = ProductFormValidator(product_type).productTypeValidator()
 
 		const validationMessages = Object.values(validations).filter(
-			(validationMessage) => validationMessage.length > 0
+			(validationMessage) => validationMessage !== null
 		)
 		let isValid = !validationMessages.length
 
@@ -63,19 +59,19 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 		const { name } = e.target
 		const value = product[name]
 		let numberPrice = 0
-		let message = ''
+		let message = null
 
-		if(name === 'name') message = ValidatorName(value)
-		if(name === 'description') message = ValidatorDescription(value)
+		if(name === 'name') message = ProductFormValidator(value).nameValidator()
+		if(name === 'description') message = ProductFormValidator(value).descriptionValidator()
 		if(name === 'purchase_price' || name === 'preferred_price' || 
 			name === 'sale_price'
 		) {
 			numberPrice = Number(Number(value).priceFormat())
 			product[name] = numberPrice
-			message = ValidatorPrice(numberPrice)
+			message = ProductFormValidator(numberPrice).priceValidator()
 		}
-		if(name === 'stock') message = ValidatorStock(value)
-		if(name === 'product_type') message = ValidatorProductType(value)
+		if(name === 'stock') message = ProductFormValidator(value).stockValidator()
+		if(name === 'product_type') message = ProductFormValidator(value).productTypeValidator()
 
 		setValidations({ ...validations, [name]: message })
 	}
@@ -135,8 +131,8 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.name}
                 />
 				<div className='input-group mb-3'>
@@ -156,8 +152,8 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 						onBlur={validateOne}
 					></textarea>
 				</div>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.description}
                 />
 				<FormField
@@ -169,8 +165,8 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.purchase_price}
                 />
 				<FormField
@@ -182,8 +178,8 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.sale_price}
                 />
 				<FormField
@@ -195,8 +191,8 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.preferred_price}
                 />
 				<FormField
@@ -208,8 +204,8 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.stock}
                 />
 				<FormField 
@@ -221,8 +217,8 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.product_type}
                 />
 				<div className='modal-footer'>

@@ -3,11 +3,9 @@ import { useMutation, useQueryClient } from 'react-query'
 import FormField from '../components/FormField'
 import { createUserMutation, CREATE_MUTATION_OPTIONS, updateUserMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import ConfirmModal from '../components/ConfirmModal'
-import ValidatorPassword from '../validations/ValidatorPassword'
-import ValidatorName from '../validations/ValidatorName'
-import ValidatorEmail from '../validations/ValidatorEmail'
 import AutocompleteField from '../components/AutocompleteField'
-import MessageAlert from '../components/MessageAlert'
+import Alert from '../components/Alert'
+import UserFormValidator from '../validations/UserFormValidator'
 
 
 const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
@@ -23,21 +21,21 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 	const [isShowingModal, setIsShowingModal] = useState(false)
 
 	const [validations, setValidations] = useState({
-		name: '',
-		email: '',
-		password: ''
+		name: null,
+		email: null,
+		password: null
 	})
 
 	const validateAll = () => {
 		const { name, email, password } = user
-		const validations = { name: '', email: '', password: '' }
+		const validations = { name: null, email: null, password: null }
 
-		validations.name = ValidatorName(name)
-		validations.email = ValidatorEmail(isUpdate, email, users)
-		validations.password = ValidatorPassword(password)
+		validations.name = UserFormValidator(name).nameValidator()
+		validations.email = UserFormValidator(email).emailValidator(users, isUpdate)
+		validations.password = UserFormValidator(password).passwordValidator()
 
 		const validationMessages = Object.values(validations).filter(
-			(validationMessage) => validationMessage.length > 0
+			(validationMessage) => validationMessage !== null
 		)
 		let isValid = !validationMessages.length
 
@@ -51,11 +49,11 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 	const validateOne = (e) => {
 		const { name } = e.target
 		const value = user[name]
-		let message = ''
+		let message = null
 
-		if(name === 'name') message = ValidatorName(value)
-		if(name === 'email') message = ValidatorEmail(isUpdate, value, users)
-		if(name === 'password') message = ValidatorPassword(value)
+		if(name === 'name') message = UserFormValidator(value).nameValidator()
+		if(name === 'email') message = UserFormValidator(value).emailValidator(users, isUpdate)
+		if(name === 'password') message = UserFormValidator(value).passwordValidator()
 
 		setValidations({ ...validations, [name]: message })
 	}
@@ -121,8 +119,8 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.name}
                 />
 				<FormField
@@ -134,8 +132,8 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.email}
                 />
 				<FormField
@@ -147,8 +145,8 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
-				<MessageAlert 
-                    typeAlert='warning'
+				<Alert 
+                    typeAlert='alert alert-warning'
                     validation={validations.password}
                 />
 				<div>
