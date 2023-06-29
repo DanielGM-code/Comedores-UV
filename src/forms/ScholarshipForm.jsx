@@ -109,8 +109,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 			createMutation.reset()
 		}
 		await queryClient.resetQueries()
-		setTypeModal(scholarship.id ? 3 : 2)
-		setIsShowingModal(true)
+		cancelAction()
 	}
 
 	const today1 = new Date()

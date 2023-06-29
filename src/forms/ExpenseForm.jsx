@@ -101,8 +101,7 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 			createMutation.reset()
 		}
 		await queryClient.resetQueries()
-		setTypeModal(expense.id ? 3 : 2)
-		setIsShowingModal(true)
+		cancelAction()
 	}
 
 	return (

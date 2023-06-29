@@ -97,8 +97,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
             createMutation.reset()
         }
         await queryClient.resetQueries()
-        setTypeModal(provider.id ? 3 : 2)
-        setIsShowingModal(true)
+        cancelAction()
     }
 
     return (

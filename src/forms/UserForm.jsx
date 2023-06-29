@@ -103,8 +103,7 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 			createMutation.reset()
 		}
 		await queryClient.resetQueries()
-		setTypeModal(user.id ? 3 : 2)
-		setIsShowingModal(true)
+		cancelAction()
 	}
 
 	return (

@@ -1,24 +1,22 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Modal from '../components/Modal'
 import { useQueryClient } from 'react-query'
-import ConfirmModal from './ConfirmModal'
 
 const DeleteModal = ({ objectClass, deleteMutation, cancelAction, isShowingModal, setIsShowingModal, typeClass, isDelete}) => {
 
     const queryClient = useQueryClient()
-	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
 
     async function deleteObject(){
 		await deleteMutation.mutateAsync(objectClass.id)
 		await queryClient.resetQueries()
-		setIsShowingDeleteModal(true)
+        cancelAction()
 	}
 
     async function updateObject(){
         await deleteMutation.mutateAsync(objectClass)
         deleteMutation.reset()
         await queryClient.resetQueries()
-        setIsShowingDeleteModal(true)
+        cancelAction()
     }
 
     return (
@@ -49,14 +47,6 @@ const DeleteModal = ({ objectClass, deleteMutation, cancelAction, isShowingModal
                     Aceptar
                 </button>
             </Modal>
-
-            <ConfirmModal
-                cancelAction={cancelAction}
-                typeModal={4}
-                isShowingModal={isShowingDeleteModal}
-                setIsShowingModal={setIsShowingDeleteModal}
-                typeClass={typeClass}
-            />
         </>
     )
 }

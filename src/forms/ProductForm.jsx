@@ -115,8 +115,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 			createMutation.reset()
 		}
 		await queryClient.resetQueries()
-		setTypeModal(product.id ? 3 : 2)
-		setIsShowingModal(true)
+		cancelAction()
 	}
 
 	return (

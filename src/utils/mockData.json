@@ -107,8 +107,15 @@
       "name": "",
       "email": "",
       "password": "",
-      "role": "admin",
+      "role": "inactivo",
       "id": 20
+    },
+    {
+      "name": "Miguel Araujo Hernández",
+      "email": "DKB333@gmail.com",
+      "password": "WEB123_hd",
+      "role": "inactivo",
+      "id": 21
     }
   ],
   "incomes": [

@@ -93,8 +93,7 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 			createMutation.reset()
 		}
 		await queryClient.resetQueries()
-		setTypeModal(income.id ? 3 : 2)
-		setIsShowingModal(true)
+		cancelAction()
 	}
 
 	return (
