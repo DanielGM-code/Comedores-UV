@@ -11,6 +11,7 @@ const ConfirmModal = ({ cancelAction, isShowingModal, setIsShowingModal, typeCla
                 setIsShowing={setIsShowingModal}
                 onClose={() => {
                     setIsShowingModal(false)
+                    document.body.style.position = 'hidden'
                 }}
             >
                 <button
@@ -18,6 +19,7 @@ const ConfirmModal = ({ cancelAction, isShowingModal, setIsShowingModal, typeCla
 					className='btn btn-danger'
 					onClick={() => {
 						setIsShowingModal(false)
+                        document.body.style.position = 'hidden'
 					}}
 				>
 					Regresar
@@ -25,6 +27,7 @@ const ConfirmModal = ({ cancelAction, isShowingModal, setIsShowingModal, typeCla
 				<button type='button' className='btn btn-primary' onClick={() => {
 					cancelAction()
 					setIsShowingModal(false)
+                    document.body.style.position = null
 				}}>
 					Aceptar
 				</button>

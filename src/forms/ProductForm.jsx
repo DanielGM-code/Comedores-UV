@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import FormField from '../components/FormField'
 import { createProductMutation, CREATE_MUTATION_OPTIONS, updateProductMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
-import ConfirmModal from '../components/ConfirmModal'
 import Alert from '../components/Alert'
 import '../utils/formatting'
 import ProductFormValidator from '../validations/ProductFormValidator'
 
 const ProductForm = ({ cancelAction, productUpdate }) => {
+	document.body.style.overflow = 'hidden'
+	
 	const [product, setProduct] = useState(productUpdate ?? {
 		name: '',
 		description: '',
@@ -17,9 +18,6 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 		stock: '',
 		product_type: ''
 	})
-
-	const [typeModal, setTypeModal] = useState(0)
-	const [isShowingModal, setIsShowingModal] = useState(false)
 
 	const [validations, setValidations] = useState({
 		name: null,
@@ -116,6 +114,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 		}
 		await queryClient.resetQueries()
 		cancelAction()
+		document.body.style.overflow = null
 	}
 
 	return (
@@ -225,8 +224,8 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 						type='button'
 						className='btn btn-danger'
 						onClick={() => {
-							setTypeModal(1)
-							setIsShowingModal(true)
+							cancelAction()
+							document.body.style.position = null
 						}}
 					>
 						Cancelar
@@ -242,15 +241,6 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 					</button>
 				</div>
 			</form>
-
-			<ConfirmModal
-				objectClass={productUpdate}
-				cancelAction={cancelAction}
-				typeModal={typeModal}
-				isShowingModal={isShowingModal}
-				setIsShowingModal={setIsShowingModal}
-				typeClass={'producto'}
-			/>
 		</>
 	)
 }

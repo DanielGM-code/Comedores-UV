@@ -3,12 +3,13 @@ import { useMutation, useQueryClient } from 'react-query'
 import FormField from '../components/FormField'
 import { createIncomeMutation, CREATE_MUTATION_OPTIONS, updateIncomeMutation } from '../utils/mutations'
 import '../utils/formatting'
-import ConfirmModal from '../components/ConfirmModal'
 import AutocompleteInput from '../components/AutocompleteField'
 import Alert from '../components/Alert'
 import IncomeFormValidator from '../validations/IncomeFormValidator'
 
 const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
+	document.body.style.overflow = 'hidden'
+	
 	const [income, setIncome] = useState(incomeUpdate ? {
 		...incomeUpdate,
 		date: new Date(incomeUpdate.date).formatted()
@@ -19,8 +20,7 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 		total: '',
 		date: new Date().formatted()
 	})
-	const [typeModal, setTypeModal] = useState(0)
-	const [isShowingModal, setIsShowingModal] = useState(false)
+	
 	const [validations, setValidations] = useState({
 		scholarship: null,
 		note: null
@@ -94,6 +94,7 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 		}
 		await queryClient.resetQueries()
 		cancelAction()
+		document.body.style.overflow = null
 	}
 
 	return (
@@ -140,8 +141,8 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 						type='button'
 						className='btn btn-danger'
 						onClick={() => {
-							setTypeModal(1)
-							setIsShowingModal(true)
+							cancelAction()
+							document.body.style.position = null
 						}}
 					>
 						Cancelar
@@ -157,15 +158,6 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 					</button>
 				</div>
 			</form>
-
-			<ConfirmModal
-				objectClass={incomeUpdate}
-				cancelAction={cancelAction}
-				typeModal={typeModal}
-				isShowingModal={isShowingModal}
-				setIsShowingModal={setIsShowingModal}
-				typeClass={'ingreso'}
-			/>
 		</>
 	)
 }

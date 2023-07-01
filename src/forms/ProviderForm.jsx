@@ -3,19 +3,17 @@ import { useMutation, useQueryClient } from 'react-query'
 import FormField from '../components/FormField'
 import { createProviderMutation, CREATE_MUTATION_OPTIONS, updateProviderMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import Alert from '../components/Alert'
-import ConfirmModal from '../components/ConfirmModal'
 import ProviderFormValidator from '../validations/ProviderFormValidator'
 
 const ProviderForm = ({ cancelAction, providerUpdate}) => {
+    document.body.style.overflow = 'hidden'
+    
     const [provider, setProvider] = useState(providerUpdate ?? {
         name: '',
         address: '',
         phone: '',
         rfc: ''
     })
-
-    const [typeModal, setTypeModal] = useState(0)
-	const [isShowingModal, setIsShowingModal] = useState(false)
 
     const [validations, setValidations] = useState({
         name: null,
@@ -98,6 +96,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
         }
         await queryClient.resetQueries()
         cancelAction()
+        document.body.style.overflow = null
     }
 
     return (
@@ -160,8 +159,8 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                         type='button'
                         className='btn btn-danger'
                         onClick={() => {
-                            setTypeModal(1)
-                            setIsShowingModal(true)
+                            cancelAction()
+							document.body.style.position = null
                         }}
                     >
                         Cancelar
@@ -177,16 +176,6 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                     </button>
                 </div>
             </form>
-
-            <ConfirmModal
-				objectClass={providerUpdate}
-				cancelAction={cancelAction}
-				typeModal={typeModal}
-				isShowingModal={isShowingModal}
-				setIsShowingModal={setIsShowingModal}
-				typeClass={'proveedor'}
-			/>
-
         </>
     )
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import Modal from '../components/Modal'
 import { useQueryClient } from 'react-query'
 
-const DeleteModal = ({ objectClass, deleteMutation, cancelAction, isShowingModal, setIsShowingModal, typeClass, isDelete}) => {
+const DeleteModal = ({ objectClass, deleteMutation, cancelAction, isShowingModal, setIsShowingModal, typeClass, isDelete}) => { 
 
     const queryClient = useQueryClient()
 
@@ -10,6 +10,7 @@ const DeleteModal = ({ objectClass, deleteMutation, cancelAction, isShowingModal
 		await deleteMutation.mutateAsync(objectClass.id)
 		await queryClient.resetQueries()
         cancelAction()
+        document.body.style.overflow = null
 	}
 
     async function updateObject(){
@@ -17,6 +18,7 @@ const DeleteModal = ({ objectClass, deleteMutation, cancelAction, isShowingModal
         deleteMutation.reset()
         await queryClient.resetQueries()
         cancelAction()
+        document.body.style.overflow = null
     }
 
     return (
@@ -27,6 +29,7 @@ const DeleteModal = ({ objectClass, deleteMutation, cancelAction, isShowingModal
                 setIsShowing={setIsShowingModal}
                 onClose={() => {
                     cancelAction()
+                    document.body.style.overflow = null
                 }}
             >
                 <button
@@ -34,6 +37,7 @@ const DeleteModal = ({ objectClass, deleteMutation, cancelAction, isShowingModal
                     className='btn btn-danger'
                     onClick={() => {
                         cancelAction()
+                        document.body.style.overflow = null
                     }}
                 >
                     Regresar

@@ -96,6 +96,7 @@ const Scholarships = () => {
 												onClick={() => {
 													setSelectedScholarship(scholarship)
 													setIsShowingDeleteModal(true)
+													document.body.style.position = 'hidden'
 												}}
 											>
 												<i className='fa-solid fa-trash'></i>

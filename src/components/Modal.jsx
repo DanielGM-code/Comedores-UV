@@ -18,6 +18,7 @@ const Modal = ({
 		<>
 			{isShowing &&
 				<div id='overlay' className='overlay' onClick={(e) => {
+					document.body.style.overflow = null
 					e.target.id === 'overlay' && closeModal()
 				}}>
 					<div className='modal-content' >

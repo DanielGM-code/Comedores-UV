@@ -33,6 +33,7 @@ const ProductFormValidator = (value) => {
         productTypeValidator(){
             const typeValidator = Validator(value)
 
+            if(typeValidator.isEmpty()) return <>Tipo de producto requerido</>
             if(!typeValidator.isCorrectMaxLength(100)) return <>El tipo debe tener menos de 100 caracteres</>
             return null
         }

@@ -129,6 +129,7 @@ const Expenses = () => {
 												onClick={() => {
 													setSelectedExpense(expense)
 													setIsShowingModal(true)
+													document.body.style.position = 'hidden'
 												}}
 											>
 												<i className='fa-solid fa-pen-to-square'></i>

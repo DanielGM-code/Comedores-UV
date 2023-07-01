@@ -4,11 +4,12 @@ import FormField from '../components/FormField'
 import DateField from '../components/DateField'
 import { createScholarshipMutation, CREATE_MUTATION_OPTIONS, updateScholarshipMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import '../utils/formatting'
-import ConfirmModal from '../components/ConfirmModal'
 import Alert from '../components/Alert'
 import ScholarshipFormValidator from '../validations/ScholarshipFormValidator'
 
 const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
+	document.body.style.overflow = 'hidden'
+	
 	const [scholarship, setScholarship] = useState(scholarshipUpdate ? {
 		...scholarshipUpdate,
 		start_date: new Date(scholarshipUpdate.start_date).formatted(),
@@ -22,9 +23,6 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 		start_date: new Date().formatted(),
 		end_date: new Date().formatted()
 	})
-
-	const [typeModal, setTypeModal] = useState(0)
-	const [isShowingModal, setIsShowingModal] = useState(false)
 
 	const [validations, setValidations] = useState({
 		first_name: null,
@@ -110,6 +108,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 		}
 		await queryClient.resetQueries()
 		cancelAction()
+		document.body.style.overflow = null
 	}
 
 	const today1 = new Date()
@@ -198,8 +197,8 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 						type='button'
 						className='btn btn-danger'
 						onClick={() => {
-							setTypeModal(1)
-							setIsShowingModal(true)
+							cancelAction()
+							document.body.style.position = null
 						}}
 					>
 						Cancelar
@@ -215,14 +214,6 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					</button>
 				</div>
 			</form>
-
-			<ConfirmModal
-				cancelAction={cancelAction}
-				typeModal={typeModal}
-				isShowingModal={isShowingModal}
-				setIsShowingModal={setIsShowingModal}
-				typeClass={'becario'}
-			/>
 		</>
 	)
 }

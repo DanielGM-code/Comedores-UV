@@ -3,12 +3,13 @@ import { useState } from 'react'
 import FormField from '../components/FormField'
 import { useMutation, useQueryClient } from 'react-query'
 import { createExpenseMutation, CREATE_MUTATION_OPTIONS, updateExpenseMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
-import ConfirmModal from '../components/ConfirmModal'
 import AutocompleteField from '../components/AutocompleteField'
 import Alert from '../components/Alert'
 import ExpenseFormValidator from '../validations/ExpenseFormValidator'
 
 const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
+	document.body.style.overflow = 'hidden'
+	
 	const [expense, setExpense] = useState(expenseUpdate ? {
 		...expenseUpdate,
 		date: new Date(expenseUpdate.date).formatted()
@@ -20,9 +21,6 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 		bill: '',
 		departure: ''
 	})
-
-	const [typeModal, setTypeModal] = useState(0)
-	const [isShowingModal, setIsShowingModal] = useState(false)
 
 	const [validations, setValidations] = useState({
 		provider: null,
@@ -102,6 +100,7 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 		}
 		await queryClient.resetQueries()
 		cancelAction()
+		document.body.style.overflow = null
 	}
 
 	return (
@@ -174,8 +173,8 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 						type='button'
 						className='btn btn-danger'
 						onClick={()=>{
-							setTypeModal(1)
-							setIsShowingModal(true)
+							cancelAction()
+							document.body.style.position = null
 						}}
 					>
 						Cancelar
@@ -191,15 +190,6 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 					</button>
 				</div>
 			</form>
-
-			<ConfirmModal
-				objectClass={expenseUpdate}
-				cancelAction={cancelAction}
-				typeModal={typeModal}
-				isShowingModal={isShowingModal}
-				setIsShowingModal={setIsShowingModal}
-				typeClass={'egreso'}
-			/>
 		</>
 	)
 }

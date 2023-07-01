@@ -95,6 +95,7 @@ const Products = () => {
 												onClick={() => {
 													setSelectedProduct(product)
 													setIsShowingDeleteModal(true)
+													document.body.style.overflow = 'hidden'
 												}}
 											>
 												<i className='fa-solid fa-trash'></i>
