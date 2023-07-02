@@ -33,13 +33,19 @@ const Help = () => {
 			/>
 
 			<Accordion
+				title={'¿Qué hago en caso de no conocer el RFC?'}
+				content={'Debe de escribir únicamente al menos un signo de interrogación.'}
+				id={'collapseTwo'}
+			/>
+
+			<Accordion
 				title={'¿Hasta qué fechas se puede registrar un estudiante como becario?'}
 				content={
 					'Es posible hasta un año máximo y mínimo con respecto al año actual.' + 
 					'Por ejemplo, si estamos a 2 de octubre de 2019, el año máximo es hasta el 2 ' + 
 					'de octubre de 2020 y el año mínimo es hasta el 2 de octubre de 2018.'
 				}
-				id={'collapseTwo'}
+				id={'collapseThree'}
 			/>
 
 			<Accordion
@@ -50,13 +56,13 @@ const Help = () => {
 					'Por ejemplo, si ingresa 12.245 se redondea a 12.24, pero si ingresa ' +
 					'12.2451 se redondea a 12.25.'
 				}
-				id={'collapseThree'}
+				id={'collapseFour'}
 			/>
 
 			<Accordion
 				title={'¿Es obligatorio registrar un becario cuando se realiza el pago de un platillo?'}
 				content={'Solo es obligatorio si habilita la opción \'Es becario\'.'}
-				id={'collapseFour'}
+				id={'collapseFive'}
 			/>
 
 			<Accordion
@@ -65,13 +71,13 @@ const Help = () => {
 					'Por el momento no. Solo se puede registrar productos para los egresos por ' +
 					'parte del administrador.'
 				}
-				id={'collapseFive'}
+				id={'collapseSix'}
 			/>
 
 			<Accordion
 				title={'¿Existe algún manual de usuario?'}
 				content={'Por supuesto. Accediendo a este enlace.'}
-				id={'collapseSix'}
+				id={'collapseSeven'}
 			/>
 		</>
 	)
