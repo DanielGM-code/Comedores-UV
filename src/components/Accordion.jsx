@@ -14,7 +14,7 @@ const Accordion = ({ title, content, id }) => {
                         </h5>
                     </div>
 
-                    <div id={id} className="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div id={id} className="collapse" aria-labelledby="headingOne">
                         <div className="card-body">
                             {content}
                         </div>
