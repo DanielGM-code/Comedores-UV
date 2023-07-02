@@ -27,7 +27,8 @@
 	width: 50%;
 	height: auto;
 	position: relative;
-	z-index: 100;
+	margin: auto;
+	z-index: 9999;
 	background: #fff;
 	border-radius: 10px;
 	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;

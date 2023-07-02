@@ -27,14 +27,16 @@ const ProviderFormValidator = (value) => {
         rfcValidator(){
             const rfcValidator = Validator(value)
 
-        if(rfcValidator.isEmpty()) return <>RFC requerido</>
-        if(value.length !== 12) return <>El RFC debe ser de 12 dígitos</>
-        if(!rfcValidator.isCorrectRfcName()) return <>El RFC debe contener 3 letras mayúsculas iniciales</>
-        if(!rfcValidator.isCorrectRfcDate()) return <>El RFC debe tener una fecha válida. Consulte <a href="/help" class="alert-link">Ayuda</a> para más información</>
-        if(!rfcValidator.isCorrectRfcHomoclaveFirstLetter()) return <>El primer carácter de la homoclave debe ser una letra o un dígito. Consulte <a href="/help" class="alert-link">Ayuda</a> para más información</>
-        if(!rfcValidator.isCorrectRfcHomoclaveSecondLetter()) return <>El segundo carácter de la homoclave debe ser una letra o un dígito. Consulte <a href="/help" class="alert-link">Ayuda</a> para más información</>
-        if(!rfcValidator.isCorrectRfcValidatorDigit()) return <>El dígito verificador debe ser la letra A o un dígito. Consulte <a href="/help" class="alert-link">Ayuda</a> para más información</>
-        return null
+            if(rfcValidator.isEmpty()) return <>RFC requerido</>
+            if(!rfcValidator.isOmitted()) {
+                if(value.length !== 12) return <>El RFC debe ser de 12 dígitos</>
+                if(!rfcValidator.isCorrectRfcName()) return <>El RFC debe contener 3 letras mayúsculas iniciales</>
+                if(!rfcValidator.isCorrectRfcDate()) return <>El RFC debe tener una fecha válida. Consulte <a href="/help" class="alert-link">Ayuda</a> para más información</>
+                if(!rfcValidator.isCorrectRfcHomoclaveFirstLetter()) return <>El primer carácter de la homoclave debe ser una letra o un dígito. Consulte <a href="/help" class="alert-link">Ayuda</a> para más información</>
+                if(!rfcValidator.isCorrectRfcHomoclaveSecondLetter()) return <>El segundo carácter de la homoclave debe ser una letra o un dígito. Consulte <a href="/help" class="alert-link">Ayuda</a> para más información</>
+                if(!rfcValidator.isCorrectRfcValidatorDigit()) return <>El dígito verificador debe ser la letra A o un dígito. Consulte <a href="/help" class="alert-link">Ayuda</a> para más información</>
+            }
+            return null
         }
     }
 }

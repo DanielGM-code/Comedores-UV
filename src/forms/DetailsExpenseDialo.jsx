@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { CREATE_MUTATION_OPTIONS, createDetailsExpenseMutation, updateDetailsExpenseMutation } from "../utils/mutations"
-import AutocompleteField from "../components/AutocompleteField"
-import ValidatorPrice from '../validations/ValidatorPrice'
 import Validator from "../validations/Validator"
 import { useMemo } from "react"
 import { QUERY_OPTIONS } from "../utils/useQuery"
@@ -44,10 +42,10 @@ const DetailsExpenseDialog = ({ cancelAction, expenseDetails }) => {
         const { expense_id, product_id, quantity, unit_price } = expense_details
         const validations = { expense_id: '', product_id: '', quantity: '', unit_price: '' }
 
-        validations.expense_id = validateId(expense_id, 'egreso')
+        /*validations.expense_id = validateId(expense_id, 'egreso')
         validations.product_id = validateId(product_id, 'producto')
         validations.quantity = validateQuantity(quantity)
-        validations.unit_price = ValidatorPrice(unit_price)
+        validations.unit_price = ValidatorPrice(unit_price)*/
 
         const validationMessages = Object.values(validations).filter(
 			(validationMessage) => validationMessage.length > 0
@@ -66,10 +64,10 @@ const DetailsExpenseDialog = ({ cancelAction, expenseDetails }) => {
 		const value = expense_details[name]
 		let message = ''
 
-        if(name === 'expense_id') message = validateId(value, 'egreso')
+        /*if(name === 'expense_id') message = validateId(value, 'egreso')
         if(name === 'product_id') message = validateId(value, 'producto')
         if(name === 'quantity') message = validateQuantity(value)
-        if(name === 'unit_price') message = ValidatorPrice(value)
+        if(name === 'unit_price') message = ValidatorPrice(value)*/
 
         setValidations({ ...validations, [name]: [message] })
     }

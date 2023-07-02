@@ -11,6 +11,7 @@ const Modal = ({
 
 	function closeModal() {
 		onClose && onClose()
+		document.body.style.overflow = null
 		setIsShowing(false)
 	}
 
@@ -18,7 +19,6 @@ const Modal = ({
 		<>
 			{isShowing &&
 				<div id='overlay' className='overlay' onClick={(e) => {
-					document.body.style.overflow = null
 					e.target.id === 'overlay' && closeModal()
 				}}>
 					<div className='modal-content' >

@@ -84,38 +84,10 @@
     },
     {
       "name": "Miguel Araujo Hernández",
-      "email": "masterChef_10@gmail.com",
-      "password": "QIEU_394q",
+      "email": "masterChefCeb_10@gmail.com",
+      "password": "Queso_0_0",
       "role": "inactivo",
       "id": 17
-    },
-    {
-      "name": "",
-      "email": "",
-      "password": "",
-      "role": "inactivo",
-      "id": 18
-    },
-    {
-      "name": "",
-      "email": "",
-      "password": "",
-      "role": "inactivo",
-      "id": 19
-    },
-    {
-      "name": "",
-      "email": "",
-      "password": "",
-      "role": "inactivo",
-      "id": 20
-    },
-    {
-      "name": "Miguel Araujo Hernández",
-      "email": "DKB333@gmail.com",
-      "password": "WEB123_hd",
-      "role": "inactivo",
-      "id": 21
     }
   ],
   "incomes": [
@@ -415,13 +387,6 @@
       "address": "San Bruno",
       "phone": "2283341786",
       "rfc": "MAT101010SC9"
-    },
-    {
-      "name": "Walmart",
-      "address": "Sumidero",
-      "phone": "228-234-1034",
-      "rfc": "SHO100903RN3",
-      "id": 7
     }
   ]
 }

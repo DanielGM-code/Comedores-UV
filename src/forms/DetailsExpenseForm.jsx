@@ -1,13 +1,10 @@
 import { useEffect, useRef, useState } from "react"
 import Validator from "../validations/Validator"
-import FormField from "../components/FormField"
 import ConfirmModal from "../components/ConfirmModal"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { CREATE_MUTATION_OPTIONS, createDetailsExpenseMutation, updateDetailsExpenseMutation } from "../utils/mutations"
 import { useMemo } from "react"
 import AutocompleteField from "../components/AutocompleteField"
-import ValidatorPrice from '../validations/ValidatorPrice'
-import $ from 'jquery'
 import { QUERY_OPTIONS } from "../utils/useQuery"
 import { readAllProducts } from "../data-access/productsDataAccess"
 
@@ -47,10 +44,10 @@ const DetailsExpenseForm = ({ cancelAction, expenseDetails }) => {
         const { expense_id, product_id, quantity, unit_price } = expense_details
         const validations = { expense_id: '', product_id: '', quantity: '', unit_price: '' }
 
-        validations.expense_id = validateId(expense_id, 'egreso')
+        /*validations.expense_id = validateId(expense_id, 'egreso')
         validations.product_id = validateId(product_id, 'producto')
         validations.quantity = validateQuantity(quantity)
-        validations.unit_price = ValidatorPrice(unit_price)
+        validations.unit_price = ValidatorPrice(unit_price)*/
 
         const validationMessages = Object.values(validations).filter(
 			(validationMessage) => validationMessage.length > 0
@@ -69,10 +66,10 @@ const DetailsExpenseForm = ({ cancelAction, expenseDetails }) => {
 		const value = expense_details[name]
 		let message = ''
 
-        if(name === 'expense_id') message = validateId(value, 'egreso')
+        /*if(name === 'expense_id') message = validateId(value, 'egreso')
         if(name === 'product_id') message = validateId(value, 'producto')
         if(name === 'quantity') message = validateQuantity(value)
-        if(name === 'unit_price') message = ValidatorPrice(value)
+        if(name === 'unit_price') message = ValidatorPrice(value)*/
 
         setValidations({ ...validations, [name]: [message] })
     }
@@ -87,9 +84,9 @@ const DetailsExpenseForm = ({ cancelAction, expenseDetails }) => {
     const validateQuantity = (quantity) => {
         const validatorQuantity = Validator(quantity)
 
-        if(validatorQuantity.isEmpty()) return 'Cantidad requerida'
+        /*if(validatorQuantity.isEmpty()) return 'Cantidad requerida'
         if(validatorQuantity.isOutOfMinQuantityRange(1)) return 'La cantidad no debe ser menor a cero'
-        if(validatorQuantity.isOutOfMaxQuantityRange(999)) return 'La cantidad debe ser menor a 1000'
+        if(validatorQuantity.isOutOfMaxQuantityRange(999)) return 'La cantidad debe ser menor a 1000'*/
         return ''
     }
 
