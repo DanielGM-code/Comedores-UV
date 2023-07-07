@@ -12,9 +12,7 @@ import { readAllScholarships } from '../data-access/scholarshipsDataAccess'
 import { useMutation, useQueryClient } from 'react-query'
 import { createIncomeMutation, CREATE_MUTATION_OPTIONS, createDetailsIncomeMutation } from '../utils/mutations'
 import AutocompleteField from '../components/AutocompleteField'
-import ValidatorNote from '../validations/ValidatorNote'
-import ValidatorMenuName from '../validations/ValidatorMenuName'
-import ValidatorMenuScholarship from '../validations/ValidatorMenuScholarship'
+import MenuFormValidator from '../validations/MenuFormValidator'
 
 const Menu = () => {
 	const [selectedCategory, setSelectedCategory] = useState('Alimentos')
@@ -33,11 +31,11 @@ const Menu = () => {
 		total: 0
 	})
 	const [validations, setValidations] = useState({
-		name: '',
-		scholarship: '',
-		note: '',
-		product: '',
-		income: ''
+		name: null,
+		scholarship: null,
+		note: null,
+		product: null,
+		income: null
 	})
 
 	const { data: products, isLoading } = useQuery({
@@ -135,16 +133,17 @@ const Menu = () => {
 	const validateAll = () => {
 		const { scholarship_id, note } = income
 		const { name, isScholarship } = orderDetails
-		const validations = { name: '', scholarship: '',
-			note: '', product: '', income: '' 
+		const validations = { name: null, scholarship: null,
+			note: null, orders: null, income: null
 		}
 
-		validations.scholarship = ValidatorMenuScholarship(isScholarship, scholarship_id, scholarships)
-		validations.note = ValidatorNote(note)
-		validations.name = ValidatorMenuName(isScholarship, name)
+		validations.scholarship = MenuFormValidator(scholarship_id).scholarshipIdValidator(isScholarship, scholarships)
+		validations.note = MenuFormValidator(note).noteValidator(note)
+		validations.name = MenuFormValidator(name).nameValidator(isScholarship)
+		validations.orders = MenuFormValidator(total).orderValidator()
 
 		const validationMessages = Object.values(validations).filter(
-			(validationMessage) => validationMessage.length > 0
+			(validationMessage) => validationMessage != null
 		)
 		let isValid = !validationMessages.length
 
@@ -160,10 +159,10 @@ const Menu = () => {
 		const { name } = e.target
 		let message = ''
 
-		if(name === 'name') message = ValidatorMenuName(orderDetails.isScholarship, orderDetails[name])
-		if(name === 'note') message = ValidatorNote(income[name])
+		if(name === 'name') message = MenuFormValidator(orderDetails[name]).nameValidator(orderDetails.isScholarship)
+		if(name === 'note') message = MenuFormValidator(income[name]).noteValidator()
 
-		setValidations({ ...validations, [name]: [message]})
+		setValidations({ ...validations, [name]: message})
 	}
 
 	function handleInputChange(event) {
@@ -176,6 +175,12 @@ const Menu = () => {
 	}
 
 	async function sellProduct(){
+		//const isValid = validateAll();
+
+		/*if(!isValid){
+			return false
+		}*/
+
 		setIncome(prevIncome => {
 			return {
 				...prevIncome,
@@ -204,9 +209,10 @@ const Menu = () => {
 				product_id: orderItem.product.id
 			}
 		})
+		console.log(income_details)
 
-		income_details.forEach(async details => await createDetailsMutation.mutateAsync(details))
-		createDetailsMutation.reset()
+		//income_details.forEach(async details => await createDetailsMutation.mutateAsync(details))
+		//createDetailsMutation.reset()
 	}
 
 	return (

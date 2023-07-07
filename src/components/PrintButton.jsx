@@ -16,8 +16,10 @@ function PrintButton({order, orderDetails, onClick}){
             className='btn btn-primary' 
             onClick={() => {
                 onClick()
-                if(orderDetails.printTicket){
-                    handlePrint()
+                if(order.length > 0){
+                    if(orderDetails.printTicket){
+                        handlePrint()
+                    }
                 }
             }}>Cobrar</button>
     );
