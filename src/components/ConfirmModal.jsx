@@ -1,36 +1,43 @@
 import React from 'react'
 import Modal from '../components/Modal'
+import '../utils/formatting'
 
-const ConfirmModal = ({ cancelAction, isShowingModal, setIsShowingModal, typeClass }) => {
+const ConfirmModal = ({ 
+    cancelAction, 
+    isShowingModal, 
+    setIsShowingModal, 
+    object 
+}) => {
 
     return (
         <>
             <Modal 
-                title={`¿Deseas cancelar el registro de ${typeClass}?`}
+                title={'Venta realizada'}
                 isShowing={isShowingModal}
                 setIsShowing={setIsShowingModal}
                 onClose={() => {
-                    setIsShowingModal(false)
-                    document.body.style.position = 'hidden'
+                    cancelAction()
                 }}
             >
-                <button
-					type='button'
-					className='btn btn-danger'
-					onClick={() => {
-						setIsShowingModal(false)
-                        document.body.style.position = 'hidden'
-					}}
-				>
-					Regresar
-				</button>
-				<button type='button' className='btn btn-primary' onClick={() => {
-					cancelAction()
-					setIsShowingModal(false)
-                    document.body.style.position = null
-				}}>
-					Aceptar
-				</button>
+                <div className='confirm-modal-body'>
+                    <h4>Su cambio es de:</h4>
+
+                    <h5>${object.change.priceFormat()}</h5>
+                </div>
+                
+                <div className='modal-footer'>
+                    <button 
+                        type='button' 
+                        className='btn btn-primary' 
+                        onClick={() => {
+                            cancelAction()
+                            setIsShowingModal(false)
+                            document.body.style.position = null
+                        }}
+                    >
+                        Aceptar
+                    </button>
+                </div>
             </Modal>
         </>
     )

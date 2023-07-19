@@ -102,7 +102,7 @@ const Validator = function(value) {
             return false
         },
         isOutOfDecimalRange(){
-            if(decimalRegex.test(value)) return true
+            if(decimalRegex.test(value.toString())) return true
             return false
         },
         isWithNumbers(){

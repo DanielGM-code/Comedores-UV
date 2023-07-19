@@ -17,11 +17,25 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 		password: '',
 		role: 'admin'
 	})
-
 	const [validations, setValidations] = useState({
 		name: null,
 		email: null,
 		password: null
+	})
+
+	const queryClient = useQueryClient()
+	
+	const createMutation = useMutation(createUserMutation, {
+		...CREATE_MUTATION_OPTIONS,
+		onSettled: async () => {
+			queryClient.resetQueries('users')
+		}
+	})
+	const updateMutation = useMutation(updateUserMutation, {
+		...UPDATE_MUTATION_OPTIONS,
+		onSettled: async () => {
+			queryClient.resetQueries('users')
+		}
 	})
 
 	const validateAll = () => {
@@ -37,9 +51,7 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 		)
 		let isValid = !validationMessages.length
 
-		if(!isValid){
-			setValidations(validations)
-		}
+		if(!isValid) setValidations(validations)
 
 		return isValid
 	}
@@ -56,23 +68,9 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 		setValidations({ ...validations, [name]: message })
 	}
 
-	const queryClient = useQueryClient()
-	const createMutation = useMutation(createUserMutation, {
-		...CREATE_MUTATION_OPTIONS,
-		onSettled: async () => {
-			queryClient.resetQueries('users')
-		}
-	})
-
-	const updateMutation = useMutation(updateUserMutation, {
-		...UPDATE_MUTATION_OPTIONS,
-		onSettled: async () => {
-			queryClient.resetQueries('users')
-		}
-	})
-
 	function showPassword(){
 		var inputPassword = document.getElementsByName('password')[0]
+
 		if(inputPassword.type === 'password') inputPassword.type = 'text'
 		else inputPassword.type = 'password'
 	}
@@ -89,9 +87,7 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 	async function submitUser() {
 		const isValid = validateAll();
 
-		if(!isValid){
-			return false
-		}
+		if(!isValid) return false
 
 		if (user.id) {
 			await updateMutation.mutateAsync(user)
@@ -100,6 +96,7 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 			await createMutation.mutateAsync(user)
 			createMutation.reset()
 		}
+		
 		await queryClient.resetQueries()
 		cancelAction()
 		document.body.style.overflow = null
@@ -121,6 +118,7 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
                     typeAlert='alert alert-warning'
                     validation={validations.name}
                 />
+
 				<FormField
 					name='email'
 					inputType='email'
@@ -134,6 +132,7 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
                     typeAlert='alert alert-warning'
                     validation={validations.email}
                 />
+
 				<FormField
 					name='password'
 					inputType='password'
@@ -147,10 +146,12 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
                     typeAlert='alert alert-warning'
                     validation={validations.password}
                 />
+
 				<div>
 					<input id='show' type='checkbox' aria-describedby='show' onClick={showPassword}/>
 					<label id='show'>Mostrar contraseña</label>
 				</div>
+
 				<label htmlFor='role'>Rol:</label>
 				<AutocompleteField
 					name='role'
@@ -171,6 +172,7 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 					}}
 					clearable={false}
 				/>
+
 				<div className='modal-footer'>
 					<button
 						type='button'
@@ -182,6 +184,7 @@ const UserForm = ({ cancelAction, userUpdate, users, roles }) => {
 					>
 						Cancelar
 					</button>
+
 					<button
 						type='button'
 						className='btn btn-primary'

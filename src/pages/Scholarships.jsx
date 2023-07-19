@@ -11,18 +11,21 @@ import ScholarshipForm from '../forms/ScholarshipForm'
 import DeleteModal from '../components/DeleteModal'
 
 const Scholarships = () => {
+	const [isShowingModal, setIsShowingModal] = useState(false)
+	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
+	const [selectedScholarship, setSelectedScholarship] = useState(null)
+
 	const { data: scholarships, isLoading } = useQuery({
 		...QUERY_OPTIONS,
 		queryKey: 'scholarships',
 		queryFn: readAllScholarships
 	})
 
-	const [isShowingModal, setIsShowingModal] = useState(false)
-	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
-	const [selectedScholarship, setSelectedScholarship] = useState(null)
-	const tableRef = useRef()
+	const deleteMutation = useMutation(
+		deleteScholarshipMutation, DELETE_MUTATION_OPTIONS
+	)
 
-	const deleteMutation = useMutation(deleteScholarshipMutation, DELETE_MUTATION_OPTIONS)
+	const tableRef = useRef()
 
 	useEffect(() => {
 		document.title = 'ComedorUV - Becarios'

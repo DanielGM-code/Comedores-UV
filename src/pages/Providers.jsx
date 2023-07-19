@@ -11,17 +11,21 @@ import { deleteProviderMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutati
 import DeleteModal from '../components/DeleteModal'
 
 const Providers = () => {
+    const [isShowingModal, setIsShowingModal] = useState(false)
+    const [selectedProvider, setSelectedProvider] = useState(null)
+    const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
+
     const { data: providers, isLoading } = useQuery({
         ...QUERY_OPTIONS,
         queryKey: 'providers',
         queryFn: readAllProviders,
     })
-    const [isShowingModal, setIsShowingModal] = useState(false)
-    const [selectedProvider, setSelectedProvider] = useState(null)
-    const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
-    const tableRef = useRef()
 
-    const deleteMutation = useMutation(deleteProviderMutation, DELETE_MUTATION_OPTIONS)
+    const deleteMutation = useMutation(
+        deleteProviderMutation, DELETE_MUTATION_OPTIONS
+    )
+
+    const tableRef = useRef()
 
     useEffect(() => {
         document.title = 'ComedorUV - Proveedores'
@@ -46,6 +50,7 @@ const Providers = () => {
 				menu='Inicio'
                 submenu='Proveedores'
 			/>
+
             {isLoading ? 'Loading...' :
                 <>
                     <button
@@ -55,25 +60,43 @@ const Providers = () => {
                     >
                         <i className='fa-solid fa-plus'></i> Nuevo proveedor
                     </button>
+
                     <div className='contenedor-tabla'>
                         <h3>Proveedores</h3>
-                        <table id='tableProvider' width='100%' ref={tableRef} className='table table-hover table-borderless'>
+
+                        <table 
+                            id='tableProvider' 
+                            width='100%' 
+                            ref={tableRef} 
+                            className='table table-hover table-borderless'
+                        >
                             <thead>
                                 <tr>
                                     <th className='leading-row'>Nombre</th>
+
 									<th>Dirección</th>
+
 									<th>Teléfono</th>
+
 									<th>RFC</th>
+
 									<th className='trailing-row'>Opciones</th>
                                 </tr>
                             </thead>
+
                             <tbody className='table-group-divider'>
                                 {providers.map(provider =>
                                     <tr key={provider.id}>
-                                        <td className='leading-row'>{provider.name}</td>
+                                        <td className='leading-row'>
+                                            {provider.name}
+                                        </td>
+
                                         <td>{provider.address}</td>
+
                                         <td>{provider.phone}</td>
+
                                         <td>{provider.rfc}</td>
+
                                         <td className='trailing-row'>
                                             <button
                                                 type='button'
@@ -85,6 +108,7 @@ const Providers = () => {
                                             >
                                                 <i className='fa-solid fa-pen-to-square'></i>
                                             </button>
+
                                             <button
                                                 type='button'
                                                 className='btn-opciones p-1'
@@ -100,12 +124,17 @@ const Providers = () => {
                                     </tr>
                                 )}
                             </tbody>
+
                             <tfoot>
                                 <tr>
                                     <th>Nombre</th>
+
 									<th>Dirección</th>
+
 									<th>Teléfono</th>
+
 									<th>RFC</th>
+                                    
 									<th id='notShow'>Opciones</th>
                                 </tr>
                             </tfoot>

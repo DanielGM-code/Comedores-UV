@@ -14,12 +14,26 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
         phone: '',
         rfc: ''
     })
-
     const [validations, setValidations] = useState({
         name: null,
         address: null,
         phone: null,
         rfc: null
+    })
+
+    const queryClient = useQueryClient()
+
+    const createMutation = useMutation(createProviderMutation, {
+        ...CREATE_MUTATION_OPTIONS,
+        onSettled: async () => {
+            queryClient.resetQueries('providers')
+        }
+    })
+    const updateMutation = useMutation(updateProviderMutation, {
+        ...UPDATE_MUTATION_OPTIONS,
+        onSettled: async () => {
+            queryClient.resetQueries('providers')
+        }
     })
 
     const validateAll = () => {
@@ -36,9 +50,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
 		)
 		let isValid = !validationMessages.length
 
-		if(!isValid){
-			setValidations(validations)
-		}
+		if(!isValid) setValidations(validations)
 
 		return isValid
     }
@@ -56,21 +68,6 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
         setValidations({ ...validations, [name]: message })
     }
 
-    const queryClient = useQueryClient()
-    const createMutation = useMutation(createProviderMutation, {
-        ...CREATE_MUTATION_OPTIONS,
-        onSettled: async () => {
-            queryClient.resetQueries('providers')
-        }
-    })
-
-    const updateMutation = useMutation(updateProviderMutation, {
-        ...UPDATE_MUTATION_OPTIONS,
-        onSettled: async () => {
-            queryClient.resetQueries('providers')
-        }
-    })
-
     function handleInputChange(event) {
         setProvider(prevProvider => {
             return {
@@ -83,9 +80,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
     async function submitProvider() {
         const isValid = validateAll();
 
-		if(!isValid){
-			return false
-		}
+		if(!isValid) return false
 
         if(provider.id) {
             await updateMutation.mutateAsync(provider)
@@ -94,6 +89,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
             await createMutation.mutateAsync(provider)
             createMutation.reset()
         }
+
         await queryClient.resetQueries()
         cancelAction()
         document.body.style.overflow = null
@@ -115,6 +111,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                     typeAlert='alert alert-warning'
                     validation={validations.name}
                 />
+
                 <FormField
                     name='address'
                     inputType='text'
@@ -128,6 +125,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                     typeAlert='alert alert-warning'
                     validation={validations.address}
                 />
+
                 <FormField
                     name='phone'
                     inputType='text'
@@ -141,6 +139,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                     typeAlert='alert alert-warning'
                     validation={validations.phone}
                 />
+
                 <FormField
                     name='rfc'
                     inputType='text'
@@ -154,6 +153,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                     typeAlert='alert alert-warning'
                     validation={validations.rfc}
                 />
+
                 <div className='modal-footer'>
                     <button
                         type='button'
@@ -165,6 +165,7 @@ const ProviderForm = ({ cancelAction, providerUpdate}) => {
                     >
                         Cancelar
                     </button>
+                    
                     <button
                         type='button'
                         className='btn btn-primary'

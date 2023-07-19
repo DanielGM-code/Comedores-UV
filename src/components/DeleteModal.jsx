@@ -2,7 +2,15 @@ import React from 'react'
 import Modal from '../components/Modal'
 import { useQueryClient } from 'react-query'
 
-const DeleteModal = ({ objectClass, deleteMutation, cancelAction, isShowingModal, setIsShowingModal, typeClass, isDelete}) => { 
+const DeleteModal = ({ 
+    objectClass, 
+    deleteMutation, 
+    cancelAction, 
+    isShowingModal, 
+    setIsShowingModal, 
+    typeClass, 
+    isDelete
+}) => { 
 
     const queryClient = useQueryClient()
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import FormField from '../components/FormField'
+import TextAreaField from '../components/TextAreaField'
 import { createProductMutation, CREATE_MUTATION_OPTIONS, updateProductMutation, UPDATE_MUTATION_OPTIONS } from '../utils/mutations'
 import Alert from '../components/Alert'
 import '../utils/formatting'
@@ -18,7 +19,6 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 		stock: '',
 		product_type: ''
 	})
-
 	const [validations, setValidations] = useState({
 		name: null,
 		description: null,
@@ -27,6 +27,21 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 		preferred_price: null,
 		stock: null,
 		product_type: null
+	})
+
+	const queryClient = useQueryClient()
+	
+	const createMutation = useMutation(createProductMutation, {
+		...CREATE_MUTATION_OPTIONS,
+		onSettled: async () => {
+			queryClient.resetQueries('products')
+		}
+	})
+	const updateMutation = useMutation(updateProductMutation, {
+		...UPDATE_MUTATION_OPTIONS,
+		onSettled: async () => {
+			queryClient.resetQueries('products')
+		}
 	})
 
 	const validateAll = () => {
@@ -46,9 +61,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 		)
 		let isValid = !validationMessages.length
 
-		if(!isValid){
-			setValidations(validations)
-		}
+		if(!isValid) setValidations(validations)
 
 		return isValid
 	}
@@ -61,33 +74,22 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 
 		if(name === 'name') message = ProductFormValidator(value).nameValidator()
 		if(name === 'description') message = ProductFormValidator(value).descriptionValidator()
-		if(name === 'purchase_price' || name === 'preferred_price' || 
-			name === 'sale_price'
+		if(name === 'purchase_price' || name === 'sale_price' || 
+			name === 'preferred_price'
 		) {
-			numberPrice = Number(Number(value).priceFormat())
+			numberPrice = parseFloat(Number(value).priceFormat())
 			product[name] = numberPrice
 			message = ProductFormValidator(numberPrice).priceValidator()
 		}
-		if(name === 'stock') message = ProductFormValidator(value).stockValidator()
+		if(name === 'stock') {
+			numberPrice = parseFloat(Number(value).priceFormat())
+			product[name] = numberPrice
+			message = ProductFormValidator(value).stockValidator()
+		}
 		if(name === 'product_type') message = ProductFormValidator(value).productTypeValidator()
 
 		setValidations({ ...validations, [name]: message })
 	}
-
-	const queryClient = useQueryClient()
-	const createMutation = useMutation(createProductMutation, {
-		...CREATE_MUTATION_OPTIONS,
-		onSettled: async () => {
-			queryClient.resetQueries('products')
-		}
-	})
-
-	const updateMutation = useMutation(updateProductMutation, {
-		...UPDATE_MUTATION_OPTIONS,
-		onSettled: async () => {
-			queryClient.resetQueries('products')
-		}
-	})
 
 	function handleInputChange(event) {
 		setProduct(prevProduct => {
@@ -101,9 +103,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 	async function submitProduct() {
 		const isValid = validateAll();
 
-		if(!isValid){
-			return false
-		}
+		if(!isValid) return false
 
 		if (product.id) {
 			await updateMutation.mutateAsync(product)
@@ -112,6 +112,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 			await createMutation.mutateAsync(product)
 			createMutation.reset()
 		}
+
 		await queryClient.resetQueries()
 		cancelAction()
 		document.body.style.overflow = null
@@ -133,27 +134,19 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
                     typeAlert='alert alert-warning'
                     validation={validations.name}
                 />
-				<div className='input-group mb-3'>
-					<span className='input-group-text' id='basic-addon1'>
-						<i className='fa-solid fa-pencil'></i>
-					</span>
-					<textarea 
-						name='description' 
-						className='formControl' 
-						placeholder='Descripción'
-						value={product.description}
-						maxLength={60000} 
-						rows={3}
-						cols={77}
-						aria-describedby='basic-addon1'
-						onChange={handleInputChange} 
-						onBlur={validateOne}
-					></textarea>
-				</div>
+
+				<TextAreaField
+					name='description'
+					placeholder='Descripción'
+					value={product.description}
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
 				<Alert 
                     typeAlert='alert alert-warning'
                     validation={validations.description}
                 />
+
 				<FormField
 					name='purchase_price'
 					inputType='number'
@@ -167,6 +160,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
                     typeAlert='alert alert-warning'
                     validation={validations.purchase_price}
                 />
+
 				<FormField
 					name='sale_price'
 					inputType='number'
@@ -180,6 +174,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
                     typeAlert='alert alert-warning'
                     validation={validations.sale_price}
                 />
+
 				<FormField
 					name='preferred_price'
 					inputType='number'
@@ -193,6 +188,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
                     typeAlert='alert alert-warning'
                     validation={validations.preferred_price}
                 />
+
 				<FormField
 					name='stock'
 					inputType='number'
@@ -206,6 +202,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
                     typeAlert='alert alert-warning'
                     validation={validations.stock}
                 />
+
 				<FormField 
 					name='product_type'
 					inputType='text'
@@ -219,6 +216,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
                     typeAlert='alert alert-warning'
                     validation={validations.product_type}
                 />
+
 				<div className='modal-footer'>
 					<button
 						type='button'
@@ -230,6 +228,7 @@ const ProductForm = ({ cancelAction, productUpdate }) => {
 					>
 						Cancelar
 					</button>
+
 					<button
 						type='button'
 						className='btn btn-primary'

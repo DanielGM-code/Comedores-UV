@@ -54,23 +54,27 @@ const Help = () => {
 					'El sistema está configurado para que el precio no exceda más de 2 ' + 
 					'decimales, por lo que redondeará hacia arriba o abajo a partir de la mitad. ' +
 					'Por ejemplo, si ingresa 12.245 se redondea a 12.24, pero si ingresa ' +
-					'12.2451 se redondea a 12.25.'
+					'12.2451 se redondea a 12.25.' +
+					'\n\nNOTA: El sistema no toma en cuenta los ceros al principio y fin de un número ' +
+					'o ambos, por ejemplo, 0009 se guardará como 9 ó 9.1000 se guardará como 9.1'
 				}
 				id={'collapseFour'}
 			/>
 
 			<Accordion
-				title={'¿Es obligatorio registrar un becario cuando se realiza el pago de un platillo?'}
-				content={'Solo es obligatorio si habilita la opción \'Es becario\'.'}
+				title={'¿Cómo puedo registrar más platillos al menú?'}
+				content={
+					'Se puede desde la página \'Productos\' y acceda al formulario. Desde ' +
+					' el campo \'Tipo de producto\', donde se aceptan \'Dulcería\', ' +
+					'\'Bebidas\' y \'Alimentos\'. Sólo son registrados por el administrador.' +
+					'\n\nNOTA: Cuidar acentos y mayúsculas'
+				}
 				id={'collapseFive'}
 			/>
 
 			<Accordion
-				title={'¿Puedo registrar nuevos platillos al menú'}
-				content={
-					'Por el momento no. Solo se puede registrar productos para los egresos por ' +
-					'parte del administrador.'
-				}
+				title={'¿Es obligatorio registrar un becario cuando se realiza el pago de un platillo?'}
+				content={'Solo es obligatorio si habilita la opción \'Es becario\'.'}
 				id={'collapseSix'}
 			/>
 

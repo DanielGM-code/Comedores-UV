@@ -1,12 +1,18 @@
 import React from 'react'
 
-const Alert = ({ typeAlert, validation }) => {
+const Alert = ({ 
+    typeAlert, 
+    validation 
+}) => {
 
     return (
         <>
             {
                 validation &&
-                <div className={typeAlert} role='alert'>
+                <div 
+                    className={typeAlert} 
+                    role='alert'
+                >
                     {validation}
                 </div>
             }

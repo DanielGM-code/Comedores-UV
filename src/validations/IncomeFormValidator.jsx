@@ -11,6 +11,16 @@ const IncomeFormValidator = (value) => {
             }
             return null
         },
+        dateValidator(){
+            const dateValidator = Validator(value)
+
+            if(dateValidator.isEmpty()) return <>Fecha requerida</>
+            return null
+        },
+        orderValidator(){
+            if(value.length === 0) return <>Aún no ha agregado ningún producto a la orden</>
+            return null
+        },
         noteValidator(){
             const noteValidator = Validator(value)
 

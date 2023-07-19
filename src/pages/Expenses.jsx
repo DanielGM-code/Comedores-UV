@@ -18,7 +18,6 @@ const Expenses = () => {
 	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
 	const [isShowingDetailsModal, setIsShowingDetailsModal] = useState(false)
 	const [selectedExpense, setSelectedExpense] = useState(null)
-	const tableRef = useRef()
 	
 	const { data: expenses, isLoading } = useQuery({
 		...QUERY_OPTIONS,
@@ -40,16 +39,25 @@ const Expenses = () => {
 		return providers ? providers.map((provider) => {
 			return {id: provider.id, label: provider.name}
 		}) : []
-	})
+	}, [providers])
 
-	const deleteMutation = useMutation(deleteExpenseMutation, DELETE_MUTATION_OPTIONS)
+	const deleteMutation = useMutation(
+		deleteExpenseMutation, DELETE_MUTATION_OPTIONS
+	)
+
+	const tableRef = useRef()
 
 	function getProviderName(id){
 		if(providersNames.length > 0){
-			let foundProvider =providersNames.find(provider => provider.id === id)
+			let foundProvider = providersNames.find(
+				provider => provider.id === id
+			)
+
 			if(!foundProvider) return ''
+
 			return foundProvider.label
 		}
+		
 		return ''
 	}
 

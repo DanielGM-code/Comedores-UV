@@ -18,7 +18,11 @@ export const Layout = () => {
 			<div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
 				<div className='logo-detalles' onClick={toggleSidebar}>
 					<div className='logo_nombre'>COMEDORES</div>
-					<i className={`bx ${isSidebarOpen ? 'bx-menu-alt-right' : 'bx-menu'}`} id='btn'></i>
+
+					<i 
+						className={`bx ${isSidebarOpen ? 'bx-menu-alt-right' : 'bx-menu'}`} 
+						id='btn'
+					></i>
 				</div>
 				<ul className='nav-lista'>
 					{/* Home */}
@@ -96,14 +100,17 @@ export const Layout = () => {
 						<div className='perfil-detalles'>
 							<div>
 								<div className='perfil_nombre'>Daniel García</div>
+								
 								<div className='perfil_correo'><br /> GarDB_45@gmail.com</div>
 							</div>
 						</div>
+
 						<i className='bx bx-log-out' id='log_out'></i>
 					</li>
 				</ul>
 
 			</div>
+
 			<section className='main-seccion'>
 				<Outlet />
 			</section>

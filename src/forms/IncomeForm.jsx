@@ -1,61 +1,51 @@
-import React, { useState } from 'react'
-import { useMutation, useQueryClient } from 'react-query'
-import FormField from '../components/FormField'
+import React, { useState, useMemo, useEffect } from 'react'
+import { useMutation, useQueryClient, useQuery } from 'react-query'
+import { QUERY_OPTIONS } from '../utils/useQuery'
+import { readAllProducts } from '../data-access/productsDataAccess'
 import { createIncomeMutation, CREATE_MUTATION_OPTIONS, updateIncomeMutation } from '../utils/mutations'
 import '../utils/formatting'
+import $ from 'jquery'
 import AutocompleteInput from '../components/AutocompleteField'
+import DateField from '../components/DateField'
 import Alert from '../components/Alert'
 import IncomeFormValidator from '../validations/IncomeFormValidator'
+import ProductsMenu from '../components/ProductsMenu'
+import TextAreaField from '../components/TextAreaField'
+import TabMenu from '../components/TabMenu'
+import { useRef } from 'react'
 
 const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 	document.body.style.overflow = 'hidden'
+	$('.modal-content').css('width', '80%')
 	
+	const [selectedCategory, setSelectedCategory] = useState('Alimentos')
+	const [order, setOrder] = useState(incomeUpdate ? incomeUpdate.details : [])
 	const [income, setIncome] = useState(incomeUpdate ? {
 		...incomeUpdate,
 		date: new Date(incomeUpdate.date).formatted()
 	} : {
-		scholarship_id: null,
 		user_id: null,
+		scholarship_id: null,
 		note: '',
-		total: '',
-		date: new Date().formatted()
+		date: new Date().formatted(),
+		details: [],
+		total: 0
 	})
-	
 	const [validations, setValidations] = useState({
 		scholarship: null,
-		note: null
+		date: null,
+		note: null,
+		orders: null
 	})
 
-	const validateAll = () => {
-		const { scholarship_id, note } = income
-		const validations = { scholarship: null, note: null }
-
-		validations.scholarship = IncomeFormValidator(scholarship_id).scholarshipIdValidator(scholarships)
-		validations.note = IncomeFormValidator(note).noteValidator()
-
-		const validationMessages = Object.values(validations).filter(
-			(validationMessage) => validationMessage !== null
-		)
-		let isValid = !validationMessages.length
-
-		if(!isValid){
-			setValidations(validations)
-		}
-
-		return isValid
-	}
-
-	const validateOne = (e) => {
-		const { name } = e.target
-		const value = income[name]
-		let message = null
-
-		if(name === 'note') message = IncomeFormValidator(value).noteValidator()
-
-		setValidations({ ...validations, [name]: message })
-	}
+	const { data: products, isLoading } = useQuery({
+		...QUERY_OPTIONS,
+		queryKey: 'products',
+		queryFn: readAllProducts
+	})
 
 	const queryClient = useQueryClient()
+
 	const createMutation = useMutation(createIncomeMutation, {
 		...CREATE_MUTATION_OPTIONS,
 		onSettled: async () => {
@@ -69,6 +59,44 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 		}
 	})
 
+	const total = useRef()
+
+	const filteredProducts = useMemo(() => {
+		return products ? products.filter(
+			product => product.product_type === selectedCategory
+		) : []
+	}, [products, selectedCategory])
+
+	const validateAll = () => {
+		const { scholarship_id, date, note } = income
+		const validations = { scholarship: null, date: null, note: null }
+
+		validations.scholarship = IncomeFormValidator(scholarship_id).scholarshipIdValidator(scholarships)
+		validations.date = IncomeFormValidator(date).dateValidator()
+		validations.note = IncomeFormValidator(note).noteValidator()
+		validations.orders = IncomeFormValidator(order).orderValidator()
+
+		const validationMessages = Object.values(validations).filter(
+			(validationMessage) => validationMessage !== null
+		)
+		let isValid = !validationMessages.length
+
+		if(!isValid) setValidations(validations)
+
+		return isValid
+	}
+
+	const validateOne = (e) => {
+		const { name } = e.target
+		const value = income[name]
+		let message = null
+
+		if(name === 'date') message = IncomeFormValidator(value).dateValidator()
+		if(name === 'note') message = IncomeFormValidator(value).noteValidator()
+
+		setValidations({ ...validations, [name]: message })
+	}
+
 	function handleInputChange(event) {
 		setIncome(prevIncome => {
 			return {
@@ -81,9 +109,7 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 	async function submitIncome() {
 		const isValid = validateAll();
 
-		if(!isValid){
-			return false
-		}
+		if(!isValid) return false
 
 		if (income.id) {
 			await updateMutation.mutateAsync(income)
@@ -92,22 +118,52 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 			await createMutation.mutateAsync(income)
 			createMutation.reset()
 		}
+
 		await queryClient.resetQueries()
 		cancelAction()
 		document.body.style.overflow = null
+		$('.modal-content').css('width', '50%')
 	}
+
+	useEffect(() => {
+		const currentTotal = order.reduce((total, current) => 
+			total + (current.amount * current.product.sale_price), 0
+		)
+		total.current = currentTotal
+		setIncome(prevIncome => {
+			return {
+				...prevIncome,
+				details: order,
+				total: currentTotal
+			}
+		})
+	}, [order])
 
 	return (
 		<>
-			<form>
+			<TabMenu
+				selectedCategory={selectedCategory}
+				setSelectedCategory={setSelectedCategory}
+			/>
+
+			<ProductsMenu
+				title='Detalles del Ingreso'
+				total={total.current}
+				filteredProducts={filteredProducts}
+				order={order}
+				setOrder={setOrder}
+				isLoading={isLoading}
+			>
 				<AutocompleteInput
 					name='scholarship_id'
-					iconClasses='fa-solid fa-industry'
+					iconClasses='fa-solid fa-user'
 					options={scholarships}
 					selectedOption={() => {
-						return scholarships.find(scholarship => scholarship.id === income.scholarship_id)
+						return scholarships.find(scholarship => 
+							scholarship.id === income.scholarship_id
+						)
 					}}
-					placeholder='Nombre del becado'
+					placeholder='Nombre del becario'
 					searchable={true}
 					onChange={(selectedScholarship) => {
 						setIncome(prevIncome => {
@@ -123,19 +179,34 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
                     typeAlert='alert alert-warning'
                     validation={validations.scholarship}
                 />
-				<FormField
+
+				<DateField
+					name='date'
+					inputType='date'
+					iconClasses='fa-solid fa-calendar-days'
+					placeholder='Fecha de registro'
+					value={income.date}
+					label='Fecha de registro:'
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<Alert
+					typeAlert='alert alert-warning'
+					validation={validations.date}
+				/>
+
+				<TextAreaField
 					name='note'
-					inputType='text'
-					iconClasses='fa-solid fa-tag'
 					placeholder='Notas'
 					value={income.note}
 					onChange={handleInputChange}
 					onBlur={validateOne}
 				/>
 				<Alert 
-                    typeAlert='alert alert-warning'
-                    validation={validations.note}
-                />
+					typeAlert='alert alert-warning'
+					validation={validations.note}
+				/>
+
 				<div className='modal-footer'>
 					<button
 						type='button'
@@ -143,10 +214,12 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 						onClick={() => {
 							cancelAction()
 							document.body.style.position = null
+							$('.modal-content').css('width', '50%')
 						}}
 					>
 						Cancelar
 					</button>
+
 					<button
 						type='button'
 						className='btn btn-primary'
@@ -157,7 +230,7 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 						{`${income.id ? 'Actualizar' : 'Guardar'}`}
 					</button>
 				</div>
-			</form>
+			</ProductsMenu>
 		</>
 	)
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import NavigationTitle from '../components/NavigationTitle'
 import { readAllIncomes } from '../data-access/incomesDataAccess'
-import $, { data } from 'jquery'
+import $ from 'jquery'
 import { datatableOptions } from '../utils/datatables'
 import { deleteIncomeMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutations'
 import { QUERY_OPTIONS } from '../utils/useQuery'
@@ -18,8 +18,6 @@ const Incomes = () => {
 	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
 	const [selectedIncome, setSelectedIncome] = useState(null)
 
-	const tableRef = useRef()
-
 	const { data: incomes, isLoading } = useQuery({
 		...QUERY_OPTIONS,
 		queryKey: 'incomes',
@@ -31,13 +29,34 @@ const Incomes = () => {
 		queryFn: readAllScholarships
 	})
 
+	const tableRef = useRef()
+
 	const scholarshipsNames = useMemo(() => {
 		return scholarships ? scholarships.map((scholarship) => {
-			return {id: scholarship.id, label: `${scholarship.first_name} ${scholarship.last_name}`}
+			return {
+				id: scholarship.id, 
+				label: `${scholarship.first_name} ${scholarship.last_name}`
+			}
 		}) : []
-	})
+	}, [scholarships])
 
-	const deleteMutation = useMutation(deleteIncomeMutation, DELETE_MUTATION_OPTIONS)
+	const deleteMutation = useMutation(
+		deleteIncomeMutation, DELETE_MUTATION_OPTIONS
+	)
+
+	function getScholarshipName(id){
+		if(scholarshipsNames.length > 0){
+			let foundScholarship = scholarshipsNames.find(
+				scholarship => scholarship.id === id
+			)
+
+			if(!foundScholarship) return ''
+
+			return foundScholarship.label
+		}
+
+		return ''
+	}
 
 	useEffect(() => {
 		document.title = 'ComedorUV - Ingresos'
@@ -62,7 +81,8 @@ const Incomes = () => {
 				menu='Inicio'
 				submenu='Ingresos'
 			/>
-			{isLoading ? 'Loading...' :
+
+			{isLoading ? 'Cargando...' :
 				<>
 					<button
 						type='button'
@@ -71,23 +91,45 @@ const Incomes = () => {
 					>
 						<i className='fa-solid fa-plus'></i> Nuevo ingreso
 					</button>
+
 					<div className='contenedor-tabla'>
 						<h3>Ingresos</h3>
-						<table id='tableIncome' width='100%' ref={tableRef} className='table table-hover table-borderless'>
+
+						<table 
+							id='tableIncome' 
+							width='100%' 
+							ref={tableRef} 
+							className='table table-hover table-borderless'
+						>
 							<thead>
 								<tr>
 									<th className='leading-row'>Notas</th>
+
+									<th>Becario</th>
+
 									<th>Total</th>
+
 									<th>Fecha</th>
+
 									<th className='trailing-row'>Opciones</th>
 								</tr>
 							</thead>
+
 							<tbody className='table-group-divider'>
 								{incomes.map(income =>
 									<tr key={income.id}>
-										<td className='leading-row'>{income.note}</td>
-										<td>{income.total}</td>
-										<td>{new Date(income.date).formatted()}</td>
+										<td className='leading-row'>
+											{income.note}
+										</td>
+
+										<td>{getScholarshipName(income.scholarship_id)}</td>
+
+										<td>${income.total.priceFormat()}</td>
+
+										<td>
+											{new Date(income.date).formatted()}
+										</td>
+
 										<td className='trailing-row'>
 											<button
 												type='button'
@@ -99,6 +141,7 @@ const Incomes = () => {
 											>
 												<i className='fa-solid fa-pen-to-square'></i>
 											</button>
+
 											<button 
 												type='button' 
 												className='btn-opciones p-1'
@@ -114,11 +157,17 @@ const Incomes = () => {
 									</tr>
 								)}
 							</tbody>
+
 							<tfoot>
 								<tr>
 									<th>Notas</th>
+
+									<th>Becario</th>
+
 									<th>Total</th>
+
 									<th>Fecha</th>
+
 									<th id='notShow'>Opciones</th>
 								</tr>
 							</tfoot>

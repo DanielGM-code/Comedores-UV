@@ -18,7 +18,8 @@ const ProductFormValidator = (value) => {
         priceValidator(){
             const priceValidator = Validator(value)
 
-            if(priceValidator.isEmpty()) return <>Precio requerido</>
+            if(isNaN(value) || value === "") return <>Precio requerido</>
+            if(priceValidator.isOutOfDecimalRange()) return <>El precio debe tener 2 decimales</>
             if(!priceValidator.isCorrectMinQuantityRange(0)) return <>El precio no debe ser menor a cero</>
             if(!priceValidator.isCorrectMaxQuantityRange(10000000000)) return <>El precio debe ser menor a 100,000,000.00</>
             return null
@@ -33,7 +34,6 @@ const ProductFormValidator = (value) => {
         productTypeValidator(){
             const typeValidator = Validator(value)
 
-            if(typeValidator.isEmpty()) return <>Tipo de producto requerido</>
             if(!typeValidator.isCorrectMaxLength(100)) return <>El tipo debe tener menos de 100 caracteres</>
             return null
         }

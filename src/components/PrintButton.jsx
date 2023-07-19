@@ -2,7 +2,11 @@ import React from 'react';
 import '../utils/plugin_impresora_termica.js'
 
 
-function PrintButton({order, orderDetails, onClick}){
+function PrintButton({
+    order, 
+    orderDetails, 
+    onClick 
+}){
     const handlePrint = () =>{
 //        const printData = { order, orderDetails};
 //        const printWindow = window.open('','', 'height=500,width=500');
@@ -10,7 +14,7 @@ function PrintButton({order, orderDetails, onClick}){
 //        printWindow.print();
 //        printWindow.close();
         imprimir()
-    };
+    }
     return(
         <button 
             className='btn btn-primary' 
@@ -21,10 +25,11 @@ function PrintButton({order, orderDetails, onClick}){
                         handlePrint()
                     }
                 }
-            }}>Cobrar</button>
-    );
-
-
+            }}
+        >
+            Cobrar
+        </button>
+    )
 }
 
 async function imprimir(){

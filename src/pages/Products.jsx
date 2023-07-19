@@ -11,17 +11,21 @@ import ProductForm from '../forms/ProductForm'
 import DeleteModal from '../components/DeleteModal'
 
 const Products = () => {
+	const [isShowingModal, setIsShowingModal] = useState(false)
+	const [selectedProduct, setSelectedProduct] = useState(null)
+	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
+
 	const { data: products, isLoading } = useQuery({
 		...QUERY_OPTIONS,
 		queryKey: 'products',
 		queryFn: readAllProducts
 	})
-	const [isShowingModal, setIsShowingModal] = useState(false)
-	const [selectedProduct, setSelectedProduct] = useState(null)
-	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
-	const tableRef = useRef()
 
-	const deleteMutation = useMutation(deleteProductMutation, DELETE_MUTATION_OPTIONS)
+	const deleteMutation = useMutation(
+		deleteProductMutation, DELETE_MUTATION_OPTIONS
+	)
+
+	const tableRef = useRef()
 
 	useEffect(() => {
 		document.title = 'ComedorUV - Productos'
@@ -46,6 +50,7 @@ const Products = () => {
 				menu='Inicio'
 				submenu='Productos'
 			/>
+
 			{isLoading ? 'Loading...' :
 				<>
 					<button
@@ -55,29 +60,57 @@ const Products = () => {
 					>
 						<i className='fa-solid fa-plus'></i> Nuevo producto
 					</button>
+
 					<div className='contenedor-tabla'>
 						<h3>Productos</h3>
-						<table id='tableProduct' width='100%' ref={tableRef} className='table table-hover table-borderless'>
+
+						<table 
+							id='tableProduct' 
+							width='100%' 
+							ref={tableRef} 
+							className='table table-hover table-borderless'
+						>
 							<thead>
 								<tr>
 									<th className='leading-row'>Nombre</th>
+
 									<th>Precio de Compra</th>
+
 									<th>Precio de Venta</th>
+
 									<th>Precio Preferencial</th>
+
 									<th>Stock</th>
+
 									<th>Tipo</th>
+
 									<th className='trailing-row'>Opciones</th>
 								</tr>
 							</thead>
+
 							<tbody className='table-group-divider'>
 								{products.map(product =>
 									<tr key={product.id}>
-										<td className='leading-row'>{product.name}</td>
-										<td>${product.purchase_price}</td>
-										<td>${product.sale_price}</td>
-										<td>${product.preferred_price}</td>
+										<td className='leading-row'>
+											{product.name}
+										</td>
+
+										<td>
+											${product.purchase_price.priceFormat()}
+										</td>
+
+										<td>
+											${product.sale_price.priceFormat()}
+										</td>
+
+										<td>
+											${product.preferred_price.priceFormat()}
+										</td>
+
 										<td>{product.stock}</td>
+
 										<td>{product.product_type}</td>
+
 										<td className='trailing-row'>
 											<button
 												type='button'
@@ -89,6 +122,7 @@ const Products = () => {
 											>
 												<i className='fa-solid fa-pen-to-square'></i>
 											</button>
+
 											<button
 												type='button'
 												className='btn-opciones p-1'
@@ -104,14 +138,21 @@ const Products = () => {
 									</tr>
 								)}
 							</tbody>
+
 							<tfoot>
 								<tr>
 									<th>Nombre</th>
+
 									<th>Precio de Compra</th>
+
 									<th>Precio de Venta</th>
+
 									<th>Precio Preferencial</th>
+
 									<th>Stock</th>
+
 									<th>Tipo</th>
+									
 									<th id='notShow'>Opciones</th>
 								</tr>
 							</tfoot>

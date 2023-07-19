@@ -18,16 +18,27 @@ const Modal = ({
 	return (
 		<>
 			{isShowing &&
-				<div id='overlay' className='overlay' onClick={(e) => {
-					e.target.id === 'overlay' && closeModal()
-				}}>
+				<div 
+					id='overlay' 
+					className='overlay' 
+					onClick={(e) => {
+						e.target.id === 'overlay' && closeModal()
+					}}
+				>
 					<div className='modal-content' >
 						<div className='modal-header'>
 							<h2>{ title }</h2>
 						</div>
-						<div className='close-button' onClick={() => {closeModal()}}>
+
+						<div 
+							className='close-button' 
+							onClick={() => {
+								closeModal()
+							}}
+						>
 							<i className='bi bi-x'></i>
 						</div>
+						
 						{ children }
 					</div>
 				</div>

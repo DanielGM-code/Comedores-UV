@@ -12,17 +12,24 @@ import { QUERY_OPTIONS } from '../utils/useQuery'
 import DeleteModal from '../components/DeleteModal'
 
 const Users = () => {
+	const roles = [
+		{ label: 'Administrador', id: 'admin' }, 
+		{ label: 'Cajero', id: 'cajero' }, 
+		{ label: 'Chef', id: 'chef' }
+	]
+
+	const [isShowingModal, setIsShowingModal] = useState(false)
+	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
+	const [selectedUser, setSelectedUser] = useState(null)
+
 	const { data: users, isLoading } = useQuery({
 		...QUERY_OPTIONS,
 		queryKey: 'users',
 		queryFn: readAllUsers,
 	})
-	const [isShowingModal, setIsShowingModal] = useState(false)
-	const [isShowingDeleteModal, setIsShowingDeleteModal] = useState(false)
-	const [selectedUser, setSelectedUser] = useState(null)
-	const tableRef = useRef()
 
 	const queryClient = useQueryClient()
+
 	const updateMutation = useMutation(updateUserMutation, {
 		...UPDATE_MUTATION_OPTIONS,
 		onSettled: async () => {
@@ -30,21 +37,17 @@ const Users = () => {
 		}
 	})
 
-	const roles = [
-		{ label: 'Administrador', id: 'admin' }, 
-		{ label: 'Cajero', id: 'cajero' }, 
-		{ label: 'Chef', id: 'chef' }
-	]
+	const tableRef = useRef()
+
+	const activeUsers = useMemo(() => {
+		return users ? users.filter((user) => user.role !== 'inactivo') : []
+	}, [users])
 
 	function getUserRole(roleId){
 		let foundRole = roles.find(role => role.id === roleId)
 		if(!foundRole) return ''
 		return foundRole.label
 	}
-
-	const activeUsers = useMemo(() => {
-		return users ? users.filter((user) => user.role !== 'inactivo') : []
-	})
 
 	useEffect(() => {
 		document.title = 'ComedorUV - Usuarios'
@@ -69,6 +72,7 @@ const Users = () => {
 				menu='Inicio'
 				submenu='Usuarios'
 			/>
+
 			{isLoading ? 'Loading...' :
 				<>
 					<button
@@ -78,23 +82,41 @@ const Users = () => {
 					>
 						<i className='fa-solid fa-plus'></i> Nuevo usuario
 					</button>
+
 					<div className='contenedor-tabla'>
 						<h3>Usuarios</h3>
-						<table id='tableUser' width='100%' ref={tableRef} className='table table-hover table-borderless'>
+
+						<table 
+							id='tableUser' 
+							width='100%' 
+							ref={tableRef} 
+							className='table table-hover table-borderless'
+						>
 							<thead>
 								<tr>
-									<th className='leading-row'>Nombre completo</th>
+									<th className='leading-row'>
+										Nombre completo
+									</th>
+
 									<th>Correo</th>
+
 									<th>Rol</th>
+
 									<th className='trailing-row'>Opciones</th>
 								</tr>
 							</thead>
+
 							<tbody className='table-group-divider'>
 								{activeUsers.map(user =>
 									<tr key={user.id}>
-										<td className='leading-row'>{user.name}</td>
+										<td className='leading-row'>
+											{user.name}
+										</td>
+
 										<td>{user.email}</td>
+
 										<td>{getUserRole(user.role)}</td>
+
 										<td className='trailing-row'>
 											<button
 												type='button'
@@ -106,6 +128,7 @@ const Users = () => {
 											>
 												<i className='fa-solid fa-pen-to-square'></i>
 											</button>
+
 											<button
 												type='button'
 												className='btn-opciones p-1'
@@ -127,11 +150,15 @@ const Users = () => {
 									</tr>
 								)}
 							</tbody>
+
 							<tfoot>
 								<tr>
 									<th>Nombre completo</th>
+
 									<th>Correo</th>
+
 									<th>Rol</th>
+									
 									<th id='notShow'>Opciones</th>
 								</tr>
 							</tfoot>

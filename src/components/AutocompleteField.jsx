@@ -1,13 +1,26 @@
 import Select from "react-select"
 
-const AutocompleteInput = ({ name, iconClasses, options, selectedOption, placeholder, onChange, searchable, clearable }) => {
+const AutocompleteInput = ({ 
+    name, 
+    iconClasses, 
+    options, 
+    selectedOption, 
+    placeholder, 
+    onChange, 
+    searchable, 
+    clearable 
+}) => {
 
     return (
         <>
             <div className='input-group mb-3'>
-                <span className='input-group-text' id='basic-addon1'>
+                <span 
+                    className='input-group-text' 
+                    id='basic-addon1'
+                >
                     <i className={iconClasses}></i>
                 </span>
+                
                 <Select
                     id={name}
                     name={name}

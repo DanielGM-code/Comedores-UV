@@ -74,3 +74,9 @@
 .close-button:hover{
     color: red;
 }
+
+.confirm-modal-body {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}

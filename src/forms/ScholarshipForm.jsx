@@ -23,13 +23,27 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 		start_date: new Date().formatted(),
 		end_date: new Date().formatted()
 	})
-
 	const [validations, setValidations] = useState({
 		first_name: null,
 		last_name: null,
 		career: null,
 		start_date: null,
 		end_date: null
+	})
+
+	const queryClient = useQueryClient()
+
+	const createMutation = useMutation(createScholarshipMutation, {
+		...CREATE_MUTATION_OPTIONS,
+		onSettled: async () => {
+			queryClient.resetQueries('scholarship')
+		}
+	})
+	const updateMutation = useMutation(updateScholarshipMutation, {
+		...UPDATE_MUTATION_OPTIONS,
+		onSettled: async () => {
+			queryClient.resetQueries('scholarship')
+		}
 	})
 
 	const validateAll = () => {
@@ -47,9 +61,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 		)
 		let isValid = !validationMessages.length
 
-		if(!isValid){
-			setValidations(validations)
-		}
+		if(!isValid) setValidations(validations)
 
 		return isValid
 	}
@@ -68,21 +80,6 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 		setValidations({ ...validations, [name]: message })
 	}
 
-	const queryClient = useQueryClient()
-	const createMutation = useMutation(createScholarshipMutation, {
-		...CREATE_MUTATION_OPTIONS,
-		onSettled: async () => {
-			queryClient.resetQueries('scholarship')
-		}
-	})
-
-	const updateMutation = useMutation(updateScholarshipMutation, {
-		...UPDATE_MUTATION_OPTIONS,
-		onSettled: async () => {
-			queryClient.resetQueries('scholarship')
-		}
-	})
-
 	function handleInputChange(event) {
 		setScholarship(prevScholarship => {
 			return {
@@ -95,9 +92,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 	async function submitScholarship() {
 		const isValid = validateAll();
 
-		if(!isValid){
-			return false
-		}
+		if(!isValid) return false
 
 		if (scholarship.id) {
 			await updateMutation.mutateAsync(scholarship)
@@ -106,17 +101,11 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 			await createMutation.mutateAsync(scholarship)
 			createMutation.reset()
 		}
+		
 		await queryClient.resetQueries()
 		cancelAction()
 		document.body.style.overflow = null
 	}
-
-	const today1 = new Date()
-	today1.setFullYear(today1.getFullYear() - 1)
-	const min = today1.formatted()
-	const today2 = new Date()
-	today2.setFullYear(today2.getFullYear() + 1)
-	const max = today2.formatted()
 
 	return (
 		<>
@@ -134,6 +123,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
                     typeAlert='alert alert-warning'
                     validation={validations.first_name}
                 />
+
 				<FormField
 					name='last_name'
 					inputType='text'
@@ -147,6 +137,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
                     typeAlert='alert alert-warning'
                     validation={validations.last_name}
                 />
+
 				<FormField
 					name='career'
 					inputType='text'
@@ -160,14 +151,13 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
                     typeAlert='alert alert-warning'
                     validation={validations.career}
                 />
+
 				<DateField
 					name='start_date'
 					inputType='date'
 					iconClasses='fa-solid fa-calendar-days'
 					placeholder='Fecha de Inicio'
 					value={scholarship.start_date}
-					min={min}
-					max={max}
 					label='Fecha de inicio:'
 					onChange={handleInputChange}
 					onBlur={validateOne}
@@ -176,14 +166,13 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
                     typeAlert='alert alert-warning'
                     validation={validations.start_date}
                 />
+
 				<DateField
 					name='end_date'
 					inputType='date'
 					iconClasses='fa-solid fa-calendar-days'
 					placeholder='Fecha de Fin'
 					value={scholarship.end_date}
-					min={min}
-					max={max}
 					label='Fecha de fin:'
 					onChange={handleInputChange}
 					onBlur={validateOne}
@@ -192,6 +181,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
                     typeAlert='alert alert-warning'
                     validation={validations.end_date}
                 />
+
 				<div className='modal-footer'>
 					<button
 						type='button'
@@ -203,6 +193,7 @@ const ScholarshipForm = ({ cancelAction, scholarshipUpdate }) => {
 					>
 						Cancelar
 					</button>
+
 					<button
 						type='button'
 						className='btn btn-primary'

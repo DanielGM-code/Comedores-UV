@@ -34,6 +34,7 @@ const Home = () => {
 	return (
 		<>
 			<NavigationTitle menu="Inicio"/>
+
 			<div className='contenedor-inicio'>
 				<div className='animacion-inicio'>
 					<Player
@@ -44,16 +45,20 @@ const Home = () => {
 						renderer='svg'
 					></Player>
 				</div>
+
 				<div className='informacion-inicio'>
 					<span className='texto-fecha'>
 						{currentDate.toLocaleDateString()} <br />
 					</span>
+
 					<span className='texto-fecha'>
 						{currentDate.toLocaleTimeString()} <br />
 					</span>
+
 					<span className='texto-inicio'>
 						Personas beneficiadas: <br />
 					</span>
+					
 					<span className='texto-frases'>
 						{randomPhrase}
 					</span>
