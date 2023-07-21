@@ -22,7 +22,7 @@
       "provider_id": 6,
       "date": "2023-04-26",
       "description": "1",
-      "total": "34.839",
+      "total": 34.83,
       "bill": "aSSD",
       "departure": "iij",
       "id": 3
@@ -31,7 +31,7 @@
       "provider_id": 2,
       "date": "2023-04-26",
       "description": ",xlmkxz",
-      "total": "45",
+      "total": 45,
       "bill": "ksdk",
       "departure": "skldmk",
       "id": 4
@@ -490,6 +490,108 @@
       "product_type": "Dulcería",
       "id": 24
     },
+    {
+      "name": "Nutrileche",
+      "description": "",
+      "purchase_price": 17,
+      "sale_price": 0,
+      "preferred_price": 0,
+      "stock": 4,
+      "product_type": "",
+      "id": 25
+    },
+    {
+      "name": "Salvo multiusos",
+      "description": "",
+      "purchase_price": 30.17,
+      "sale_price": 0,
+      "preferred_price": 0,
+      "stock": 2,
+      "product_type": "",
+      "id": 26
+    },
+    {
+      "name": "Tortilla",
+      "description": "",
+      "purchase_price": 12.4,
+      "sale_price": 0,
+      "preferred_price": 0,
+      "stock": 3,
+      "product_type": "",
+      "id": 27
+    },
+    {
+      "name": "Jitomate",
+      "description": "",
+      "purchase_price": 24,
+      "sale_price": 0,
+      "preferred_price": 0,
+      "stock": 2,
+      "product_type": "",
+      "id": 28
+    },
+    {
+      "name": "Lechuga",
+      "description": "",
+      "purchase_price": 20,
+      "sale_price": 0,
+      "preferred_price": 0,
+      "stock": 1,
+      "product_type": "",
+      "id": 29
+    },
+    {
+      "name": "Azúcar",
+      "description": "",
+      "purchase_price": 22,
+      "sale_price": 0,
+      "preferred_price": 0,
+      "stock": 2,
+      "product_type": "",
+      "id": 30
+    },
+    {
+      "name": "Sal",
+      "description": "",
+      "purchase_price": 7.5,
+      "sale_price": 0,
+      "preferred_price": 0,
+      "stock": 1,
+      "product_type": "",
+      "id": 31
+    },
+    {
+      "name": "Compras",
+      "description": "",
+      "purchase_price": 60,
+      "sale_price": 0,
+      "preferred_price": 0,
+      "stock": 1,
+      "product_type": "",
+      "id": 32
+    },
+    {
+      "name": "Servitoalla",
+      "description": "",
+      "purchase_price": 8.88,
+      "sale_price": 0,
+      "preferred_price": 0,
+      "stock": 2,
+      "product_type": "",
+      "id": 33
+    },
+    {
+      "name": "Taxi",
+      "description": "",
+      "purchase_price": 45,
+      "sale_price": 0,
+      "preferred_price": 0,
+      "stock": 1,
+      "product_type": "",
+      "id": 34
+    }
+  ],
+  "expense_products": [
     {
       "name": "Nutrileche",
       "description": "",

@@ -73,7 +73,7 @@ const Users = () => {
 				submenu='Usuarios'
 			/>
 
-			{isLoading ? 'Loading...' :
+			{isLoading ? 'Cargando...' :
 				<>
 					<button
 						type='button'

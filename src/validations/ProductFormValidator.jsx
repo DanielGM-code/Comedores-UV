@@ -28,7 +28,7 @@ const ProductFormValidator = (value) => {
             const stockValidator = Validator(value)
 
             if(stockValidator.isEmpty()) return <>Stock requerido</>
-            if(!stockValidator.isCorrectStockRange(1, 1000)) return <>El stock debe estar entre cero y 1,000</>
+            if(!stockValidator.isCorrectStockRange(0, 1000)) return <>El stock debe estar entre cero y 1,000</>
             return null
         },
         productTypeValidator(){

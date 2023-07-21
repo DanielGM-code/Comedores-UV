@@ -62,7 +62,7 @@ const Reports = () => {
 				<IncomesExpensesChart />
 			</div>
 
-			{isLoadingExpenses ? 'Loading...' :
+			{isLoadingExpenses ? 'Cargando...' :
 				<div className='contenedor-tabla'>
 					<h3>Egresos</h3>
 

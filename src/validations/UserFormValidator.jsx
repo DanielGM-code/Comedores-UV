@@ -14,7 +14,7 @@ const UserFormValidator = (value) => {
 
             if(emailValidator.isEmpty()) return <>Correo requerido</>
             if(!emailValidator.isCorrectMaxLength(100)) return <>El correo debe tener menos de 100 caracteres</>
-            if(!emailValidator.isEmail()) return <>El correo debe cumplir al menos con el formato ejemplo@ejemplo.com. Consulte <a href="/help" class="alert-link">Ayuda</a> para más información</>
+            if(!emailValidator.isEmail()) return <>El correo debe cumplir al menos con el formato ejemplo@ejemplo.com. Consulte <a href="/help" className="alert-link">Ayuda</a> para más información</>
             if(isUpdate){
                 let filteredList = users.filter(user => user.email === value)
                 if(filteredList.length > 1) return <>El correo no debe repetirse</>

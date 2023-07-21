@@ -120,6 +120,7 @@
 	background-color: white;
 	overflow: hidden;
 	padding-block: 5px;
+	margin-bottom: 15px;
 }
 
 table {
@@ -150,7 +151,9 @@ td {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	margin: 10px;
+	margin-bottom: 15px;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 
 .switch {
@@ -214,10 +217,4 @@ input:checked+.slider:before {
 
 .slider.round:before {
 	border-radius: 50%;
-}
-
-textarea {
-	padding: 8px;
-	border-radius: 15px;
-	border: solid 0.5px #CED4DA;
 }

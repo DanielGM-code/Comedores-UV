@@ -10,6 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import pdfMake from 'pdfmake/build/pdfmake'
 import JSZip from 'jszip'
 import 'datatables.net-buttons/js/buttons.html5.js'
+import 'datatables.net-buttons/js/buttons.colVis'
+import 'datatables.net-buttons/js/buttons.print'
 import pdfFonts from 'pdfmake/build/vfs_fonts'
 
 window.JSZip = JSZip

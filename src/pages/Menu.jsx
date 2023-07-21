@@ -17,6 +17,7 @@ import ConfirmModal from '../components/ConfirmModal'
 import ProductsMenu from '../components/ProductsMenu'
 import TextAreaField from '../components/TextAreaField'
 import TabMenu from '../components/TabMenu'
+import ToggleButton from '../components/ToggleButton'
 
 const Menu = () => {
 	const [isShowing, setIsShowing] = useState(false)
@@ -197,54 +198,48 @@ const Menu = () => {
 					order={order}
 					setOrder={setOrder}
 					isLoading={isLoading}
+					isIncome={true}
+					isScholarship={orderDetails.isScholarship}
 				>
-					<div className='ticket-toggle'>
-                        <label className="form-check-label" >Imprimir ticket</label>
-						
-                        <label className="switch">
-                            <input type="checkbox" checked={orderDetails.printTicket} onChange={() => {
-                                setOrderDetails(prevOrderDetails => {
-                                    return {
-                                        ...prevOrderDetails,
-                                        printTicket: !prevOrderDetails.printTicket
-                                    }
-                                })
-                            }} />
+					<ToggleButton
+						title='Imprimir ticket'
+						isChecked={orderDetails.printTicket}
+						onChange={() => {
+							setOrderDetails(prevOrderDetails => {
+								return {
+									...prevOrderDetails,
+									printTicket: !prevOrderDetails.printTicket
+								}
+							})
+						}}
+					/>
 
-                            <span className="slider round"></span>
-                        </label>
-                    </div>
-
-					<div className='ticket-toggle'>
-                        <label className="form-check-label" >Es Becario</label>
-
-                        <label className="switch">
-                            <input type="checkbox" checked={orderDetails.isScholarship} onChange={() => {
-                                setOrderDetails(prevOrderDetails => {
-                                    return {
-                                        ...prevOrderDetails,
-                                        isScholarship: !prevOrderDetails.isScholarship,
-                                        name: ''
-                                    }
-                                })
-                                setIncome(prevIncome => {
-                                    return {
-                                        ...prevIncome,
-                                        scholarship_id: null
-                                    }
-                                })
-                                setValidations(prevValidations => {
-                                    return {
-                                        ...prevValidations,
-                                        name: null,
-                                        scholarship: null
-                                    }
-                                })
-                            }} />
-
-                            <span className="slider round"></span>
-                        </label>
-                    </div>
+					<ToggleButton
+						title='Es Becario'
+						isChecked={orderDetails.isScholarship}
+						onChange={() => {
+							setOrderDetails(prevOrderDetails => {
+								return {
+									...prevOrderDetails,
+									isScholarship: !prevOrderDetails.isScholarship,
+									name: ''
+								}
+							})
+							setIncome(prevIncome => {
+								return {
+									...prevIncome,
+									scholarship_id: null
+								}
+							})
+							setValidations(prevValidations => {
+								return {
+									...prevValidations,
+									name: null,
+									scholarship: null
+								}
+							})
+						}}
+					/>
 
 					{orderDetails.isScholarship ?
                         <>

@@ -4,6 +4,8 @@ const ProductsMenu = ({
     filteredProducts, 
     order, 
     isLoading, 
+    isIncome,
+    isScholarship,
     setOrder, 
     children 
 }) => {
@@ -101,9 +103,18 @@ const ProductsMenu = ({
                                         {product.name}
                                     </p>
 
-                                    <p className='menu-item-precio'>
-                                        ${product.sale_price}
-                                    </p>
+                                    {isScholarship ? 
+                                        <p className='menu-item-precio'>
+                                            ${product.preferred_price}
+                                        </p>
+                                        :
+                                        <p className='menu-item-precio'>
+                                            ${isIncome ? 
+                                                product.sale_price :
+                                                product.purchase_price
+                                            }
+                                        </p>
+                                    }
 
                                     <p className='menu-item-stock'>
                                         Existencia: {product.stock}
@@ -155,11 +166,19 @@ const ProductsMenu = ({
                                 {order.map(orderItem => {
                                     return (
                                         <tr key={orderItem.product.id}>
-                                            <td>{orderItem.amount}</td>
+                                            <td>
+                                                {orderItem.amount}
+                                            </td>
 
-                                            <td>{orderItem.product.name}</td>
+                                            <td>
+                                                {orderItem.product.name}
+                                            </td>
                                             
-                                            <td>${(orderItem.product.sale_price * orderItem.amount).priceFormat()}</td>
+                                            <td>
+                                                ${isIncome ? 
+                                                    (orderItem.product.sale_price * orderItem.amount).priceFormat() : 
+                                                    (orderItem.product.purchase_price * orderItem.amount).priceFormat()
+                                                }</td>
                                         </tr>
                                     )
                                 })}

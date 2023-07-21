@@ -1,3 +1,4 @@
+import { reject } from "async"
 import { API_HOST, processResponse } from "./dataAccessUtils"
 
 const API_SERVICE = 'products'
@@ -29,6 +30,19 @@ export const readAllProducts = () => {
 			let products = await processResponse(response)
 			resolve(products)
 		} catch (error) {
+			reject(error.message)
+		}
+	})
+}
+
+export const readAllExpenseProducts = () => {
+	return new Promise(async (resolve, reject) => {
+		try{
+			const url = `${API_HOST}/expense_products`
+			const response = await fetch(url)
+			let products = await processResponse(response)
+			resolve(products)
+		}catch (error) {
 			reject(error.message)
 		}
 	})

@@ -50,7 +50,7 @@ const Scholarships = () => {
 				menu='Inicio'
 				submenu='Becarios'
 			/>
-			{isLoading ? 'Loading...' :
+			{isLoading ? 'Cargando...' :
 				<>
 					<button
 						type='button'

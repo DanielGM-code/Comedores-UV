@@ -10,6 +10,11 @@ const ExpenseFormValidator = (value) => {
             if(!foundProvider) return <>El proveedor ya no existe</>
             return null
         },
+        typeValidator(){
+            const typeValidator = Validator(value)
+
+            if(typeValidator.isEmpty()) return <>Tipo de egreso requerido</>
+        },
         descriptionValidator(){
             const descriptionValidator = Validator(value)
 
@@ -20,7 +25,6 @@ const ExpenseFormValidator = (value) => {
         billValidator(){
             const billValidator = Validator(value)
 
-            if(billValidator.isEmpty()) return <>Factura requerida</>
             if(!billValidator.isCorrectMaxLength(200)) return <>La factura debe tener menos de 200 caracteres</>
             return null
         },

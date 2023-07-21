@@ -8,8 +8,6 @@ import { deleteIncomeMutation, DELETE_MUTATION_OPTIONS } from '../utils/mutation
 import { QUERY_OPTIONS } from '../utils/useQuery'
 import Modal from '../components/Modal'
 import IncomeForm from '../forms/IncomeForm'
-import 'datatables.net-buttons/js/buttons.colVis'
-import 'datatables.net-buttons/js/buttons.print'
 import DeleteModal from '../components/DeleteModal'
 import { readAllScholarships } from '../data-access/scholarshipsDataAccess'
 
@@ -29,6 +27,10 @@ const Incomes = () => {
 		queryFn: readAllScholarships
 	})
 
+	const deleteMutation = useMutation(
+		deleteIncomeMutation, DELETE_MUTATION_OPTIONS
+	)
+
 	const tableRef = useRef()
 
 	const scholarshipsNames = useMemo(() => {
@@ -39,10 +41,6 @@ const Incomes = () => {
 			}
 		}) : []
 	}, [scholarships])
-
-	const deleteMutation = useMutation(
-		deleteIncomeMutation, DELETE_MUTATION_OPTIONS
-	)
 
 	function getScholarshipName(id){
 		if(scholarshipsNames.length > 0){

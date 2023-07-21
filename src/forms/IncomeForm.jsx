@@ -153,6 +153,8 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 				order={order}
 				setOrder={setOrder}
 				isLoading={isLoading}
+				isIncome={true}
+				isScholarship={income.scholarship_id > 0 ? true : false}
 			>
 				<AutocompleteInput
 					name='scholarship_id'
@@ -197,6 +199,7 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 
 				<TextAreaField
 					name='note'
+					widthCols="30"
 					placeholder='Notas'
 					value={income.note}
 					onChange={handleInputChange}

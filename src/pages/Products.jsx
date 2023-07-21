@@ -51,7 +51,7 @@ const Products = () => {
 				submenu='Productos'
 			/>
 
-			{isLoading ? 'Loading...' :
+			{isLoading ? 'Cargando...' :
 				<>
 					<button
 						type='button'
