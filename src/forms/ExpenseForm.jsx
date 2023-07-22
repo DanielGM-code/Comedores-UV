@@ -11,6 +11,7 @@ import { QUERY_OPTIONS } from '../utils/useQuery'
 import ProductsMenu from '../components/ProductsMenu'
 import { readAllExpenseProducts } from '../data-access/productsDataAccess'
 import TextAreaField from '../components/TextAreaField'
+import SearchField from '../components/SearchField'
 
 const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 	document.body.style.overflow = 'hidden'
@@ -21,7 +22,8 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 		{ label: 'Sin factura', id: 'Sin factura' }
 	]
 
-	const [selectedCategory, setSelectedCategory] = useState('Alimentos')
+	const [selectedName, setSelectedName] = useState('')
+	const [searchedWord, setSearchedWord] = useState('')
 	const [order, setOrder] = useState(expenseUpdate ? expenseUpdate.details : [])
 	const [expense, setExpense] = useState(expenseUpdate ? {
 		...expenseUpdate,
@@ -67,10 +69,14 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 	const total = useRef()
 
 	const filteredProducts = useMemo(() => {
-		return products ? products.filter(
-			product => product.product_type === selectedCategory
-		) : []
-	}, [products, selectedCategory])
+		if(selectedName === '' || selectedName === null) {
+			return products ? products : []
+		}else{
+			return products ? products.filter(product => 
+				product.name.toLowerCase().search(selectedName.toLowerCase()) > -1
+			) : []
+		}
+	}, [products, selectedName])
 
 	const validateAll = () => {
 		const { provider_id, bill, type, description, departure } = expense
@@ -151,10 +157,22 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 
 	return (
 		<>
+				<SearchField
+					placeholder='Buscar por Nombre del producto'
+					value={searchedWord}
+					onChange={(event) => setSearchedWord(event.target.value)}
+					onBlur={() => setSearchedWord(searchedWord)}
+					onSearch={() => setSelectedName(searchedWord)}
+					onReset={() => {
+						setSelectedName('')
+						setSearchedWord('')
+					}}
+				/>
+
 			<ProductsMenu
 				title='Detalles del Egreso'
 				total={total.current}
-				filteredProducts={products}
+				filteredProducts={filteredProducts}
 				order={order}
 				setOrder={setOrder}
 				isLoading={isLoading}

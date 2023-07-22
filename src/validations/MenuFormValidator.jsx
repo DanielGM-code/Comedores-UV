@@ -22,9 +22,9 @@ const MenuFormValidator = (value) => {
             if(isScholarship){
                 const scholarshipValidator = Validator(value)
 
-                if(scholarshipValidator.isEmpty()) return <>Becado requerido</>
+                if(scholarshipValidator.isEmpty()) return <>Becario requerido</>
                 let foundScholarship = scholarships.find(scholarship => scholarship.id === value)
-                if(!foundScholarship) return <>El becado seleccionado ya no existe</>
+                if(!foundScholarship) return <>El becario seleccionado ya no existe</>
             }
             return null
         },

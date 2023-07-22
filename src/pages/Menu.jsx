@@ -18,10 +18,13 @@ import ProductsMenu from '../components/ProductsMenu'
 import TextAreaField from '../components/TextAreaField'
 import TabMenu from '../components/TabMenu'
 import ToggleButton from '../components/ToggleButton'
+import SearchField from '../components/SearchField'
 
 const Menu = () => {
 	const [isShowing, setIsShowing] = useState(false)
 	const [selectedCategory, setSelectedCategory] = useState('Alimentos')
+	const [searchedWord, setSearchedWord] = useState('')
+	const [selectedName, setSelectedName] = useState('')
 	const [order, setOrder] = useState([])
 	const [orderDetails, setOrderDetails] = useState({
 		name: '',
@@ -78,8 +81,17 @@ const Menu = () => {
 		}) : []
 	}, [scholarships])
 	const filteredProducts = useMemo(() => {
-		return products ? products.filter(product => product.product_type === selectedCategory) : []
-	}, [products, selectedCategory])
+		if(selectedName === '' ||selectedName === null){
+			return products ? products.filter(product => 
+				product.product_type === selectedCategory
+			) : []
+		}else{
+			return products ? products.filter(product => 
+				product.product_type === selectedCategory &&
+				product.name.toLowerCase().search(selectedName) > -1
+			) : []
+		}
+	}, [products, selectedCategory, selectedName])
 
 	const validateAll = () => {
 		const { scholarship_id, note } = income
@@ -186,13 +198,25 @@ const Menu = () => {
 					submenu='Menú'
 				/>
 
+				<SearchField
+					placeholder='Buscar por Nombre del menú'
+					value={searchedWord}
+					onChange={(event) => setSearchedWord(event.target.value)}
+					onBlur={() => setSearchedWord(searchedWord)}
+					onSearch={() => setSelectedName(searchedWord)}
+					onReset={() => {
+						setSearchedWord('')
+						setSelectedName('')
+					}}
+				/>
+
 				<TabMenu
 					selectedCategory={selectedCategory}
 					setSelectedCategory={setSelectedCategory}
 				/>
 				
 				<ProductsMenu
-					title='Deatlles de la Orden'
+					title='Detalles de la Orden'
 					total={total.current}
 					filteredProducts={filteredProducts}
 					order={order}

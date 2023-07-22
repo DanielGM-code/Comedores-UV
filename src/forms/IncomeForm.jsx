@@ -13,12 +13,17 @@ import ProductsMenu from '../components/ProductsMenu'
 import TextAreaField from '../components/TextAreaField'
 import TabMenu from '../components/TabMenu'
 import { useRef } from 'react'
+import ToggleButton from '../components/ToggleButton'
+import SearchField from '../components/SearchField'
 
 const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 	document.body.style.overflow = 'hidden'
 	$('.modal-content').css('width', '80%')
 	
 	const [selectedCategory, setSelectedCategory] = useState('Alimentos')
+	const [searhedWord, setSearchedWord] = useState('')
+	const [selectedName, setSelectedName] = useState('')
+	const [isScholarship, setIsScholarship] = useState(false)
 	const [order, setOrder] = useState(incomeUpdate ? incomeUpdate.details : [])
 	const [income, setIncome] = useState(incomeUpdate ? {
 		...incomeUpdate,
@@ -62,16 +67,23 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 	const total = useRef()
 
 	const filteredProducts = useMemo(() => {
-		return products ? products.filter(
-			product => product.product_type === selectedCategory
-		) : []
-	}, [products, selectedCategory])
+		if(selectedName === '' || selectedName === null){
+			return products ? products.filter(
+				product => product.product_type === selectedCategory
+			) : []
+		}else{
+			return products ? products.filter(product => 
+				product.product_type === selectedCategory &&
+				product.name.toLowerCase().search(selectedName) > -1
+			) : []
+		}
+	}, [products, selectedCategory, selectedName])
 
 	const validateAll = () => {
 		const { scholarship_id, date, note } = income
 		const validations = { scholarship: null, date: null, note: null }
 
-		validations.scholarship = IncomeFormValidator(scholarship_id).scholarshipIdValidator(scholarships)
+		validations.scholarship = IncomeFormValidator(scholarship_id).scholarshipIdValidator(isScholarship, scholarships)
 		validations.date = IncomeFormValidator(date).dateValidator()
 		validations.note = IncomeFormValidator(note).noteValidator()
 		validations.orders = IncomeFormValidator(order).orderValidator()
@@ -146,6 +158,18 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 				setSelectedCategory={setSelectedCategory}
 			/>
 
+			<SearchField
+				placeholder='Buscar por Nombre del menú'
+				value={searhedWord}
+				onChange={(event) => setSearchedWord(event.target.value)}
+				onBlur={() => setSearchedWord(searhedWord)}
+				onSearch={() => setSelectedName(searhedWord)}
+				onReset={() => {
+					setSearchedWord('')
+					setSelectedName('')
+				}}
+			/>
+
 			<ProductsMenu
 				title='Detalles del Ingreso'
 				total={total.current}
@@ -154,33 +178,59 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 				setOrder={setOrder}
 				isLoading={isLoading}
 				isIncome={true}
-				isScholarship={income.scholarship_id > 0 ? true : false}
+				isScholarship={isScholarship}
 			>
-				<AutocompleteInput
-					name='scholarship_id'
-					iconClasses='fa-solid fa-user'
-					options={scholarships}
-					selectedOption={() => {
-						return scholarships.find(scholarship => 
-							scholarship.id === income.scholarship_id
-						)
-					}}
-					placeholder='Nombre del becario'
-					searchable={true}
-					onChange={(selectedScholarship) => {
+				<ToggleButton
+					title='Con becario'
+					isChecked={isScholarship}
+					onChange={() => {
+						setIsScholarship(!isScholarship)
 						setIncome(prevIncome => {
 							return {
 								...prevIncome,
-								scholarship_id: selectedScholarship.id
+								scholarship_id: null
+							}
+						})
+						setValidations(prevValidations => {
+							return {
+								...prevValidations,
+								scholarship: null
 							}
 						})
 					}}
-					clearable={false}
 				/>
-				<Alert 
-                    typeAlert='alert alert-warning'
-                    validation={validations.scholarship}
-                />
+
+				{isScholarship ? 
+					<>
+						<AutocompleteInput
+							name='scholarship_id'
+							iconClasses='fa-solid fa-user'
+							options={scholarships}
+							selectedOption={() => {
+								return scholarships.find(scholarship => 
+									scholarship.id === income.scholarship_id
+								)
+							}}
+							placeholder='Nombre del becario'
+							searchable={true}
+							onChange={(selectedScholarship) => {
+								setIncome(prevIncome => {
+									return {
+										...prevIncome,
+										scholarship_id: selectedScholarship.id
+									}
+								})
+							}}
+							clearable={false}
+						/>
+						<Alert 
+							typeAlert='alert alert-warning'
+							validation={validations.scholarship}
+						/>
+					</>
+					:
+					<></>
+				}
 
 				<DateField
 					name='date'

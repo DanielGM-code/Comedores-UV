@@ -2,12 +2,13 @@ import Validator from "./Validator"
 
 const IncomeFormValidator = (value) => {
     return {
-        scholarshipIdValidator(scholarships){
-            const scholarshipValidator = Validator(value)
+        scholarshipIdValidator(isScholarship, scholarships){
+            if(isScholarship){
+                const scholarshipValidator = Validator(value)
 
-            if(!scholarshipValidator.isEmpty()){
+                if(scholarshipValidator.isEmpty()) return <>Becario requerido</>
                 let foundScholarship = scholarships.find(scholarship => scholarship.id === value)
-                if(!foundScholarship) return <>El becado seleccionado ya no existe</>
+                if(!foundScholarship) return <>El becario seleccionado ya no existe</>
             }
             return null
         },

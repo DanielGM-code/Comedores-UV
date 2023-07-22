@@ -116,9 +116,13 @@ const ProductsMenu = ({
                                         </p>
                                     }
 
-                                    <p className='menu-item-stock'>
-                                        Existencia: {product.stock}
-                                    </p>
+                                    {isIncome ? 
+                                        <p className='menu-item-stock'>
+                                            Existencia: {product.stock}
+                                        </p>
+                                        :
+                                        <></>
+                                    }
                                 </div>
 
                                 <div className='stepper-container'>
