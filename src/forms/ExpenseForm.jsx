@@ -12,6 +12,7 @@ import ProductsMenu from '../components/ProductsMenu'
 import { readAllExpenseProducts } from '../data-access/productsDataAccess'
 import TextAreaField from '../components/TextAreaField'
 import SearchField from '../components/SearchField'
+import DateField from '../components/DateField'
 
 const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 	document.body.style.overflow = 'hidden'
@@ -35,14 +36,17 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 		description: '',
 		total: 0,
 		bill: '',
-		departure: ''
+		departure: '',
+		details: []
 	})
 	const [validations, setValidations] = useState({
 		provider: null,
 		description: null,
 		type: null,
 		bill: null,
-		departure: null
+		date: null,
+		departure: null,
+		orders: null
 	})
 
 	const { data: products, isLoading } = useQuery({
@@ -79,16 +83,18 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 	}, [products, selectedName])
 
 	const validateAll = () => {
-		const { provider_id, bill, type, description, departure } = expense
-		let validations = { provider: null, description: null, 
-			bill: null, type: null, departure: null 
+		const { provider_id, bill, type, date, description, departure } = expense
+		let validations = { provider: null, description: null, date: null,
+			bill: null, type: null, departure: null, orders: null
 		}
 
 		validations.provider = ExpenseFormValidator(provider_id).providerIdValidator(providers)
 		validations.type = ExpenseFormValidator(type).typeValidator()
 		validations.description = ExpenseFormValidator(description).descriptionValidator()
-		validations.bill = ExpenseFormValidator(bill).billValidator()
+		validations.bill = ExpenseFormValidator(bill).billValidator(type)
+		validations.date = ExpenseFormValidator(date).dateValidator()
 		validations.departure = ExpenseFormValidator(departure).departureValidator()
+		validations.orders = ExpenseFormValidator(order).orderValidator()
 
 		const validationMessages = Object.values(validations).filter(
 			(validationMessage) => validationMessage !== null
@@ -105,7 +111,8 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 		const value = expense[name]
 		let message = null
 
-		if(name === 'bill') message = ExpenseFormValidator(value).billValidator()
+		if(name === 'bill') message = ExpenseFormValidator(value).billValidator(expense['type'])
+		if(name === 'date') message = ExpenseFormValidator(value).dateValidator()
 		if(name === 'description') message = ExpenseFormValidator(value).descriptionValidator()
 		if(name === 'departure') message = ExpenseFormValidator(value).departureValidator()
 
@@ -124,9 +131,7 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 	async function submitExpense() {
 		const isValid = validateAll();
 
-		if(!isValid){
-			return false
-		}
+		if(!isValid) return false
 		
 		if (expense.id) {
 			await updateMutation.mutateAsync(expense)
@@ -135,6 +140,7 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 			await createMutation.mutateAsync(expense)
 			createMutation.reset()
 		}
+
 		await queryClient.resetQueries()
 		cancelAction()
 		document.body.style.overflow = null
@@ -155,19 +161,21 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 		})
 	}, [order])
 
+	$('input[name="bill"]').prop('disabled', expense.type === 'Sin factura' ? true : false)
+
 	return (
 		<>
-				<SearchField
-					placeholder='Buscar por Nombre del producto'
-					value={searchedWord}
-					onChange={(event) => setSearchedWord(event.target.value)}
-					onBlur={() => setSearchedWord(searchedWord)}
-					onSearch={() => setSelectedName(searchedWord)}
-					onReset={() => {
-						setSelectedName('')
-						setSearchedWord('')
-					}}
-				/>
+			<SearchField
+				placeholder='Buscar por Nombre del producto'
+				value={searchedWord}
+				onChange={(event) => setSearchedWord(event.target.value)}
+				onBlur={() => setSearchedWord(searchedWord)}
+				onSearch={() => setSelectedName(searchedWord)}
+				onReset={() => {
+					setSelectedName('')
+					setSearchedWord('')
+				}}
+			/>
 
 			<ProductsMenu
 				title='Detalles del Egreso'
@@ -234,12 +242,18 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
 								}
 							})
 						}
+						setValidations(prevValidations => {
+							return {
+								...prevValidations,
+								bill: null
+							}
+						})
 					}}
 					clearable={false}
 				/>
 				<Alert
 					typeAlert='alert alert-warning'
-					validation={validations.provider}
+					validation={validations.type}
 				/>
 
 				<FormField
@@ -255,6 +269,21 @@ const ExpenseForm = ({ cancelAction, expenseUpdate, providers }) => {
                     typeAlert='alert alert-warning'
                     validation={validations.bill}
                 />
+
+				<DateField
+					name='date'
+					inputType='date'
+					iconClasses='fa-solid fa-calendar-days'
+					placeholder='Fecha de registro'
+					value={expense.date}
+					label='Fecha de registro'
+					onChange={handleInputChange}
+					onBlur={validateOne}
+				/>
+				<Alert
+					typeAlert='alert alert-warning'
+					validation={validations.date}
+				/>
 
 				<TextAreaField
 					name='description'

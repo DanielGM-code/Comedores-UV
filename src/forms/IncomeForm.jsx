@@ -23,7 +23,7 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 	const [selectedCategory, setSelectedCategory] = useState('Alimentos')
 	const [searhedWord, setSearchedWord] = useState('')
 	const [selectedName, setSelectedName] = useState('')
-	const [isScholarship, setIsScholarship] = useState(false)
+	const [isScholarship, setIsScholarship] = useState(incomeUpdate ? (incomeUpdate.scholarship_id ? true : false) : false)
 	const [order, setOrder] = useState(incomeUpdate ? incomeUpdate.details : [])
 	const [income, setIncome] = useState(incomeUpdate ? {
 		...incomeUpdate,
@@ -81,7 +81,7 @@ const IncomeForm = ({ cancelAction, incomeUpdate, scholarships }) => {
 
 	const validateAll = () => {
 		const { scholarship_id, date, note } = income
-		const validations = { scholarship: null, date: null, note: null }
+		const validations = { scholarship: null, date: null, note: null, orders: null }
 
 		validations.scholarship = IncomeFormValidator(scholarship_id).scholarshipIdValidator(isScholarship, scholarships)
 		validations.date = IncomeFormValidator(date).dateValidator()

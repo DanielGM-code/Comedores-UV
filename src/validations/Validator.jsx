@@ -97,7 +97,7 @@ const Validator = function(value) {
             return false
         },
         isCorrectStockRange(minValue, maxValue){
-            if(value >= minValue || value <= maxValue) return true
+            if(value > minValue || value < maxValue) return true
             return false
         },
         isCorrectWord(){

@@ -14,6 +14,7 @@ const ExpenseFormValidator = (value) => {
             const typeValidator = Validator(value)
 
             if(typeValidator.isEmpty()) return <>Tipo de egreso requerido</>
+            return null
         },
         descriptionValidator(){
             const descriptionValidator = Validator(value)
@@ -22,10 +23,19 @@ const ExpenseFormValidator = (value) => {
             if(!descriptionValidator.isCorrectMaxLength(250)) return <>La descripción debe tener máximo 250 caracteres</>
             return null
         },
-        billValidator(){
+        billValidator(type){
             const billValidator = Validator(value)
 
-            if(!billValidator.isCorrectMaxLength(200)) return <>La factura debe tener menos de 200 caracteres</>
+            if(type === 'Con factura'){
+                if(billValidator.isEmpty()) return <>Factura requerida</>
+                if(!billValidator.isCorrectMaxLength(200)) return <>La factura debe tener menos de 200 caracteres</>
+            }
+            return null
+        },
+        dateValidator(){
+            const dateValidator = Validator(value)
+
+            if(dateValidator.isEmpty()) return <>Fecha requerida</>
             return null
         },
         departureValidator(){
@@ -33,6 +43,10 @@ const ExpenseFormValidator = (value) => {
 
             if(validatorDeparture.isEmpty()) return <>Partida requerida</>
             if(!validatorDeparture.isCorrectMaxLength(200)) return <>La partida debe tener menos de 200 caracteres</>
+            return null
+        },
+        orderValidator(){
+            if(value.length === 0) return <>Aún no ha agregado ningún producto a los detalles</>
             return null
         }
     }

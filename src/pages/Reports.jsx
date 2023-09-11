@@ -62,7 +62,7 @@ const Reports = () => {
 				<IncomesExpensesChart />
 			</div>
 
-			{isLoadingExpenses ? 'Cargando...' :
+			{isLoadingExpenses || isLoadingIncomes ? 'Cargando...' :
 				<div className='contenedor-tabla'>
 					<h3>Egresos</h3>
 
@@ -72,6 +72,7 @@ const Reports = () => {
 						ref={tableRef} 
 						className='table table-hover table-borderless'
 					>
+						{/* 
 						<thead>
 							<tr>
 								<th className='leading-row'>Egreso</th>
@@ -137,6 +138,52 @@ const Reports = () => {
 								<th>Cantidad</th>
 								
 								<th>Precio unitario</th>
+							</tr>
+						</tfoot>
+						*/}
+						<thead>
+							<tr>
+								<th>FECHA</th>
+
+								<th>MENUS VENDIDOS</th>
+
+								<th>INGRESOS TOTALES DEL DIA</th>
+
+								<th>COMPRAS SIN FACTURA</th>
+
+								<th>COMPRAS CON FACTURA</th>
+
+								<th>EGRESOS TOTALES</th>
+
+								<th>SALDO AL FINAL DEL DIA</th>
+							</tr>
+						</thead>
+
+						<tbody className='table-group-divider'>
+							{detailsIncomes.map(detailsIncome => {
+								return(
+									<tr key={detailsIncome.id}>
+										<td>{detailsIncome.date}</td>
+									</tr>
+								)
+							})}
+						</tbody>
+
+						<tfoot>
+						<tr>
+								<th>FECHA</th>
+
+								<th>MENUS VENDIDOS</th>
+
+								<th>INGRESOS TOTALES DEL DIA</th>
+
+								<th>COMPRAS SIN FACTURA</th>
+
+								<th>COMPRAS CON FACTURA</th>
+
+								<th>EGRESOS TOTALES</th>
+
+								<th>SALDO AL FINAL DEL DIA</th>
 							</tr>
 						</tfoot>
 					</table>

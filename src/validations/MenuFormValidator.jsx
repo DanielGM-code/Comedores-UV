@@ -29,7 +29,7 @@ const MenuFormValidator = (value) => {
             return null
         },
         orderValidator(){
-            if(value.length === 0) return <>Aún no ha agregado ningún producto a la orden</>
+            if(value.length === 0) return <>Aún no ha agregado ningún producto a los detalles</>
             return null
         },
         paymentValidator(totalPrice){

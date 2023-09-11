@@ -1,5 +1,6 @@
 const ProductsMenu = ({ 
     title, 
+    messageDetails,
     total, 
     filteredProducts, 
     order, 
@@ -94,7 +95,7 @@ const ProductsMenu = ({
                             >
                                 <img 
                                     className='menu-item-image' 
-                                    src="/resources/comida-generico.jpg" 
+                                    src={isIncome ? "/resources/comida-generico.jpg" : "/resources/producto-egreso.jpg"}
                                     alt="empanadas" 
                                 />
 
@@ -199,7 +200,7 @@ const ProductsMenu = ({
                             </tbody>
                         </table>
                         :
-                        'Aún no ha agregado ningún producto a la orden'
+                        'Aún no ha agregado ningún producto a los detalles'
                     }
                 </div>
 

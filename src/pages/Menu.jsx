@@ -122,10 +122,15 @@ const Menu = () => {
 	const validateOne = (e) => {
 		const { name } = e.target
 		let message = ''
+		let numberPrice = 0
 
 		if(name === 'name') message = MenuFormValidator(orderDetails[name]).nameValidator(orderDetails.isScholarship)
 		if(name === 'note') message = MenuFormValidator(income[name]).noteValidator()
-		if(name === 'payment') message = MenuFormValidator(orderDetails[name]).paymentValidator(total.current)
+		if(name === 'payment') {
+			numberPrice = parseFloat(Number(orderDetails[name]).priceFormat())
+			orderDetails[name] = numberPrice
+			message = MenuFormValidator(numberPrice).paymentValidator(total.current)
+		}
 
 		setValidations({ ...validations, [name]: message})
 	}

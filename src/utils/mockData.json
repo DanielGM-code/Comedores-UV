@@ -1,43 +1,197 @@
 {
   "expenses": [
     {
-      "id": 1,
-      "provider_id": 5,
-      "date": "2023-03-01",
-      "description": "Compra de chiles",
-      "total": 12.23,
-      "bill": "1258795",
-      "departure": "Abarrotes"
-    },
-    {
-      "id": 2,
-      "provider_id": 4,
-      "date": "2023-03-04",
-      "description": "Compra de detergentes",
-      "total": 23.5,
-      "bill": "235687",
-      "departure": "Producto de limpieza"
+      "provider_id": 2,
+      "type": "Sin factura",
+      "date": "2023-07-22",
+      "description": "Se miden en Kg.",
+      "total": 44,
+      "bill": "",
+      "departure": "Compras de mercado",
+      "details": [
+        {
+          "product": {
+            "name": "Jitomate",
+            "description": "",
+            "purchase_price": 24,
+            "sale_price": 0,
+            "preferred_price": 0,
+            "stock": 2,
+            "product_type": "",
+            "id": 28
+          },
+          "amount": 1
+        },
+        {
+          "product": {
+            "name": "Lechuga",
+            "description": "",
+            "purchase_price": 20,
+            "sale_price": 0,
+            "preferred_price": 0,
+            "stock": 1,
+            "product_type": "",
+            "id": 29
+          },
+          "amount": 1
+        }
+      ],
+      "id": 5
     },
     {
       "provider_id": 6,
-      "date": "2023-04-26",
-      "description": "1",
-      "total": 34.83,
-      "bill": "aSSD",
-      "departure": "iij",
-      "id": 3
+      "type": "Sin factura",
+      "date": "2023-07-25",
+      "description": "Ninguna",
+      "total": 90,
+      "bill": "",
+      "departure": "Compras de mercado",
+      "details": [
+        {
+          "product": {
+            "name": "Nutrileche",
+            "description": "",
+            "purchase_price": 17,
+            "sale_price": 0,
+            "preferred_price": 0,
+            "stock": 4,
+            "product_type": "",
+            "id": 25
+          },
+          "amount": 4
+        },
+        {
+          "product": {
+            "name": "Azúcar",
+            "description": "",
+            "purchase_price": 22,
+            "sale_price": 0,
+            "preferred_price": 0,
+            "stock": 2,
+            "product_type": "",
+            "id": 30
+          },
+          "amount": 1
+        }
+      ],
+      "id": 6
     },
     {
       "provider_id": 2,
-      "date": "2023-04-26",
-      "description": ",xlmkxz",
-      "total": 45,
-      "bill": "ksdk",
-      "departure": "skldmk",
-      "id": 4
+      "type": "Sin factura",
+      "date": "2023-07-25",
+      "description": "Ninguna",
+      "total": 39.050000000000004,
+      "bill": "",
+      "departure": "Compras de mercado",
+      "details": [
+        {
+          "product": {
+            "name": "Servitoalla",
+            "description": "",
+            "purchase_price": 8.88,
+            "sale_price": 0,
+            "preferred_price": 0,
+            "stock": 2,
+            "product_type": "",
+            "id": 33
+          },
+          "amount": 1
+        },
+        {
+          "product": {
+            "name": "Salvo multiusos",
+            "description": "",
+            "purchase_price": 30.17,
+            "sale_price": 0,
+            "preferred_price": 0,
+            "stock": 2,
+            "product_type": "",
+            "id": 26
+          },
+          "amount": 1
+        }
+      ],
+      "id": 7
+    },
+    {
+      "provider_id": 6,
+      "type": "Con factura",
+      "date": "2023-07-25",
+      "description": "Ninguna",
+      "total": 64.17,
+      "bill": "QWIU98394",
+      "departure": "Compras de mercado",
+      "details": [
+        {
+          "product": {
+            "name": "Salvo multiusos",
+            "description": "",
+            "purchase_price": 30.17,
+            "sale_price": 0,
+            "preferred_price": 0,
+            "stock": 2,
+            "product_type": "",
+            "id": 26
+          },
+          "amount": 1
+        },
+        {
+          "product": {
+            "name": "Nutrileche",
+            "description": "",
+            "purchase_price": 17,
+            "sale_price": 0,
+            "preferred_price": 0,
+            "stock": 4,
+            "product_type": "",
+            "id": 25
+          },
+          "amount": 2
+        }
+      ],
+      "id": 8
     }
   ],
   "expense_details": [
+    {
+      "provider_id": 2,
+      "type": "Sin factura",
+      "date": "2023-07-22",
+      "description": "Se miden en Kg.",
+      "total": 44,
+      "bill": "",
+      "departure": "Compras de mercado",
+      "details": [
+        {
+          "product": {
+            "name": "Jitomate",
+            "description": "",
+            "purchase_price": 24,
+            "sale_price": 0,
+            "preferred_price": 0,
+            "stock": 2,
+            "product_type": "",
+            "id": 28
+          },
+          "amount": 1
+        },
+        {
+          "product": {
+            "name": "Lechuga",
+            "description": "",
+            "purchase_price": 20,
+            "sale_price": 0,
+            "preferred_price": 0,
+            "stock": 1,
+            "product_type": "",
+            "id": 29
+          },
+          "amount": 1
+        }
+      ],
+      "id": 5
+    },
     {
       "id": 1,
       "expense_id": 1,
@@ -94,8 +248,8 @@
     {
       "user_id": null,
       "scholarship_id": 4,
-      "note": "ok",
-      "date": "2023-07-19",
+      "note": "Sin queso",
+      "date": "2023-06-19",
       "details": [
         {
           "product": {
@@ -112,19 +266,6 @@
         },
         {
           "product": {
-            "id": 5,
-            "name": "Sopa de alubias",
-            "description": "",
-            "purchase_price": 0,
-            "sale_price": 35,
-            "preferred_price": 30,
-            "stock": 25,
-            "product_type": "Alimentos"
-          },
-          "amount": 1
-        },
-        {
-          "product": {
             "id": 4,
             "name": "Coca-Cola",
             "description": "Refresco de 600 mL.",
@@ -135,6 +276,19 @@
             "product_type": "Bebidas"
           },
           "amount": 1
+        },
+        {
+          "product": {
+            "id": 8,
+            "name": "Enfrijoladas",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 35,
+            "preferred_price": 30,
+            "stock": 25,
+            "product_type": "Alimentos"
+          },
+          "amount": 1
         }
       ],
       "total": 66,
@@ -143,8 +297,8 @@
     {
       "user_id": null,
       "scholarship_id": null,
-      "note": "kwj",
-      "date": "2023-07-19",
+      "note": "Sin cebolla",
+      "date": "2023-06-19",
       "details": [
         {
           "product": {
@@ -188,6 +342,605 @@
       ],
       "total": 75,
       "id": 10
+    },
+    {
+      "user_id": null,
+      "scholarship_id": 5,
+      "date": "2023-06-18",
+      "note": "Tostadas con crema",
+      "total": 150,
+      "details": [
+        {
+          "product": {
+            "id": 14,
+            "name": "Tostadas",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 30,
+            "preferred_price": 25,
+            "stock": 50,
+            "product_type": "Alimentos"
+          },
+          "amount": 2
+        },
+        {
+          "product": {
+            "id": 15,
+            "name": "Ensalada mixta",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 45,
+            "preferred_price": 35,
+            "stock": 30,
+            "product_type": "Alimentos"
+          },
+          "amount": 2
+        }
+      ],
+      "id": 11
+    },
+    {
+      "user_id": null,
+      "scholarship_id": null,
+      "note": "Con pollo",
+      "date": "2023-06-17",
+      "details": [
+        {
+          "product": {
+            "id": 6,
+            "name": "Agua",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 12,
+            "preferred_price": 10,
+            "stock": 15,
+            "product_type": "Bebidas"
+          },
+          "amount": 2
+        },
+        {
+          "product": {
+            "id": 3,
+            "name": "Chocoroles",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 16,
+            "preferred_price": 14,
+            "stock": 20,
+            "product_type": "Dulcería"
+          },
+          "amount": 2
+        },
+        {
+          "product": {
+            "name": "Picaditas",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 25,
+            "preferred_price": 20,
+            "stock": 40,
+            "product_type": "Alimentos",
+            "id": 23
+          },
+          "amount": 1
+        }
+      ],
+      "total": 81,
+      "id": 12
+    },
+    {
+      "user_id": null,
+      "scholarship_id": null,
+      "note": "Sin cebolla",
+      "date": "2023-06-16",
+      "details": [
+        {
+          "product": {
+            "id": 5,
+            "name": "Sopa de alubias",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 35,
+            "preferred_price": 30,
+            "stock": 25,
+            "product_type": "Alimentos"
+          },
+          "amount": 1
+        },
+        {
+          "product": {
+            "name": "Sprite",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 16,
+            "preferred_price": 14,
+            "stock": 25,
+            "product_type": "Bebidas",
+            "id": 17
+          },
+          "amount": 2
+        }
+      ],
+      "total": 67,
+      "id": 13
+    },
+    {
+      "user_id": null,
+      "scholarship_id": 8,
+      "note": "Con todo",
+      "date": "2023-06-16",
+      "details": [
+        {
+          "product": {
+            "name": "Coditos con queso",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 40,
+            "preferred_price": 35,
+            "stock": 15,
+            "product_type": "Alimentos",
+            "id": 16
+          },
+          "amount": 1
+        },
+        {
+          "product": {
+            "id": 13,
+            "name": "Carlos V",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 10,
+            "preferred_price": 6,
+            "stock": 20,
+            "product_type": "Dulcería"
+          },
+          "amount": 2
+        },
+        {
+          "product": {
+            "id": 4,
+            "name": "Coca-Cola",
+            "description": "Refresco de 600 mL.",
+            "purchase_price": 0,
+            "sale_price": 15,
+            "preferred_price": 12,
+            "stock": 30,
+            "product_type": "Bebidas"
+          },
+          "amount": 1
+        }
+      ],
+      "total": 75,
+      "id": 14
+    },
+    {
+      "user_id": null,
+      "scholarship_id": null,
+      "note": "Con todo",
+      "date": "2023-06-16",
+      "details": [
+        {
+          "product": {
+            "name": "Jugo del valle",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 18,
+            "preferred_price": 16,
+            "stock": 20,
+            "product_type": "Bebidas",
+            "id": 19
+          },
+          "amount": 1
+        },
+        {
+          "product": {
+            "id": 11,
+            "name": "Galletas Emperador",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 16,
+            "preferred_price": 14,
+            "stock": 10,
+            "product_type": "Dulcería"
+          },
+          "amount": 1
+        },
+        {
+          "product": {
+            "name": "Sabritas",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 15,
+            "preferred_price": 12,
+            "stock": 10,
+            "product_type": "Dulcería",
+            "id": 21
+          },
+          "amount": 1
+        }
+      ],
+      "total": 49,
+      "id": 15
+    },
+    {
+      "user_id": null,
+      "scholarship_id": null,
+      "note": "Sin ensalada",
+      "date": "2023-06-15",
+      "details": [
+        {
+          "product": {
+            "name": "Pollo empanizado",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 45,
+            "preferred_price": 40,
+            "stock": 35,
+            "product_type": "Alimentos",
+            "id": 20
+          },
+          "amount": 1
+        },
+        {
+          "product": {
+            "id": 7,
+            "name": "Café",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 25,
+            "preferred_price": 20,
+            "stock": 30,
+            "product_type": "Bebidas"
+          },
+          "amount": 1
+        }
+      ],
+      "total": 70,
+      "id": 16
+    },
+    {
+      "user_id": null,
+      "scholarship_id": null,
+      "note": "Tostadas sin lechuga",
+      "date": "2023-06-18",
+      "details": [
+        {
+          "product": {
+            "name": "Picaditas",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 25,
+            "preferred_price": 20,
+            "stock": 40,
+            "product_type": "Alimentos",
+            "id": 23
+          },
+          "amount": 3
+        },
+        {
+          "product": {
+            "id": 14,
+            "name": "Tostadas",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 30,
+            "preferred_price": 25,
+            "stock": 50,
+            "product_type": "Alimentos"
+          },
+          "amount": 1
+        },
+        {
+          "product": {
+            "name": "Licuado de plátano",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 30,
+            "preferred_price": 25,
+            "stock": 15,
+            "product_type": "Bebidas",
+            "id": 22
+          },
+          "amount": 1
+        }
+      ],
+      "total": 135,
+      "id": 17
+    },
+    {
+      "user_id": null,
+      "scholarship_id": null,
+      "note": "Con todo",
+      "date": "2023-06-12",
+      "details": [
+        {
+          "product": {
+            "name": "Pollo empanizado",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 45,
+            "preferred_price": 40,
+            "stock": 35,
+            "product_type": "Alimentos",
+            "id": 20
+          },
+          "amount": 1
+        }
+      ],
+      "total": 45,
+      "id": 18
+    },
+    {
+      "user_id": null,
+      "scholarship_id": null,
+      "note": "Con todo",
+      "date": "2023-06-12",
+      "details": [
+        {
+          "product": {
+            "name": "Pollo empanizado",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 45,
+            "preferred_price": 40,
+            "stock": 35,
+            "product_type": "Alimentos",
+            "id": 20
+          },
+          "amount": 1
+        }
+      ],
+      "total": 45,
+      "id": 19
+    },
+    {
+      "user_id": null,
+      "scholarship_id": null,
+      "note": "Ninguna",
+      "date": "2023-06-12",
+      "details": [
+        {
+          "product": {
+            "id": 6,
+            "name": "Agua",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 12,
+            "preferred_price": 10,
+            "stock": 15,
+            "product_type": "Bebidas"
+          },
+          "amount": 1
+        }
+      ],
+      "total": 12,
+      "id": 20
+    },
+    {
+      "user_id": null,
+      "scholarship_id": null,
+      "note": "Ninguna",
+      "date": "2023-06-12",
+      "details": [
+        {
+          "product": {
+            "id": 7,
+            "name": "Café",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 25,
+            "preferred_price": 20,
+            "stock": 30,
+            "product_type": "Bebidas"
+          },
+          "amount": 1
+        }
+      ],
+      "total": 25,
+      "id": 21
+    },
+    {
+      "user_id": null,
+      "scholarship_id": null,
+      "note": "Con todo",
+      "date": "2023-06-11",
+      "details": [
+        {
+          "product": {
+            "id": 8,
+            "name": "4 Enfrijoladas",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 35,
+            "preferred_price": 30,
+            "stock": 25,
+            "product_type": "Alimentos"
+          },
+          "amount": 1
+        },
+        {
+          "product": {
+            "id": 4,
+            "name": "Coca-Cola",
+            "description": "Refresco de 600 mL.",
+            "purchase_price": 0,
+            "sale_price": 15,
+            "preferred_price": 12,
+            "stock": 30,
+            "product_type": "Bebidas"
+          },
+          "amount": 1
+        }
+      ],
+      "total": 50,
+      "id": 22
+    },
+    {
+      "user_id": null,
+      "scholarship_id": null,
+      "note": "Con todo",
+      "date": "2023-06-10",
+      "details": [
+        {
+          "product": {
+            "id": 15,
+            "name": "Ensalada mixta",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 45,
+            "preferred_price": 35,
+            "stock": 30,
+            "product_type": "Alimentos"
+          },
+          "amount": 1
+        },
+        {
+          "product": {
+            "id": 6,
+            "name": "Agua",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 12,
+            "preferred_price": 10,
+            "stock": 15,
+            "product_type": "Bebidas"
+          },
+          "amount": 1
+        }
+      ],
+      "total": 57,
+      "id": 23
+    },
+    {
+      "user_id": null,
+      "scholarship_id": null,
+      "note": "Con todo",
+      "date": "2023-06-10",
+      "details": [
+        {
+          "product": {
+            "name": "Puré de papa",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 30,
+            "preferred_price": 25,
+            "stock": 30,
+            "product_type": "Alimentos",
+            "id": 18
+          },
+          "amount": 1
+        },
+        {
+          "product": {
+            "id": 3,
+            "name": "Chocoroles",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 16,
+            "preferred_price": 14,
+            "stock": 20,
+            "product_type": "Dulcería"
+          },
+          "amount": 1
+        }
+      ],
+      "total": 46,
+      "id": 24
+    },
+    {
+      "user_id": null,
+      "scholarship_id": null,
+      "note": "Ninguna",
+      "date": "2023-06-09",
+      "details": [
+        {
+          "product": {
+            "id": 11,
+            "name": "Galletas Emperador",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 16,
+            "preferred_price": 14,
+            "stock": 10,
+            "product_type": "Dulcería"
+          },
+          "amount": 1
+        },
+        {
+          "product": {
+            "name": "Sabritas",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 15,
+            "preferred_price": 12,
+            "stock": 10,
+            "product_type": "Dulcería",
+            "id": 21
+          },
+          "amount": 1
+        }
+      ],
+      "total": 31,
+      "id": 25
+    },
+    {
+      "user_id": null,
+      "scholarship_id": null,
+      "note": "Ninguna",
+      "date": "2023-06-08",
+      "details": [
+        {
+          "product": {
+            "id": 13,
+            "name": "Carlos V",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 10,
+            "preferred_price": 6,
+            "stock": 20,
+            "product_type": "Dulcería"
+          },
+          "amount": 2
+        }
+      ],
+      "total": 20,
+      "id": 26
+    },
+    {
+      "user_id": null,
+      "scholarship_id": null,
+      "note": "Con todo",
+      "date": "2023-07-31",
+      "details": [
+        {
+          "product": {
+            "id": 15,
+            "name": "Ensalada mixta",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 45,
+            "preferred_price": 35,
+            "stock": 30,
+            "product_type": "Alimentos"
+          },
+          "amount": 1
+        },
+        {
+          "product": {
+            "id": 14,
+            "name": "3 Tostadas",
+            "description": "",
+            "purchase_price": 0,
+            "sale_price": 30,
+            "preferred_price": 25,
+            "stock": 50,
+            "product_type": "Alimentos"
+          },
+          "amount": 2
+        }
+      ],
+      "total": 105,
+      "id": 27
     }
   ],
   "income_details": [
@@ -322,7 +1075,7 @@
     },
     {
       "id": 8,
-      "name": "Enfrijoladas",
+      "name": "4 Enfrijoladas",
       "description": "",
       "purchase_price": 0,
       "sale_price": 35,
@@ -382,7 +1135,7 @@
     },
     {
       "id": 14,
-      "name": "Tostadas",
+      "name": "3 Tostadas",
       "description": "",
       "purchase_price": 0,
       "sale_price": 30,
@@ -471,7 +1224,7 @@
       "id": 22
     },
     {
-      "name": "Picaditas",
+      "name": "3 Picaditas",
       "description": "",
       "purchase_price": 0,
       "sale_price": 25,
@@ -496,7 +1249,7 @@
       "purchase_price": 17,
       "sale_price": 0,
       "preferred_price": 0,
-      "stock": 4,
+      "stock": 0,
       "product_type": "",
       "id": 25
     },
@@ -506,7 +1259,7 @@
       "purchase_price": 30.17,
       "sale_price": 0,
       "preferred_price": 0,
-      "stock": 2,
+      "stock": 0,
       "product_type": "",
       "id": 26
     },
@@ -516,7 +1269,7 @@
       "purchase_price": 12.4,
       "sale_price": 0,
       "preferred_price": 0,
-      "stock": 3,
+      "stock": 0,
       "product_type": "",
       "id": 27
     },
@@ -526,7 +1279,7 @@
       "purchase_price": 24,
       "sale_price": 0,
       "preferred_price": 0,
-      "stock": 2,
+      "stock": 0,
       "product_type": "",
       "id": 28
     },
@@ -536,7 +1289,7 @@
       "purchase_price": 20,
       "sale_price": 0,
       "preferred_price": 0,
-      "stock": 1,
+      "stock": 0,
       "product_type": "",
       "id": 29
     },
@@ -546,7 +1299,7 @@
       "purchase_price": 22,
       "sale_price": 0,
       "preferred_price": 0,
-      "stock": 2,
+      "stock": 0,
       "product_type": "",
       "id": 30
     },
@@ -556,7 +1309,7 @@
       "purchase_price": 7.5,
       "sale_price": 0,
       "preferred_price": 0,
-      "stock": 1,
+      "stock": 0,
       "product_type": "",
       "id": 31
     },
@@ -566,7 +1319,7 @@
       "purchase_price": 60,
       "sale_price": 0,
       "preferred_price": 0,
-      "stock": 1,
+      "stock": 0,
       "product_type": "",
       "id": 32
     },
@@ -576,7 +1329,7 @@
       "purchase_price": 8.88,
       "sale_price": 0,
       "preferred_price": 0,
-      "stock": 2,
+      "stock": 0,
       "product_type": "",
       "id": 33
     },
@@ -586,7 +1339,7 @@
       "purchase_price": 45,
       "sale_price": 0,
       "preferred_price": 0,
-      "stock": 1,
+      "stock": 0,
       "product_type": "",
       "id": 34
     }
@@ -663,9 +1416,9 @@
       "id": 31
     },
     {
-      "name": "Compras",
+      "name": "Plátano macho",
       "description": "",
-      "purchase_price": 60,
+      "purchase_price": 20,
       "sale_price": 0,
       "preferred_price": 0,
       "stock": 1,
@@ -735,6 +1488,13 @@
       "address": "San Bruno",
       "phone": "2283341786",
       "rfc": "MAT101010SC9"
+    },
+    {
+      "name": "Taxi",
+      "address": "Ninguna",
+      "phone": "22-1928-4857",
+      "rfc": "",
+      "id": 7
     }
   ]
 }

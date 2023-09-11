@@ -12,7 +12,7 @@ const ProductFormValidator = (value) => {
         descriptionValidator(){
             const descriptionValidator = Validator(value)
 
-            if(!descriptionValidator.isCorrectMaxLength(60000)) return <>La descripción debe tener menos de 60,000 cracateres</>
+            if(!descriptionValidator.isCorrectMaxLength(200)) return <>La descripción debe tener menos de 200 caracteres</>
             return null
         },
         priceValidator(){
@@ -21,13 +21,13 @@ const ProductFormValidator = (value) => {
             if(isNaN(value) || value === "") return <>Precio requerido</>
             if(priceValidator.isOutOfDecimalRange()) return <>El precio debe tener 2 decimales</>
             if(!priceValidator.isCorrectMinQuantityRange(0)) return <>El precio no debe ser menor a cero</>
-            if(!priceValidator.isCorrectMaxQuantityRange(10000000000)) return <>El precio debe ser menor a 100,000,000.00</>
+            if(!priceValidator.isCorrectMaxQuantityRange(1000000000)) return <>El precio debe ser menor a 10,000,000.00</>
             return null
         },
         stockValidator(){
             const stockValidator = Validator(value)
 
-            if(stockValidator.isEmpty()) return <>Stock requerido</>
+            if(isNaN(value) || value === "") return <>Stock requerido</>
             if(!stockValidator.isCorrectStockRange(0, 1000)) return <>El stock debe estar entre cero y 1,000</>
             return null
         },
